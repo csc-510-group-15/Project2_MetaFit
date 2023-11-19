@@ -66,6 +66,10 @@ class WorkoutForm(FlaskForm):
     #     'Select Food', choices=result)
 
     burnout = StringField('Burn Out', validators=[DataRequired()])
+    def validate_burnout(self, field):
+        # Custom validation to check if input contains only alphabetical characters
+        if not field.data.isdigit():
+            raise ValidationError('Burn Out field should only contain letters.')
     submit = SubmitField('Save')
 
 
@@ -78,7 +82,7 @@ class CalorieForm(FlaskForm):
     for record in cursor:
         get_docs.append(record)
 
-    result = []
+    result = ['']
     temp = ""
     for i in get_docs:
         temp = i['food'] + ' (' + i['calories'] + ')'
@@ -103,6 +107,8 @@ class UserProfileForm(FlaskForm):
         'Target Weight', validators=[DataRequired(),
                                      Length(min=2, max=20)])
     submit = SubmitField('Save Profile')
+    
+    
 
 
 class HistoryForm(FlaskForm):
