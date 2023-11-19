@@ -28,7 +28,7 @@
     <div class="container site-section" id="introduction">
         <h3 class="card-title">For the love of fit!</h3>
         <center>
-            <video width="700" height="400" controls>
+            <video class="video-container" controls>
                 <source src="../static/videos/video.mp4" type="video/mp4">
             </video>
         </center>
@@ -36,8 +36,8 @@
 
     <section class="container-fluid ">
     <div class="container site-section" id="yoga-1">
-        <div class="row">
-            <div class="col-4">
+        <div class="row card-section">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/yoga.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Yoga for Beginners</h4>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/swim.jpeg">
                     <div class="card-body">
                         <h4 class="card-title">Swimming</h4>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R31.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Abs Smash</h4>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/walk.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Walk Fitness</h4>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R21.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Belly Burner</h4>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R22.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Dance Fitness</h4>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R23.jpg">
                     <div class="card-body">
                         <h4 class="card-title">HRX Fitness</h4>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R32.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Core Conditioning</h4>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><img class="img-thumbnail" src="../static/img/R11.jpg">
                     <div class="card-body">
                         <h4 class="card-title">Gym</h4>
@@ -133,21 +133,21 @@
     <div class="container site-section" id="yoga">
         <h2><strong>Must Try Workouts</strong></h2>
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('walk') }}"><img class="img-thumbnail" src="../static/img/walk.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">Walk Fitness</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('dance') }}"><img class="img-thumbnail" src="../static/img/R22.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">Dance Fitness</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('hrx') }}"><img class="img-thumbnail" src="../static/img/R23.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">HRX Fitness</h4>
@@ -159,21 +159,21 @@
     <div class="container site-section" id="yoga-2">
         <h2><strong>Most popular Workouts</strong></h2>
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('abbs') }}"><img class="img-thumbnail" src="../static/img/R31.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">Abs Smash</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('core') }}"><img class="img-thumbnail" src="../static/img/R32.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">Core Conditioning</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="card"><a href="{{ url_for('belly') }}"><img class="img-thumbnail" src="../static/img/R33.jpg"></a>
                     <div class="card-body">
                         <h4 class="card-title">HIIT: Belly Burn</h4>
