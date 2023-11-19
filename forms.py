@@ -82,7 +82,7 @@ class CalorieForm(FlaskForm):
     for record in cursor:
         get_docs.append(record)
 
-    result = ['']
+    result = [ß]
     temp = ""
     for i in get_docs:
         temp = i['food'] + ' (' + i['calories'] + ')'
