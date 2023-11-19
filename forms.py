@@ -67,9 +67,9 @@ class WorkoutForm(FlaskForm):
 
     burnout = StringField('Burn Out', validators=[DataRequired()])
     def validate_burnout(self, field):
-        # Custom validation to check if input contains only alphabetical characters
+        # Custom validation to check if input contains only number
         if not field.data.isdigit():
-            raise ValidationError('Burn Out field should only contain letters.')
+            raise ValidationError('Burn Out field should only contain number.')
     submit = SubmitField('Save')
 
 
