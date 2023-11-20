@@ -244,11 +244,62 @@ def calories():
                     'calories': cals
                 })
                 flash(f'Successfully updated the data', 'success')
+                add_food_entry_email_notification(email,food,now)
                 return redirect(url_for('calories'))
+
     else:
         return redirect(url_for('home'))
     return render_template('calories.html', form=form, time=now)
 
+def add_food_entry_email_notification(email, food, date):
+        sender = 'anujchetwani@gmail.com'
+        password = 'okxevwebcixfbfws'
+        receiver = email
+
+        subject = f'New food entry recorded'
+        body = f'Your recorded a new entry for {food} on the date {date}'
+
+        try:
+        
+            em = EmailMessage()
+            em['From'] = sender
+            em['To'] = receiver
+            em['Subject'] = subject
+            em.set_content(body)
+
+            context = ssl.create_default_context()
+
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+                smtp.login(sender, password)
+                smtp.sendmail(sender, receiver, em.as_string())
+        except Exception as e:
+            print(f"Error sending email: {e}")
+            flash('Failed to send email but the entry is recorded', 'danger')
+ 
+def add_burn_entry_email_notification(email, burn, date):
+        sender = 'anujchetwani@gmail.com'
+        password = 'okxevwebcixfbfws'
+        receiver = email
+
+        subject = f'New burn entry recorded'
+        body = f'Your recorded a new entry for a calorie burn of {burn} on the date {date}'
+
+        try:
+        
+            em = EmailMessage()
+            em['From'] = sender
+            em['To'] = receiver
+            em['Subject'] = subject
+            em.set_content(body)
+
+            context = ssl.create_default_context()
+
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+                smtp.login(sender, password)
+                smtp.sendmail(sender, receiver, em.as_string())
+        except Exception as e:
+            print(f"Error sending email: {e}")
+            flash('Failed to send email but the entry is recorded', 'danger')    
 
 @app.route("/workout", methods=['GET', 'POST'])
 def workout():
@@ -270,6 +321,7 @@ def workout():
                 })
 
                 flash(f'Successfully updated the data', 'success')
+                add_burn_entry_email_notification(email,burn, now)
                 return redirect(url_for('workout'))
     else:
         return redirect(url_for('home'))
