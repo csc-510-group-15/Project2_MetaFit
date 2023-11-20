@@ -1,17 +1,20 @@
 from datetime import datetime, timedelta
-
+import smtplib
+import ssl
+from email.message import EmailMessage
 import bcrypt
+import secrets
 import smtplib
 import re
-
+from pyotp import TOTP
 # from apps import App
 from flask import json
 # from utilities import Utilities
 from flask import render_template, session, url_for, flash, redirect, request, Flask
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from tabulate import tabulate
-from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm
+from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm
 from service import history as history_service
 
 app = Flask(__name__)
@@ -37,6 +40,7 @@ def home():
     input: The function takes session as the input
     Output: Out function will redirect to the login page
     """
+
     if session.get('email'):
         return redirect(url_for('dashboard'))
     else:
@@ -52,6 +56,7 @@ def login():
     Input: Email, Password, Login Type
     Output: Account Authentication and redirecting to Dashboard
     """
+ 
     if not session.get('email'):
         form = LoginForm()
         if form.validate_on_submit():
@@ -89,9 +94,9 @@ def register():
     """
     register() function displays the Registration portal (register.html) template
     route "/register" will redirect to register() function.
-    RegistrationForm() called and if the form is submitted then various values are fetched and updated into database
-    Input: Username, Email, Password, Confirm Password, cuurent height, current weight, target weight, target date
-    Output: Value update in database and redirected to dashboard
+    RegistrationForm() called and if the form is submitted then various values are fetched and updated into the database
+    Input: Username, Email, Password, Confirm Password, current height, current weight, target weight, target date
+    Output: Value update in the database and redirected to the dashboard
     """
     if not session.get('email'):
         form = RegistrationForm()
@@ -107,30 +112,56 @@ def register():
                 now = datetime.now()
                 now = now.strftime('%Y-%m-%d')
                 mongo.db.user.insert_one({
-                    'name':
-                    username,
-                    'email':
-                    email,
-                    'pwd':
-                    bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
-                    'weight':
-                    weight,
-                    'height':
-                    height,
-                    'target_weight':
-                    target_weight,
-                    'start_date':
-                    now,
-                    'target_date':
-                    target_date
+                    'name': username,
+                    'email': email,
+                    'pwd': bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
+                    'weight': weight,
+                    'height': height,
+                    'target_weight': target_weight,
+                    'start_date': now,
+                    'target_date': target_date
                 })
-            flash(f'Account created for {form.username.data}!', 'success')
-            session['email'] = email
-            return redirect(url_for('dashboard'))
+                # Generate and save 2FA secret to the session
+                secret_key = secrets.token_urlsafe(20).replace('=', '')
+                totp = TOTP(secret_key)
+                two_factor_secret = totp.secret
+                session['two_factor_secret'] = two_factor_secret
+                session['email'] = email
+                send_2fa_email(email, two_factor_secret)
+                # Redirect to 2FA verification page
+                return redirect(url_for('verify_2fa'))
+        else:
+            return render_template('register.html', title='Register', form=form)
     else:
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
+
+def send_2fa_email(email, two_factor_secret):
+    
+    sender = 'anujchetwani@gmail.com'
+    password = 'okxevwebcixfbfws'
+    receiver = email
+
+    subject = f'Two-Factor Authentication Code, {email}'
+    body = f'Your Two-Factor Authentication Code: {two_factor_secret}'
+
+    try:
+        
+        em = EmailMessage()
+        em['From'] = sender
+        em['To'] = receiver
+        em['Subject'] = subject
+        em.set_content(body)
+
+        context = ssl.create_default_context()
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(sender, password)
+            smtp.sendmail(sender, receiver, em.as_string())
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        flash('Failed to send Two-Factor Authentication code. Please try again.', 'danger')
 
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
@@ -793,6 +824,37 @@ def hrx():
     else:
         return redirect(url_for('dashboard'))
     return render_template('hrx.html', title='HRX', form=form)
+
+
+@app.route('/verify_2fa', methods=['GET', 'POST'])
+def verify_2fa():
+    form = TwoFactorForm()  # Create a new form for 2FA verification
+
+    if form.validate_on_submit():
+        # Verify the entered 2FA code against the stored one in the session
+        entered_code = form.two_factor_code.data
+        stored_code = session.get('two_factor_secret')  # Correct the session variable name
+
+        if stored_code and entered_code == stored_code:
+            # 2FA code is correct, proceed with registration
+            session.pop('two_factor_secret')  # Remove the code from the session
+            flash('Two-Factor Authentication successful! User registered.', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid Two-Factor Authentication code. Please try again.', 'danger')
+            # Redirect back to signup and delete the user from the database
+            if 'email' in session:
+                email = session['email']
+                # Add code to delete the user with the given email from the database
+                mongo.db.user.delete_one({'email': email})
+                flash('User registration failed. Please try again.', 'danger')
+                session.pop('two_factor_secret')
+                session.pop('email', None)
+                return redirect(url_for('register'))
+
+    return render_template('verify_2fa.html', title='Verify 2FA', form=form)
+
+
 
 
 # @app.route("/ajaxdashboard", methods=['POST'])

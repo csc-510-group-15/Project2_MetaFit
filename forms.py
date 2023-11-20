@@ -29,6 +29,7 @@ class RegistrationForm(FlaskForm):
         'Target Weight', validators=[DataRequired(),
                                      Length(min=2, max=20)])
     target_date = DateField(DataRequired())
+
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
@@ -39,7 +40,10 @@ class RegistrationForm(FlaskForm):
         if temp:
             raise ValidationError('Email already exists!')
 
-
+class TwoFactorForm(FlaskForm):
+    two_factor_code = StringField('Two-Factor Code', validators=[DataRequired()])
+    submit = SubmitField('Verify')
+    
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
