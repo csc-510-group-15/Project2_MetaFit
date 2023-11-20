@@ -174,41 +174,54 @@ def user_profile():
     """
     if session.get('email'):
         form = UserProfileForm()
-        if form.validate_on_submit():
-            if request.method == 'POST':
-                email = session.get('email')
-                weight = request.form.get('weight')
-                height = request.form.get('height')
-                goal = request.form.get('goal')
-                target_weight = request.form.get('target_weight')
-                temp = mongo.db.profile.find_one(
-                    {'email': email},
-                    {'height', 'weight', 'goal', 'target_weight'})
-                if temp is not None:
-                    mongo.db.profile.update_one({'email': email}, {
-                        '$set': {
-                            'weight': temp['weight'],
-                            'height': temp['height'],
-                            'goal': temp['goal'],
-                            'target_weight': temp['target_weight']
-                        }
-                    })
-                else:
-                    mongo.db.profile.insert_one({
-                        'email': email,
-                        'height': height,
-                        'weight': weight,
-                        'goal': goal,
-                        'target_weight': target_weight
-                    })
+        email = session.get('email')
 
+        # Fetch existing user profile data
+        existing_profile = mongo.db.profile.find_one({ 'email': email }, { 'height': 1, 'weight': 1, 'target_weight': 1, 'goal': 1})
+        existing_user = mongo.db.user.find_one({ 'email': email }, { 'height': 1, 'weight': 1, 'target_weight': 1})
+        print(existing_profile)
+        # Populate the form with existing values
+        form.populate_obj(request.form)
+        if existing_profile:
+            form.weight.data = request.form.get('weight')
+            form.height.data = request.form.get('height')
+            form.goal.data = request.form.get('goal')
+            form.target_weight.data = request.form.get('target_weight')
+        if form.validate_on_submit():
+            # Get form values
+            weight = form.weight.data
+            height = form.height.data
+            goal = form.goal.data
+            target_weight = form.target_weight.data
+            if existing_profile is not None:
+                # Update existing profile
+                mongo.db.profile.update_one({'email': email}, {
+                    '$set': {
+                        'weight': form.weight.data,
+                        'height': form.height.data,
+                        'goal': form.goal.data,
+                        'target_weight': form.target_weight.data
+                    }
+                })
+            else:
+                # Insert new profile
+                mongo.db.profile.insert_one({
+                    'email': email,
+                    'height': height,
+                    'weight': weight,
+                    'goal': goal,
+                    'target_weight': target_weight
+                })
             flash(f'User Profile Updated', 'success')
-            return render_template('display_profile.html',
-                                   status=True,
-                                   form=form)
+
+            # Redirect to a page where you display the updated profile
+            return redirect(url_for('user_profile'))
+
     else:
         return redirect(url_for('login'))
-    return render_template('user_profile.html', status=True, form=form)
+
+    return render_template('user_profile.html', status=True, form=form, existing_profile=existing_profile, existing_user=existing_user)
+
 
 
 @app.route("/calories", methods=['GET', 'POST'])
