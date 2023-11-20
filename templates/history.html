@@ -21,85 +21,108 @@
         </div>
     </div>
 
+    <label for="chartType">Select Chart Type:</label>
+    <select id="chartType" name="chartType" onchange="updateChartType()">
+        <option value="bar">Bar Chart</option>
+        <option value="pie">Pie Chart</option>
+        <option value="line">Line Chart</option>
+        <option value="radar">Radar Chart</option>
+        <option value="doughnut">Doughnut Chart</option>
+        <option value="bubble">Bubble Chart</option>
+        <!-- Add more options for other chart types as needed -->
+    </select>
+
 
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         let delayed;
         let isBurn;
-        {% if burn_rate > 0 %}
+        let chart;
+        function updateChartType() {
+            var selectedChartType = document.getElementById('chartType').value;
+            if (chart) {
+                chart.destroy(); // Clear existing chart (if any)
+            }
+
+            createChart(selectedChartType);
+        }
+        function createChart(chartType){
+            {% if burn_rate > 0 %}
             isBurn = false
-        {% else %}
+            {% else %}
             isBurn = true
-        {% endif %}
-        console.log(isBurn)
-        const chart = new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: {{ labels | safe}},
-                datasets: [
-                    {
-                        label: "Calories",
-                        data:{{values | safe}},
-                        fill: false,
-                        lineTension: 0.1
-                    }
-                ]
-            },
-            options: {
-                responsive: false,
-                elements: {
-                    bar: {
-                        backgroundColor: function (context) {
-                            if (isBurn) {
-                                const index = context.dataIndex;
-                                const value = context.dataset.data[index];
-                                return value < 0 ? '#84d320' : 'rgba(220,20,60,0.91)';
-                            } else {
-                                const index = context.dataIndex;
-                                const value = context.dataset.data[index];
-                                return value < 0 ? 'rgba(220,20,60,0.91)' : '#84d320';
+            {% endif %}
+            console.log(isBurn)
+            chart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: {{ labels | safe}},
+                    datasets: [
+                        {
+                            label: "Calories",
+                            data:{{values | safe}},
+                            fill: false,
+                            lineTension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: false,
+                    elements: {
+                        bar: {
+                            backgroundColor: function (context) {
+                                if (isBurn) {
+                                    const index = context.dataIndex;
+                                    const value = context.dataset.data[index];
+                                    return value < 0 ? '#84d320' : 'rgba(220,20,60,0.91)';
+                                } else {
+                                    const index = context.dataIndex;
+                                    const value = context.dataset.data[index];
+                                    return value < 0 ? 'rgba(220,20,60,0.91)' : '#84d320';
+                                }
+                            },
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Net calories in the last 7 days',
+                            font: {
+                                size: 15,
                             }
                         },
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Net calories in the last 7 days',
-                        font: {
-                            size: 15,
-                        }
-                    },
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
+                        legend: {
                             display: false
                         }
                     },
-                    y: {
-                        grid: {
-                            display: false
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
                         }
-                    }
-                },
-                animation: {
-                    onComplete: () => {
-                        delayed = true;
                     },
-                    delay: (context) => {
-                        let delay = 0;
-                        if (context.type === 'data' && context.mode === 'default' && !delayed) {
-                            delay = context.dataIndex * 150 + context.datasetIndex * 100;
-                        }
-                        return delay;
+                    animation: {
+                        onComplete: () => {
+                            delayed = true;
+                        },
+                        delay: (context) => {
+                            let delay = 0;
+                            if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                                delay = context.dataIndex * 150 + context.datasetIndex * 100;
+                            }
+                            return delay;
+                        },
                     },
                 },
-            },
-        });
+            });
+        }
+        createChart('bar');
     </script>
     </div>
 
