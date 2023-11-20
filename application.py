@@ -456,6 +456,8 @@ def friends():
             'sender': email,
             'accept': False
         }, {'sender', 'receiver', 'accept'}))
+     # Count the number of pending friend requests
+
     pendingReceivers = list()
     for p in pendingRequests:
         pendingReceivers.append(p['receiver'])
@@ -466,10 +468,14 @@ def friends():
             'receiver': email,
             'accept': False
         }, {'sender', 'receiver', 'accept'}))
+    pending_requests_count = len(pendingApprovals)
+    if len(pendingApprovals):
+    # Flash the count to be displayed in the template
+        flash(f"You have {pending_requests_count} pending friend requests.", 'info')   
     for p in pendingApprovals:
         pendingApproves.append(p['sender'])
 
-    print(pendingApproves)
+    #print(pendingApproves)
 
     # print(pendingRequests)
     return render_template('friends.html',
