@@ -74,6 +74,7 @@ class WorkoutForm(FlaskForm):
     # food = SelectField(
     #     'Select Food', choices=result)
 
+    date = DateField(DataRequired())
     burnout = FloatField('Burn Out', validators=[DataRequired()])
     # def validate_burnout(self, field):
     #     # Custom validation to check if input contains only number

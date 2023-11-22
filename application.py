@@ -316,8 +316,8 @@ def add_burn_entry_email_notification(email, burn, date):
 
 @app.route("/workout", methods=['GET', 'POST'])
 def workout():
-    now = datetime.now()
-    now = now.strftime('%Y-%m-%d')
+    # now = datetime.now()
+    # now = now.strftime('%Y-%m-%d')
     get_session = session.get('email')
 
     if get_session is not None:
@@ -326,19 +326,20 @@ def workout():
             if request.method == 'POST':
                 email = session.get('email')
                 burn = request.form.get('burnout')
+                selected_date = request.form.get('target_date')
 
                 mongo.db.calories.insert_one({
-                    'date': now,
+                    'date': selected_date,
                     'email': email,
                     'calories': -float(burn)
                 })
 
                 flash(f'Successfully sent email and updated the data!', 'success')
-                add_burn_entry_email_notification(email,burn, now)
+                add_burn_entry_email_notification(email, burn, selected_date)
                 return redirect(url_for('workout'))
     else:
         return redirect(url_for('home'))
-    return render_template('workout.html', form=form, time=now)
+    return render_template('workout.html', form=form)
 
 
 @app.route("/history", methods=['GET'])
