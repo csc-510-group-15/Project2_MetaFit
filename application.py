@@ -295,7 +295,7 @@ def add_burn_entry_email_notification(email, burn, date):
         receiver = email
 
         subject = f'New burn entry recorded'
-        body = f'Your recorded a new entry for a calorie burn of {burn} on the date {date}'
+        body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
 
         try:
         
@@ -330,7 +330,7 @@ def workout():
                 mongo.db.calories.insert_one({
                     'date': now,
                     'email': email,
-                    'calories': -int(burn)
+                    'calories': -float(burn)
                 })
 
                 flash(f'Successfully sent email and updated the data!', 'success')

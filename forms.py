@@ -2,7 +2,7 @@ from datetime import date
 from re import sub
 from flask import app
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from apps import App
@@ -74,11 +74,11 @@ class WorkoutForm(FlaskForm):
     # food = SelectField(
     #     'Select Food', choices=result)
 
-    burnout = StringField('Burn Out', validators=[DataRequired()])
-    def validate_burnout(self, field):
-        # Custom validation to check if input contains only number
-        if not field.data.isdigit():
-            raise ValidationError('Burn Out field should only contain number.')
+    burnout = FloatField('Burn Out', validators=[DataRequired()])
+    # def validate_burnout(self, field):
+    #     # Custom validation to check if input contains only number
+    #     if not field.data.isdigit():
+    #         raise ValidationError('Burn Out field should only contain number.')
     submit = SubmitField('Save')
 
 
