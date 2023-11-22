@@ -139,11 +139,11 @@ def register():
 
 def send_2fa_email(email, two_factor_secret):
     
-    sender = 'anujchetwani@gmail.com'
-    password = 'okxevwebcixfbfws'
+    sender = 'burnoutapp123@gmail.com'
+    password = 'xszyjpklynmwqsgh'
     receiver = email
 
-    subject = f'Two-Factor Authentication Code, {email}'
+    subject = f'Two-Factor Authentication Code'
     body = f'Your Two-Factor Authentication Code: {two_factor_secret}'
 
     try:
@@ -265,8 +265,8 @@ def calories():
     return render_template('calories.html', form=form, time=now)
 
 def add_food_entry_email_notification(email, food, date):
-        sender = 'anujchetwani@gmail.com'
-        password = 'okxevwebcixfbfws'
+        sender = 'burnoutapp123@gmail.com'
+        password = 'xszyjpklynmwqsgh'
         receiver = email
 
         subject = f'New food entry recorded'
@@ -290,8 +290,8 @@ def add_food_entry_email_notification(email, food, date):
             flash('Failed to send email but the entry is recorded', 'danger')
  
 def add_burn_entry_email_notification(email, burn, date):
-        sender = 'anujchetwani@gmail.com'
-        password = 'okxevwebcixfbfws'
+        sender = 'burnoutapp123@gmail.com'
+        password = 'xszyjpklynmwqsgh'
         receiver = email
 
         subject = f'New burn entry recorded'
