@@ -233,8 +233,8 @@ def calories():
     Input: Email, date, food, burnout
     Output: Value update in database and redirected to home page
     """
-    now = datetime.now()
-    now = now.strftime('%Y-%m-%d')
+    # now = datetime.now()
+    # now = now.strftime('%Y-%m-%d')
 
     get_session = session.get('email')
     if get_session is not None:
@@ -243,6 +243,7 @@ def calories():
             if request.method == 'POST':
                 email = session.get('email')
                 food = request.form.get('food')
+                selected_date = request.form.get('target_date')
                 # cals = food.split(" ")
                 # print('cals is ',cals)
                 match = re.search(r'\((\d+)\)', food)
@@ -252,17 +253,17 @@ def calories():
                     cals = 0
                 # cals = int(cals[1][1:len(cals[1]) - 1])
                 mongo.db.calories.insert_one({
-                    'date': now,
+                    'date': selected_date,
                     'email': email,
                     'calories': cals
                 })
                 flash(f'Successfully sent email and updated the data!', 'success')
-                add_food_entry_email_notification(email,food,now)
+                add_food_entry_email_notification(email, food, selected_date)
                 return redirect(url_for('calories'))
 
     else:
         return redirect(url_for('home'))
-    return render_template('calories.html', form=form, time=now)
+    return render_template('calories.html', form=form)
 
 def add_food_entry_email_notification(email, food, date):
         sender = 'burnoutapp123@gmail.com'
@@ -270,7 +271,7 @@ def add_food_entry_email_notification(email, food, date):
         receiver = email
 
         subject = f'New food entry recorded'
-        body = f'Your recorded a new entry for {food} on the date {date}'
+        body = f'You recorded a new entry for {food} on the date {date}'
 
         try:
         

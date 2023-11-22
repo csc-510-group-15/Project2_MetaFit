@@ -98,6 +98,7 @@ class CalorieForm(FlaskForm):
         temp = i['food'] + ' (' + i['calories'] + ')'
         result.append((temp, temp))
 
+    date = DateField(DataRequired())
     food = SelectField('Select Food', choices=result)
 
     submit = SubmitField('Save')
