@@ -256,7 +256,7 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                flash(f'Successfully updated the data', 'success')
+                flash(f'Successfully sent email and updated the data!', 'success')
                 add_food_entry_email_notification(email,food,now)
                 return redirect(url_for('calories'))
 
@@ -333,7 +333,7 @@ def workout():
                     'calories': -int(burn)
                 })
 
-                flash(f'Successfully updated the data', 'success')
+                flash(f'Successfully sent email and updated the data!', 'success')
                 add_burn_entry_email_notification(email,burn, now)
                 return redirect(url_for('workout'))
     else:
