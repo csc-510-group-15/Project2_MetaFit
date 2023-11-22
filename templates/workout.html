@@ -30,7 +30,7 @@
             var burnoutField = document.forms['workoutform']['burnout'].value;
             console.log('Burn Out field:', burnoutField);
             // Allow integers
-            if (!/^\d+$/.test(burnoutField)) {
+            if (!/^\d+(\.\d+)?$/.test(burnoutField)) {
                 alert('Burn Out field must be a number');
             }    
             return true; // Allow form submission
