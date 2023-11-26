@@ -169,14 +169,30 @@ This is the page where the user can see their history in the form of a bar graph
     pip install -r requirements.txt
     
  Step 4:
+    If it's for the first time you're running the application you need to run this script once to populate data for food select field
+
+    `python insert_food_data.py`
+    (Just once)
+
     Run the following command in the terminal
     
-    python application.py
+    `python application.py`
     
  Step 5:
     Open the URL in your browser:  
       http://127.0.0.1:5000/
-      
+  
+  OR if you prefer to run it on docker, follow till step 2 and then do
+
+  Step 3: Run
+  `docker compose up -d`
+  (with and optional --build option at the end if you have already done the build and to build again)
+
+  No need to manually populate the data as in the steps above. The docker config takes care of that :)
+
+  Step 4: Open the URL in your browser:  
+      http://127.0.0.1:5000/ or http://localhost:5000/ 
+
       
   # Source Code
   
