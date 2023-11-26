@@ -66,11 +66,11 @@ def login():
         form = LoginForm()
         if form.validate_on_submit():
             temp = mongo.db.user.find_one({'email': form.email.data},
-                                          {'email', 'pwd'})
+                                          {'email', 'password'})
             if temp is not None and temp['email'] == form.email.data and (
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
-                                   temp['pwd'])
-                    or temp['pwd'] == form.password.data):
+                                   temp['password'])
+                    or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
                 #session['login_type'] = form.type.data
@@ -106,35 +106,28 @@ def register():
     if not session.get('email'):
         form = RegistrationForm()
         if form.validate_on_submit():
-            if request.method == 'POST':
-                username = request.form.get('username')
-                email = request.form.get('email')
-                password = request.form.get('password')
-                weight = request.form.get('weight')
-                height = request.form.get('height')
-                target_weight = request.form.get('target_weight')
-                target_date = request.form.get('target_date')
-                now = datetime.now()
-                now = now.strftime('%Y-%m-%d')
-                mongo.db.user.insert_one({
-                    'name': username,
-                    'email': email,
-                    'pwd': bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
-                    'weight': weight,
-                    'height': height,
-                    'target_weight': target_weight,
-                    'start_date': now,
-                    'target_date': target_date
-                })
-                # Generate and save 2FA secret to the session
-                secret_key = secrets.token_urlsafe(20).replace('=', '')
-                totp = TOTP(secret_key)
-                two_factor_secret = totp.secret
-                session['two_factor_secret'] = two_factor_secret
-                session['email'] = email
-                send_2fa_email(email, two_factor_secret)
-                # Redirect to 2FA verification page
-                return redirect(url_for('verify_2fa'))
+            email = request.form.get('email')
+            password = request.form.get('password')
+
+            # Generate and save 2FA secret to the session
+            secret_key = secrets.token_urlsafe(20).replace('=', '')
+            totp = TOTP(secret_key)
+            two_factor_secret = totp.secret
+            session['two_factor_secret'] = two_factor_secret
+            session['registration_data'] = {
+                'username': request.form.get('username'),
+                'email': email,
+                'password': bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
+                'weight': request.form.get('weight'),
+                'height': request.form.get('height'),
+                'target_weight': request.form.get('target_weight'),
+                'start_date': datetime.now().strftime('%Y-%m-%d'),
+                'target_date': request.form.get('target_date')
+            }
+
+            send_2fa_email(email, two_factor_secret)
+            # Redirect to 2FA verification page
+            return redirect(url_for('verify_2fa'))
         else:
             return render_template('register.html', title='Register', form=form)
     else:
@@ -167,6 +160,7 @@ def send_2fa_email(email, two_factor_secret):
     except Exception as e:
         print(f"Error sending email: {e}")
         flash('Failed to send Two-Factor Authentication code. Please try again.', 'danger')
+
 
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
@@ -228,7 +222,6 @@ def user_profile():
     return render_template('user_profile.html', status=True, form=form, existing_profile=existing_profile, existing_user=existing_user)
 
 
-
 @app.route("/calories", methods=['GET', 'POST'])
 def calories():
     """
@@ -270,6 +263,7 @@ def calories():
         return redirect(url_for('home'))
     return render_template('calories.html', form=form)
 
+
 def add_food_entry_email_notification(email, food, date):
         sender = 'burnoutapp123@gmail.com'
         password = 'xszyjpklynmwqsgh'
@@ -295,6 +289,7 @@ def add_food_entry_email_notification(email, food, date):
             print(f"Error sending email: {e}")
             flash('Failed to send email but the entry is recorded', 'danger')
  
+
 def add_burn_entry_email_notification(email, burn, date):
         sender = 'burnoutapp123@gmail.com'
         password = 'xszyjpklynmwqsgh'
@@ -320,6 +315,7 @@ def add_burn_entry_email_notification(email, burn, date):
             print(f"Error sending email: {e}")
             flash('Failed to send email but the entry is recorded', 'danger')    
 
+
 @app.route("/workout", methods=['GET', 'POST'])
 def workout():
     # now = datetime.now()
@@ -344,7 +340,7 @@ def workout():
                     if existing_user_entry:
                         mongo.db.bronze_list.delete_one({'date': selected_date, 'users': email})
                 if float(burn) > 100:
-                    flash(f'You are a part of the bronze list for the day!{selected_date}', 'success')
+                    flash(f'Hurray! You are a part of the bronze list for the day : {selected_date}', 'success')
                     existing_user_entry = mongo.db.bronze_list.find_one({'date': selected_date, 'users': email})
                     if existing_user_entry:
                         mongo.db.bronze_list.update_one(
@@ -360,6 +356,7 @@ def workout():
     else:
         return redirect(url_for('home'))
     return render_template('workout.html', form=form)
+
 # New route to display the bronze list for the current day
 @app.route("/bronze_list", methods=['GET', 'POST'])
 def bronze_list_page():
@@ -385,8 +382,6 @@ def bronze_list_page():
         return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=bronze_users)
 
     return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=[])
-
-
 
 
 @app.route("/history", methods=['GET'])
@@ -947,33 +942,30 @@ def hrx():
 
 @app.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_2fa():
-    form = TwoFactorForm()  # Create a new form for 2FA verification
+    form = TwoFactorForm() # Create a new form for 2FA verification
 
     if form.validate_on_submit():
         # Verify the entered 2FA code against the stored one in the session
         entered_code = form.two_factor_code.data
-        stored_code = session.get('two_factor_secret')  # Correct the session variable name
+        stored_code = session.get('two_factor_secret')
 
         if stored_code and entered_code == stored_code:
             # 2FA code is correct, proceed with registration
-            session.pop('two_factor_secret')  # Remove the code from the session
+            user_data = session.get('registration_data')
+            session['email'] = user_data['email']
+            mongo.db.user.insert_one(user_data)
+            session.pop('two_factor_secret')
+            session.pop('registration_data')
             flash('Two-Factor Authentication successful! User registered.', 'success')
             return redirect(url_for('dashboard'))
         else:
-            flash('Invalid Two-Factor Authentication code. Please try again.', 'danger')
-            # Redirect back to signup and delete the user from the database
-            if 'email' in session:
-                email = session['email']
-                # Add code to delete the user with the given email from the database
-                mongo.db.user.delete_one({'email': email})
-                flash('User registration failed. Please try again.', 'danger')
-                session.pop('two_factor_secret')
-                session.pop('email', None)
-                return redirect(url_for('register'))
+            flash('Invalid Two-Factor Authentication code. ', 'danger')
+            flash('User registration failed. Please try again.', 'danger')
+            if 'registration_data' in session:
+                del session['registration_data']
+            return redirect(url_for('register'))
 
     return render_template('verify_2fa.html', title='Verify 2FA', form=form)
-
-
 
 
 # @app.route("/ajaxdashboard", methods=['POST'])

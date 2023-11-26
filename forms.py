@@ -41,7 +41,7 @@ class RegistrationForm(FlaskForm):
         app_object = App()
         mongo = app_object.mongo
 
-        temp = mongo.db.user.find_one({'email': email.data}, {'email', 'pwd'})
+        temp = mongo.db.user.find_one({'email': email.data}, {'email', 'password'})
         if temp:
             raise ValidationError('Email already exists!')
 
