@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 import smtplib
 import ssl
@@ -19,7 +20,12 @@ from service import history as history_service
 
 app = Flask(__name__)
 app.secret_key = 'secret'
-app.config['MONGO_URI'] = 'mongodb://127.0.0.1:27017/test'
+if os.environ.get('DOCKERIZED'):
+    # Use Docker-specific MongoDB URI
+    app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
+else:
+    # Use localhost MongoDB URI
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
 
@@ -992,5 +998,5 @@ def verify_2fa():
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
