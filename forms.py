@@ -2,18 +2,20 @@ from datetime import date
 from re import sub
 from flask import app
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from apps import App
-
+from wtforms.validators import Regexp
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(),
                                        Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(),
+                                     Length(min=8, message="Password must be at least 8 characters"),
+        Regexp('.*[A-Z].*', message="Password must contain at least one capital letter")])
     confirm_password = PasswordField(
         'Confirm Password', validators=[DataRequired(),
                                         EqualTo('password')])
@@ -21,14 +23,18 @@ class RegistrationForm(FlaskForm):
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
+                             Regexp('^\d*\.?\d*$', message="Height must be a valid number")
                          ])
     height = StringField('Height',
                          validators=[DataRequired(),
-                                     Length(min=2, max=20)])
+                                     Length(min=2, max=20),
+                                     Regexp('^\d*\.?\d*$', message="height must be a valid number")])
     target_weight = StringField(
         'Target Weight', validators=[DataRequired(),
-                                     Length(min=2, max=20)])
+                                     Length(min=2, max=20), 
+                                     Regexp('^\d*\.?\d*$', message="height must be a valid number")])
     target_date = DateField(DataRequired())
+
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
@@ -39,7 +45,10 @@ class RegistrationForm(FlaskForm):
         if temp:
             raise ValidationError('Email already exists!')
 
-
+class TwoFactorForm(FlaskForm):
+    two_factor_code = StringField('Two-Factor Code', validators=[DataRequired()])
+    submit = SubmitField('Verify')
+    
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -65,7 +74,12 @@ class WorkoutForm(FlaskForm):
     # food = SelectField(
     #     'Select Food', choices=result)
 
-    burnout = StringField('Burn Out', validators=[DataRequired()])
+    date = DateField(DataRequired())
+    burnout = FloatField('Burn Out', validators=[DataRequired()])
+    # def validate_burnout(self, field):
+    #     # Custom validation to check if input contains only number
+    #     if not field.data.isdigit():
+    #         raise ValidationError('Burn Out field should only contain number.')
     submit = SubmitField('Save')
 
 
@@ -84,6 +98,7 @@ class CalorieForm(FlaskForm):
         temp = i['food'] + ' (' + i['calories'] + ')'
         result.append((temp, temp))
 
+    date = DateField(DataRequired())
     food = SelectField('Select Food', choices=result)
 
     submit = SubmitField('Save')
@@ -103,6 +118,8 @@ class UserProfileForm(FlaskForm):
         'Target Weight', validators=[DataRequired(),
                                      Length(min=2, max=20)])
     submit = SubmitField('Save Profile')
+    
+    
 
 
 class HistoryForm(FlaskForm):

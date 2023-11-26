@@ -1,6 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        {% if category == 'pending_requests_count' and message != '0' and message|int > 0 %}
+            <div class="alert alert-info">
+                You have {{ message }} pending friend requests.
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endwith %}
+
+
+
+
 <details>
     <summary>My Friends</summary>
     {% for friend in myFriends %}

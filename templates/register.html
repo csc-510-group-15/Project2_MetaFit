@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section">
+<div class="content-section col-md-6">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
 
@@ -87,7 +87,7 @@
             <div class="form-group">
                 {{ form.target_weight.label(class="form-control-label") }} (kgs)
                 {% if form.target_weight.errors %}
-                {{ form.goal(class="form-control form-control-lg is-invalid") }}
+                {{ form.target_weight(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.target_weight.errors %}
                     <span>{{ error }}</span>

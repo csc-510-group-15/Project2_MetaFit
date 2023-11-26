@@ -2,7 +2,7 @@
 {% block content %}
 <html>
   
-        <div class="content-section">
+        <div class="content-section col-md-6">
             <form method="POST" action="" name="UserProfileForm()">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
@@ -18,7 +18,7 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.height(class="form-control form-control-lg") }}
+                        {{ form.height(class="form-control form-control-lg", placeholder=(existing_profile.get('height') if existing_profile else existing_user.get('height'))) }}
                         {% endif %}
                         {{ form.weight.label(class="form-control-label") }} (kgs)
                         {% if form.weight.errors %}
@@ -29,7 +29,7 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.weight(class="form-control form-control-lg") }}
+                        {{ form.weight(class="form-control form-control-lg", placeholder=(existing_profile.get('weight') if existing_profile else existing_user.get('weight'))) }}
                         {% endif %}
                         {{ form.goal.label(class="form-control-label") }}
                         {% if form.goal.errors %}
@@ -40,7 +40,7 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.goal(class="form-control form-control-lg") }}
+                        {{ form.goal(class="form-control form-control-lg", placeholder=(existing_profile.get('goal') if existing_profile else 'not set')) }}
                         {% endif %}
                         {{ form.target_weight.label(class="form-control-label") }} (kgs)
                         {% if form.target_weight.errors %}
@@ -51,7 +51,8 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.target_weight(class="form-control form-control-lg") }}
+                        {{ form.target_weight(class="form-control form-control-lg", placeholder=(existing_profile.get('target_weight') if existing_profile else existing_user.get('target_weight'))) }}
+
                         {% endif %}
                     </div> 
                 </fieldset>
