@@ -1,0 +1,31 @@
+<!-- bronze_list.html -->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section col-md-6">
+        <h2>Bronze List</h2>
+        <form method="POST" action="" name="GetDateForm">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.target_date.label(class="form-control-label") }}
+                {{ form.target_date(class="form-control form-control-lg", type="date") }}
+                {% if form.target_date.errors %}
+                    <small class="form-text text-danger">
+                        {{ form.target_date.errors[0] }}
+                    </small>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+        {% if bronze_users %}
+            <ul>
+                {% for user in bronze_users %}
+                    <li>{{ user }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found in the Bronze list for the selected date.</p>
+        {% endif %}
+    </div>
+{% endblock content %}

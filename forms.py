@@ -45,10 +45,14 @@ class RegistrationForm(FlaskForm):
         if temp:
             raise ValidationError('Email already exists!')
 
+class getDate(FlaskForm):
+    target_date = DateField('Date', validators=[DataRequired()])
+    submit = SubmitField('Show Bronze List')
+    
 class TwoFactorForm(FlaskForm):
     two_factor_code = StringField('Two-Factor Code', validators=[DataRequired()])
     submit = SubmitField('Verify')
-    
+ 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])

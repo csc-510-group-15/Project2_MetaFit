@@ -14,7 +14,7 @@ from flask import render_template, session, url_for, flash, redirect, request, F
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from tabulate import tabulate
-from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm
+from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate
 from service import history as history_service
 
 app = Flask(__name__)
@@ -29,7 +29,6 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
-
 
 @app.route("/")
 @app.route("/home")
@@ -320,7 +319,7 @@ def workout():
     # now = datetime.now()
     # now = now.strftime('%Y-%m-%d')
     get_session = session.get('email')
-
+    today = datetime.today().strftime('%Y-%m-%d')
     if get_session is not None:
         form = WorkoutForm()
         if form.validate_on_submit():
@@ -334,13 +333,54 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
-
+                if float(burn) < 100:
+                    existing_user_entry = mongo.db.bronze_list.find_one({'date': selected_date, 'users': email})
+                    if existing_user_entry:
+                        mongo.db.bronze_list.delete_one({'date': selected_date, 'users': email})
+                if float(burn) > 100:
+                    flash(f'You are a part of the bronze list for the day!{selected_date}', 'success')
+                    existing_user_entry = mongo.db.bronze_list.find_one({'date': selected_date, 'users': email})
+                    if existing_user_entry:
+                        mongo.db.bronze_list.update_one(
+                            {'date': selected_date},
+                            {'$addToSet': {'users': email}}
+                        )
+                    else:
+                        mongo.db.bronze_list.insert_one({'date': selected_date, 'users': [email]})
+                    
                 flash(f'Successfully sent email and updated the data!', 'success')
                 add_burn_entry_email_notification(email, burn, selected_date)
                 return redirect(url_for('workout'))
     else:
         return redirect(url_for('home'))
     return render_template('workout.html', form=form)
+# New route to display the bronze list for the current day
+@app.route("/bronze_list", methods=['GET', 'POST'])
+def bronze_list_page():
+    form = getDate()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        today = form.target_date.data.strftime('%Y-%m-%d')
+
+        bronze_list_cursor = mongo.db.bronze_list.find({'date': today})
+
+        if bronze_list_cursor:
+            bronze_users = []
+            for bronze_doc in bronze_list_cursor:
+                users = bronze_doc.get('users', [])
+                # Add the users from the database
+                bronze_users.extend(users)
+                mongo.db.bronze_list.update_one({'_id': bronze_doc['_id']}, {'$set': {'users': users}})
+        else:
+            # If no document exists for today, create a new one
+            mongo.db.bronze_list.insert_one({'date': today, 'users': users})
+            bronze_users = users
+
+        return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=bronze_users)
+
+    return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=[])
+
+
 
 
 @app.route("/history", methods=['GET'])
