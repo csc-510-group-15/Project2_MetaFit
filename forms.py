@@ -1,7 +1,7 @@
 from datetime import date
 from re import sub
 from flask import app
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -9,6 +9,7 @@ from apps import App
 from wtforms.validators import Regexp
 
 class RegistrationForm(FlaskForm):
+    recaptcha = RecaptchaField()
     username = StringField('Username',
                            validators=[DataRequired(),
                                        Length(min=2, max=20)])
