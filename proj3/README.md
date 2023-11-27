@@ -54,14 +54,14 @@ Link to video :
 |Y| 6.2: Does your software use an accepted coding standard or convention?  | https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/code_formatter.yml, https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/style_checker.yaml|
 |Y| 7.1: Does your software allow data to be imported and exported using open data formats? e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones |https://github.com/anuj672/calorieApp_server/blob/main/insert_food_data.py|
 |N| 7.2: Does your software allow communications using open communications protocols? e.g. HTTP, FTP, XMPP, SOAP over HTTP, or domain-specific ones  ||
-|Y| 8.1: Is your software cross-platform compatible? |Telegram app works on all platforms|
+|Y| 8.1: Is your software cross-platform compatible? |WebApp works on PC, laptops, iPads, mobile devices|
 |N| 9.1: Does your software adhere to appropriate accessibility conventions or standards? ||
 |N| 9.2: Does your documentation adhere to appropriate accessibility conventions or standards? ||
-|Y| 10.1: Is your source code stored in a repository under revision control?  |github and github releases - https://github.com/anuj672/MyDollarBot-BOTGo/releases |
-|Y| 10.2: Is each source code release a snapshot of the repository? |https://github.com/anuj672/MyDollarBot-BOTGo/releases|
-|Y| 10.3: Are releases tagged in the repository? |https://github.com/anuj672/MyDollarBot-BOTGo/tags|
-|Y| 10.4: Is there a branch of the repository that is always stable? (i.e. tests always pass, code always builds successfully) |https://github.com/anuj672/MyDollarBot-BOTGo/tree/main|
-|Y| 10.5: Do you back-up your repository  |dev-branch and releases - https://github.com/anuj672/MyDollarBot-BOTGo/tree/development and https://github.com/anuj672/MyDollarBot-BOTGo/releases|
+|Y| 10.1: Is your source code stored in a repository under revision control?  |github and github releases - https://github.com/anuj672/calorieApp_server/releases |
+|Y| 10.2: Is each source code release a snapshot of the repository? |https://github.com/anuj672/calorieApp_server/releases|
+|Y| 10.3: Are releases tagged in the repository? |https://github.com/anuj672/calorieApp_server/tags|
+|Y| 10.4: Is there a branch of the repository that is always stable? (i.e. tests always pass, code always builds successfully) |https://github.com/anuj672/calorieApp_server/tree/main|
+|Y| 10.5: Do you back-up your repository  |dev-branch and releases - https://github.com/anuj672/calorieApp_server/tree/development and https://github.com/anuj672/calorieApp_server/releases|
 |Y| 11.1: Do you provide publicly-available instructions for building your software from the source code?   |https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md|
 |N| 11.2: Can you build, or package, your software using an automated tool?  ||
 |Y| 11.3: Do you provide publicly-available instructions for deploying your software? |https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md|
