@@ -27,6 +27,7 @@ jobs:
       run: |
         pip install pytest-cov pytest
         pip install -r requirements.txt
+        pip install openai==0.28.0
         echo requirements installed
     - name: Run the tests
       run: |
