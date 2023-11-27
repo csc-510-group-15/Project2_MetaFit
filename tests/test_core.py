@@ -4,8 +4,10 @@ from application import app, mongo
 from application import EnrollForm
 from pytest_mock import mocker
 import sys, os
+
 sys.path.append(os.path.abspath(os.path.join('..')))
 import pytest
+
 
 # Fixture for creating a test client
 @pytest.fixture
@@ -15,10 +17,12 @@ def client():
         with app.app_context():
             yield client
 
+
 def test_core_route_enroll(client: FlaskClient, mocker):
     # Mock form data and EnrollForm
     form_data = {'email': 'test@example.com'}
-    mocker.patch('application.EnrollForm', return_value=EnrollForm(data=form_data))
+    mocker.patch('application.EnrollForm',
+                 return_value=EnrollForm(data=form_data))
 
     # Mock MongoDB user collection
     mocker.patch('pymongo.collection.Collection.insert_one')
@@ -32,6 +36,7 @@ def test_core_route_enroll(client: FlaskClient, mocker):
 
     assert response.status_code == 200
 
+
 def test_core_route_no_session_redirect(client: FlaskClient):
     # Simulate no session
     with app.test_request_context('/core'):
@@ -41,6 +46,7 @@ def test_core_route_no_session_redirect(client: FlaskClient):
     response = client.get('/core', follow_redirects=True)
 
     assert response.status_code == 200  # Expect a redirect status code
+
 
 def test_core_route_get_request(client: FlaskClient):
     # Simulate an active session

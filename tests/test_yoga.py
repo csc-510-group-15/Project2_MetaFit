@@ -4,7 +4,10 @@ from application import app, mongo
 from application import EnrollForm
 import pytest
 import sys, os
+
 sys.path.append(os.path.abspath(os.path.join('..')))
+
+
 # Fixture for creating a test client
 @pytest.fixture
 def client():
@@ -22,6 +25,7 @@ def test_yoga_route_no_session_redirect(client: FlaskClient):
     response = client.get('/yoga', follow_redirects=True)
 
     assert response.status_code == 200  # Expect a redirect status code
+
 
 def test_yoga_route_get_request(client: FlaskClient):
     # Simulate an active session
