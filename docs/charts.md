@@ -35,3 +35,17 @@ The chart's color scheme adapts to the user's goal, highlighting calorie gains o
 - The chart's color scheme is adapted to the user's goal using the `isBurn` variable.
 - Positive values are highlighted in green shades for gains and red shades for burns.
 - Negative values are displayed in varying shades of red for gains and green shades for burns.
+
+## Instructions
+
+1. Ensure that the Flask application is properly set up and configured.
+2. Include the necessary dependencies in your project.
+3. Copy the provided HTML template into your Flask application's template folder.
+4. Configure the template to integrate with your data sources, such as the `burn_rate`, `target_date`, `labels`, and `values` variables.
+5. Run your Flask application and navigate to the page corresponding to this template.
+
+## Further Customization
+
+Feel free to customize the template to suit your specific requirements. Adjust the chart types, color schemes, and feedback messages to align with the goals and preferences of your users. Additionally, explore the Chart.js documentation for more advanced customization options.
+
+**Note:** Ensure that the Chart.js library is included and properly linked in your project for the chart functionality to work correctly.
