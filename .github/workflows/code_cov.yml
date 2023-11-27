@@ -33,3 +33,11 @@ jobs:
       run: |
         coverage run -m pytest tests/
         coverage report
+    - name: Check coverage threshold
+      run: |
+        COVERAGE=$(coverage report -m | grep 'TOTAL' | awk '{print $4}' | cut -d '%' -f1)
+        if [ "$COVERAGE" -lt 80 ]; then
+          echo "Coverage is below 90%: $COVERAGE%"
+          exit 1
+        fi
+      shell: bash
