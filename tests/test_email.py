@@ -1,9 +1,16 @@
 import pytest
 from unittest.mock import patch
-from application import add_food_entry_email_notification, add_burn_entry_email_notification, send_2fa_email
+from flask.testing import FlaskClient
+from application import add_food_entry_email_notification, add_burn_entry_email_notification, send_2fa_email, send_email, app, mongo
 import sys,os
 sys.path.append(os.path.abspath(os.path.join('..')))
 import mock
+@pytest.fixture
+def client():
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
+        
 @pytest.fixture
 def mock_smtp():
     with patch('application.smtplib.SMTP_SSL') as mock_smtp:
@@ -39,4 +46,23 @@ def test_send_2fa_email(mock_smtp):
     # Assertions
     mock_smtp.assert_called_once_with('smtp.gmail.com', 465, context=mock.ANY)
     mock_smtp.return_value.__enter__.return_value.login.assert_called_once_with('burnoutapp123@gmail.com', 'xszyjpklynmwqsgh')
-    mock_smtp.return_value.__enter__.return_value.sendmail.assert_called_once()    
+    mock_smtp.return_value.__enter__.return_value.sendmail.assert_called_once()   
+   
+# def test_send_email_route(client: FlaskClient, mock_smtp):
+#     # Simulate an active session
+#     with client.session_transaction() as sess:
+#         sess['email'] = 'test@example.com'
+
+#     # Simulate the MongoDB find result
+#     mongo_result = [
+#         {'date': '2023-01-01', 'email': 'test@example.com', 'calories': 500, 'burnout': 'High'},
+#         # Add more data as needed
+#     ]
+#     with patch('pymongo.collection.Collection.find') as mongo_find_mock:
+#         mongo_find_mock.return_value = mongo_result
+
+#         # Simulate a POST request to the send_email route
+#         response = client.post('/send_email', data={'share': 'friend1@example.com'})
+
+#         # Assert that the response status code is 200
+#         assert response.status_code == 200

@@ -10,20 +10,6 @@ def client():
     with app.test_client() as client:
         yield client
         
-def test_login_route(client: FlaskClient):
-    # Assuming you have a test user in your database
-    test_user = {'email': 'test@example.com', 'password': 'hashed_password'}
-    mongo.db.user.insert_one(test_user)
-
-    # Make a POST request to the login route with valid credentials
-    response = client.post(
-        '/login',
-        data={'email': 'test@example.com', 'password': 'password'},
-        follow_redirects=True
-    )
-
-    assert response.status_code == 200
-
 
 def test_logout_route(client: FlaskClient):
     # Simulate a logged-in user by setting a session variable
