@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - development
   pull_request:
     branches:
       - main
@@ -24,4 +25,5 @@ jobs:
         echo requirements installed
     - name: Run the tests
       run: |
-        pytest tests
+        coverage run -m pytest tests/
+        coverage report
