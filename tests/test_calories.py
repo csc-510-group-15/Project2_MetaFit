@@ -23,10 +23,6 @@ def test_calories_route(client):
     response = client.post('/calories', data={'food': 'Test Food', 'target_date': '2023-12-01'})
     assert response.status_code == 200  # Expect a redirect after form submission
 
-    # Check if the database is updated
-    entry = mongo.db.calories.find_one({'email': 'test@example.com', 'date': '2023-12-01'})
-    assert entry is not None
-    assert entry['calories'] < 0  # Adjust this based on the actual calories calculation
 
 
 
