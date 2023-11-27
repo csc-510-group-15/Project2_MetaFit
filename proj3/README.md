@@ -47,12 +47,12 @@ Link to video :
 |N| 5.1: Does your software describe how a user can get help with using your software?  ||
 |N| 5.2: Does your website and documentation describe what support, if any, you provide to users and developers? ||
 |N| 5.3: Does your project have an e-mail address or forum that is solely for supporting users?  ||
-|Y| 5.4: Are e-mails to your support e-mail address received by more than one person? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md, two email ids present|
-|Y| 5.5: Does your project have a ticketing system to manage bug reports and feature requests? | https://github.com/users/bhaveshittadwar/projects/3/views/1 |
+|N| 5.4: Are e-mails to your support e-mail address received by more than one person? | |
+|Y| 5.5: Does your project have a ticketing system to manage bug reports and feature requests? | https://github.com/users/anuj672/projects/4 |
 |Y| 5.6: Is your project's ticketing system publicly visible to your users, so they can view bug reports and feature requests? | it is a public github repo |
 |Y| 6.1: Is your software’s architecture and design modular?  ||
-|Y| 6.2: Does your software use an accepted coding standard or convention?  | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml|
-|Y| 7.1: Does your software allow data to be imported and exported using open data formats? e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones |https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/code/extract.py|
+|Y| 6.2: Does your software use an accepted coding standard or convention?  | https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/code_formatter.yml, https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/style_checker.yaml|
+|Y| 7.1: Does your software allow data to be imported and exported using open data formats? e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones e.g. GIF, SVG, HTML, XML, tar, zip, CSV, JSON, NetCDF, or domain specific ones |https://github.com/anuj672/calorieApp_server/blob/main/insert_food_data.py|
 |N| 7.2: Does your software allow communications using open communications protocols? e.g. HTTP, FTP, XMPP, SOAP over HTTP, or domain-specific ones  ||
 |Y| 8.1: Is your software cross-platform compatible? |Telegram app works on all platforms|
 |N| 9.1: Does your software adhere to appropriate accessibility conventions or standards? ||
