@@ -20,7 +20,6 @@ from service import history as history_service
 import openai
 from flask import jsonify
 
-
 app = Flask(__name__)
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
@@ -1053,7 +1052,6 @@ def verify_2fa():
 #             else:
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
-
 
 openai.api_key = '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'
 
