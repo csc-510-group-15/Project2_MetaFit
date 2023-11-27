@@ -62,12 +62,12 @@ Link to video :
 |Y| 10.3: Are releases tagged in the repository? |https://github.com/anuj672/calorieApp_server/tags|
 |Y| 10.4: Is there a branch of the repository that is always stable? (i.e. tests always pass, code always builds successfully) |https://github.com/anuj672/calorieApp_server/tree/main|
 |Y| 10.5: Do you back-up your repository  |dev-branch and releases - https://github.com/anuj672/calorieApp_server/tree/development and https://github.com/anuj672/calorieApp_server/releases|
-|Y| 11.1: Do you provide publicly-available instructions for building your software from the source code?   |https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md|
+|Y| 11.1: Do you provide publicly-available instructions for building your software from the source code?   |https://github.com/anuj672/calorieApp_server/blob/main/README.md|
 |N| 11.2: Can you build, or package, your software using an automated tool?  ||
-|Y| 11.3: Do you provide publicly-available instructions for deploying your software? |https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md|
-|Y| 11.4: Does your documentation list all third-party dependencies? |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/requirements.txt|  
-|Y| 11.5: Does your documentation list the version number for all third-party dependencies?|https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/requirements.txt| 
-|Y| 11.6: Does your software list the web address, and licences for all third-party dependencies and say whether the dependencies are mandatory or optional? |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/LICENSE| 
+|Y| 11.3: Do you provide publicly-available instructions for deploying your software? |https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|Y| 11.4: Does your documentation list all third-party dependencies? |https://github.com/anuj672/calorieApp_server/blob/main/requirements.txt|  
+|Y| 11.5: Does your documentation list the version number for all third-party dependencies?|https://github.com/anuj672/calorieApp_server/blob/main/requirements.txt| 
+|Y| 11.6: Does your software list the web address, and licences for all third-party dependencies and say whether the dependencies are mandatory or optional? |https://github.com/anuj672/calorieApp_server/blob/main/LICENSE| 
 |Y| 11.7: Can you download dependencies using a dependency management tool or package manager?  | using PIP| 
 |Y| 11.8: Do you have tests that can be run after your software has been built or deployed to show whether the build or deployment has been successful?  |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/.github/workflows/test.yml| 
 |Y| 12.1: Do you have an automated test suite for your software? |https://github.com/anuj672/MyDollarBot-BOTGo/tree/development/test| 
@@ -94,6 +94,6 @@ Link to video :
 |Y| 15.5: Is your software released under an OSI-approved open-source licence?  |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/LICENSE| 
 |N| 15.6: Does each of your source code files include a licence header? || 
 |Y| 15.7: Do you have a recommended citation for your software? || 
-|N| 16.1: Does your website or documentation include a project roadmap (a list of project and development milestones for the next 3, 6 and 12 months)?   | There is no roadmap in the current project- the project from which it is forked has a few maps. | 
+|N| 16.1: Does your website or documentation include a project roadmap (a list of project and development milestones for the next 3, 6 and 12 months)?   || 
 |N| 16.2: Does your website or documentation describe how your project is funded, and the period over which funding is guaranteed?||
 |N| 16.3: Do you make timely announcements of the deprecation of components, APIs, etc.? ||
