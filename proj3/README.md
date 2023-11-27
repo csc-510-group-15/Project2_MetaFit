@@ -13,19 +13,19 @@ Link to video :
 |3	| Evidence that the members of the team are working across multiple places in the code base| https://github.com/anuj672/calorieApp_server/pulse|
 |3	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/anuj672/calorieApp_server/blob/main/README.md|
 |3  | Number of commits: by different people| https://github.com/anuj672/calorieApp_server/pulse|
-|3	| Issues are being closed| 35 Issues closed -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed |
-|2	| Issues are discussed before they are closed|	Each issue is updated with the discussion before closing and comments added -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed|
-|3	| Use of syntax checkers.| Use of Pylint, updated in test.yml -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml|
-|3	| Issues reports: |https://github.com/bhaveshittadwar/csc-510-se-group-49/issues |
-|3	| Use of code formatters.| config files in GH showing your this formatter's config| Use of Black, updated in test.yml -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml |
-|3	| Use of style checkers	config files in GH showing your config| Use of Black, updated in test.yml -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml|
-|3	| Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|	Added in Readme.md -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md|
-|3  | Test cases exist | 142 test cases with coverage > 85% for each file -> https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/test|
-|3	| Use of code coverage	| https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml |
-|2	| Other automated analysis tools | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml , Cron Jobs Exist |
-|3 | Test cases:.a large proportion of the issues related to handling failing cases. (if a test case fails, open an issue and fix it Yes, for example| https://github.com/bhaveshittadwar/csc-510-se-group-49/issues/35 | 
-|1	| Test cases are routinely executed	| Cron Jobs in yml files |
-|3	| Documentation describing how this version improves on the older version| Updated README.md to show the Delta -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md	|
+|3	| Issues are being closed| 30 Issues closed -> https://github.com/anuj672/calorieApp_server/issues?q=is%3Aissue+is%3Aclosed|
+|3	| Issues are discussed before they are closed|	Each issue is updated with the discussion before closing and comments added -> Yes for eg. https://github.com/users/anuj672/projects/4?pane=issue&itemId=45052517, https://github.com/users/anuj672/projects/4?pane=issue&itemId=45724391|
+|3	| Use of syntax checkers.| Use of Lint -> https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/python-app.yml |
+|3	| Issues reports: |https://github.com/anuj672/calorieApp_server/issues|
+|3	| Use of code formatters.| config files in GH showing your this formatter's config| Existing formatters from previous versions -> https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/code_formatter.yml|
+|3	| Use of style checkers	config files in GH showing your config| Python style checkers using Github Actions -> https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/style_checker.yaml |
+|3	| Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|	Added in Readme.md -> https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3  | Test cases exist | 40 test cases with coverage > 75% for each file -> https://github.com/anuj672/calorieApp_server/tree/main/tests|
+|3	| Use of code coverage	| https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/code_cov.yml|
+|3	| Other automated analysis tools | https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/code_cov.yml , Cron Jobs Exist |
+|3 | Test cases:.a large proportion of the issues related to handling failing cases. if a test case fails, open an issue and fix it | Yes, for example|https://github.com/users/anuj672/projects/4?pane=issue&itemId=45052750, https://github.com/anuj672/calorieApp_server/issues/32 | 
+|3	| Test cases are routinely executed	| Cron Jobs in yml files |
+|3	| Documentation describing how this version improves on the older version| Updated README.md to show the Delta -> https://github.com/anuj672/calorieApp_server/blob/main/README.md	|
 |3	| This version is a little(1), some(2), much(3) improved on the last version. | Tutor's assessment |
 |Y| 1.1 Does your website and documentation provide a clear, high-level overview of your software? | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
 |Y| 1.2: Does your website and documentation clearly describe the type of user who should use your software?   | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
