@@ -3,18 +3,22 @@ from flask import session
 from application import app, mongo
 import sys, os
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
 
+
 def login(client, email):
     with client.session_transaction() as sess:
         sess['email'] = email
-        
-        
+
+
 sys.path.append(os.path.abspath(os.path.join('..')))
+
+
 def test_hrx_route(client):
     # Test if the hrx route is accessible
     response = client.get('/hrx')
@@ -27,5 +31,8 @@ def test_hrx_route(client):
     assert b'You have succesfully enrolled in our hrx plan!' in response.data
 
     # Check if the database is updated
-    entry = mongo.db.user.find_one({'Email': 'test@example.com', 'Status': 'hrx'})
+    entry = mongo.db.user.find_one({
+        'Email': 'test@example.com',
+        'Status': 'hrx'
+    })
     assert entry is not None

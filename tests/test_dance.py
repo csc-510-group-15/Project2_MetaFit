@@ -2,7 +2,9 @@ import pytest
 from flask import session
 from application import app, mongo
 import sys, os
+
 sys.path.append(os.path.abspath(os.path.join('..')))
+
 
 @pytest.fixture
 def client():
@@ -10,9 +12,11 @@ def client():
     with app.test_client() as client:
         yield client
 
+
 def login(client, email):
     with client.session_transaction() as sess:
         sess['email'] = email
+
 
 def test_dance_route(client):
     # Test if the dance route is accessible
@@ -26,6 +30,8 @@ def test_dance_route(client):
     assert b'You have succesfully enrolled in our dance plan!' in response.data
 
     # Check if the database is updated
-    entry = mongo.db.user.find_one({'Email': 'test@example.com', 'Status': 'dance'})
+    entry = mongo.db.user.find_one({
+        'Email': 'test@example.com',
+        'Status': 'dance'
+    })
     assert entry is not None
-

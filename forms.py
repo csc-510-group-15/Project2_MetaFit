@@ -8,15 +8,21 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from apps import App
 from wtforms.validators import Regexp
 
+
 class RegistrationForm(FlaskForm):
     recaptcha = RecaptchaField()
     username = StringField('Username',
                            validators=[DataRequired(),
                                        Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(),
-                                     Length(min=8, message="Password must be at least 8 characters"),
-        Regexp('.*[A-Z].*', message="Password must contain at least one capital letter")])
+    password = PasswordField(
+        'Password',
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Password must be at least 8 characters"),
+            Regexp('.*[A-Z].*',
+                   message="Password must contain at least one capital letter")
+        ])
     confirm_password = PasswordField(
         'Confirm Password', validators=[DataRequired(),
                                         EqualTo('password')])
@@ -24,16 +30,23 @@ class RegistrationForm(FlaskForm):
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
-                             Regexp('^\d*\.?\d*$', message="Height must be a valid number")
+                             Regexp('^\d*\.?\d*$',
+                                    message="Height must be a valid number")
                          ])
     height = StringField('Height',
-                         validators=[DataRequired(),
-                                     Length(min=2, max=20),
-                                     Regexp('^\d*\.?\d*$', message="height must be a valid number")])
+                         validators=[
+                             DataRequired(),
+                             Length(min=2, max=20),
+                             Regexp('^\d*\.?\d*$',
+                                    message="height must be a valid number")
+                         ])
     target_weight = StringField(
-        'Target Weight', validators=[DataRequired(),
-                                     Length(min=2, max=20), 
-                                     Regexp('^\d*\.?\d*$', message="height must be a valid number")])
+        'Target Weight',
+        validators=[
+            DataRequired(),
+            Length(min=2, max=20),
+            Regexp('^\d*\.?\d*$', message="height must be a valid number")
+        ])
     target_date = DateField(DataRequired())
 
     submit = SubmitField('Sign Up')
@@ -42,18 +55,23 @@ class RegistrationForm(FlaskForm):
         app_object = App()
         mongo = app_object.mongo
 
-        temp = mongo.db.user.find_one({'email': email.data}, {'email', 'password'})
+        temp = mongo.db.user.find_one({'email': email.data},
+                                      {'email', 'password'})
         if temp:
             raise ValidationError('Email already exists!')
+
 
 class getDate(FlaskForm):
     target_date = DateField('Date', validators=[DataRequired()])
     submit = SubmitField('Show Bronze List')
-    
+
+
 class TwoFactorForm(FlaskForm):
-    two_factor_code = StringField('Two-Factor Code', validators=[DataRequired()])
+    two_factor_code = StringField('Two-Factor Code',
+                                  validators=[DataRequired()])
     submit = SubmitField('Verify')
- 
+
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -123,8 +141,6 @@ class UserProfileForm(FlaskForm):
         'Target Weight', validators=[DataRequired(),
                                      Length(min=2, max=20)])
     submit = SubmitField('Save Profile')
-    
-    
 
 
 class HistoryForm(FlaskForm):

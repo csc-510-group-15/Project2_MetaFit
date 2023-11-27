@@ -2,14 +2,17 @@ import json
 from flask import session
 from application import app, mongo
 import sys, os
+
 sys.path.append(os.path.abspath(os.path.join('..')))
 import pytest
+
 
 @pytest.fixture
 def client():
     with app.test_client() as client:
         yield client
-        
+
+
 def test_ajaxhistory_route_with_data(client, monkeypatch):
     # Simulate an active session
     with client.session_transaction() as sess:
