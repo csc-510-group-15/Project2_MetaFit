@@ -3,16 +3,16 @@ Link to video :
 |Score | Notes | Evidence |
 |-----|------|------|
 |66   | Total	| |
-|3 |Video-demo mp4 in GH showing functionalities|https://www.youtube.com/watch?v=9fJScubX-cI|
-|3	| Short release cycles| 4 Releases	-> https://github.com/anuj672/MyDollarBot-BOTGo/releases |
-|3	| Workload is spread over the whole team | Each member worked on features, docs, fixes & test -> [https://github.com/anuj672/MyDollarBot-BOTGo/pulse](https://github.com/anuj672/MyDollarBot-BOTGo/pulse) |
-|3	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> [https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs](https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs)|
-|3	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| [https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md](https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md) |	
-|3	| Docs: doco generated , format not ugly|	[https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs](https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs)|
-|2	| Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	| |
-|2	| Evidence that the members of the team are working across multiple places in the code base|	[https://github.com/anuj672/MyDollarBot-BOTGo/pulse](https://github.com/anuj672/MyDollarBot-BOTGo/pulse)|
-|3	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs|
-|3  | Number of commits: by different people| https://github.com/sak007/MyDollarBot-BOTGo/graphs/commit-activity	https://github.com/anuj672/MyDollarBot-BOTGo/pulse|
+|3 |Video-demo mp4 in GH showing functionalities||
+|3	| Short release cycles| 4 Releases	-> https://github.com/anuj672/calorieApp_server/releases |
+|3	| Workload is spread over the whole team | Each member worked on features, docs, fixes & test -> https://github.com/anuj672/calorieApp_server/pulse|
+|3	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| https://github.com/anuj672/calorieApp_server/blob/main/CONTRIBUTING.md |	
+|3	| Docs: doco generated , format not ugly|	https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3	| Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	| |
+|3	| Evidence that the members of the team are working across multiple places in the code base| https://github.com/anuj672/calorieApp_server/pulse|
+|3	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3  | Number of commits: by different people| https://github.com/anuj672/calorieApp_server/pulse|
 |3	| Issues are being closed| 35 Issues closed -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed |
 |2	| Issues are discussed before they are closed|	Each issue is updated with the discussion before closing and comments added -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed|
 |3	| Use of syntax checkers.| Use of Pylint, updated in test.yml -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/.github/workflows/test.yml|
