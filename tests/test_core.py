@@ -2,7 +2,7 @@ from flask import session, url_for
 from flask.testing import FlaskClient
 from application import app, mongo
 from application import EnrollForm
-
+from pytest_mock import mocker
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('..')))
 import pytest
