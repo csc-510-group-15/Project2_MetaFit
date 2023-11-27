@@ -8,7 +8,7 @@
 - OpenAI integration
 - New Test Cases
 - Kubernetes deployment and service
-- Imporve CI/CD
+- Improve CI/CD
 
 ### v3.1.0
 
