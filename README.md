@@ -193,7 +193,23 @@ This is the page where the user can see their history in the form of a bar graph
   Step 4: Open the URL in your browser:  
       http://127.0.0.1:5000/ or http://localhost:5000/ 
 
-      
+
+  ## Kubernetes
+
+  - Navigate to the project directory.
+  - Apply Kubernetes deployment and service YAML files:
+    ```bash
+    kubectl apply -f app-deployment.yaml
+    kubectl apply -f app-service.yaml
+    ```
+
+    - Access Your Application
+
+    Retrieve the external IP (LoadBalancer) or Cluster IP of the service:
+
+    ```bash
+    kubectl get service flask-mongo-service
+    ```
   # Source Code
   
   Link to the repository:

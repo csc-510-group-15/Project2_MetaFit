@@ -17,6 +17,8 @@ from flask_pymongo import PyMongo
 from tabulate import tabulate
 from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate
 from service import history as history_service
+import openai
+from flask import jsonify
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -29,13 +31,15 @@ else:
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
-app.config['RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
+app.config[
+    'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
+
 
 @app.route("/")
 @app.route("/home")
@@ -62,7 +66,7 @@ def login():
     Input: Email, Password, Login Type
     Output: Account Authentication and redirecting to Dashboard
     """
- 
+
     if not session.get('email'):
         form = LoginForm()
         if form.validate_on_submit():
@@ -74,7 +78,7 @@ def login():
                     or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
-                #session['login_type'] = form.type.data
+                # session['login_type'] = form.type.data
                 return redirect(url_for('dashboard'))
             else:
                 flash('Login Unsuccessful. Please check username and password',
@@ -116,28 +120,38 @@ def register():
             two_factor_secret = totp.secret
             session['two_factor_secret'] = two_factor_secret
             session['registration_data'] = {
-                'username': request.form.get('username'),
-                'email': email,
-                'password': bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
-                'weight': request.form.get('weight'),
-                'height': request.form.get('height'),
-                'target_weight': request.form.get('target_weight'),
-                'start_date': datetime.now().strftime('%Y-%m-%d'),
-                'target_date': request.form.get('target_date')
+                'username':
+                request.form.get('username'),
+                'email':
+                email,
+                'password':
+                bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()),
+                'weight':
+                request.form.get('weight'),
+                'height':
+                request.form.get('height'),
+                'target_weight':
+                request.form.get('target_weight'),
+                'start_date':
+                datetime.now().strftime('%Y-%m-%d'),
+                'target_date':
+                request.form.get('target_date')
             }
 
             send_2fa_email(email, two_factor_secret)
             # Redirect to 2FA verification page
             return redirect(url_for('verify_2fa'))
         else:
-            return render_template('register.html', title='Register', form=form)
+            return render_template('register.html',
+                                   title='Register',
+                                   form=form)
     else:
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
 
 def send_2fa_email(email, two_factor_secret):
-    
+
     sender = 'burnoutapp123@gmail.com'
     password = 'xszyjpklynmwqsgh'
     receiver = email
@@ -146,7 +160,7 @@ def send_2fa_email(email, two_factor_secret):
     body = f'Your Two-Factor Authentication Code: {two_factor_secret}'
 
     try:
-        
+
         em = EmailMessage()
         em['From'] = sender
         em['To'] = receiver
@@ -160,7 +174,9 @@ def send_2fa_email(email, two_factor_secret):
             smtp.sendmail(sender, receiver, em.as_string())
     except Exception as e:
         print(f"Error sending email: {e}")
-        flash('Failed to send Two-Factor Authentication code. Please try again.', 'danger')
+        flash(
+            'Failed to send Two-Factor Authentication code. Please try again.',
+            'danger')
 
 
 @app.route("/user_profile", methods=['GET', 'POST'])
@@ -177,8 +193,17 @@ def user_profile():
         email = session.get('email')
 
         # Fetch existing user profile data
-        existing_profile = mongo.db.profile.find_one({ 'email': email }, { 'height': 1, 'weight': 1, 'target_weight': 1, 'goal': 1})
-        existing_user = mongo.db.user.find_one({ 'email': email }, { 'height': 1, 'weight': 1, 'target_weight': 1})
+        existing_profile = mongo.db.profile.find_one({'email': email}, {
+            'height': 1,
+            'weight': 1,
+            'target_weight': 1,
+            'goal': 1
+        })
+        existing_user = mongo.db.user.find_one({'email': email}, {
+            'height': 1,
+            'weight': 1,
+            'target_weight': 1
+        })
         print(existing_profile)
         # Populate the form with existing values
         form.populate_obj(request.form)
@@ -220,7 +245,11 @@ def user_profile():
     else:
         return redirect(url_for('login'))
 
-    return render_template('user_profile.html', status=True, form=form, existing_profile=existing_profile, existing_user=existing_user)
+    return render_template('user_profile.html',
+                           status=True,
+                           form=form,
+                           existing_profile=existing_profile,
+                           existing_user=existing_user)
 
 
 @app.route("/calories", methods=['GET', 'POST'])
@@ -256,7 +285,8 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                flash(f'Successfully sent email and updated the data!', 'success')
+                flash(f'Successfully sent email and updated the data!',
+                      'success')
                 add_food_entry_email_notification(email, food, selected_date)
                 return redirect(url_for('calories'))
 
@@ -266,55 +296,55 @@ def calories():
 
 
 def add_food_entry_email_notification(email, food, date):
-        sender = 'burnoutapp123@gmail.com'
-        password = 'xszyjpklynmwqsgh'
-        receiver = email
+    sender = 'burnoutapp123@gmail.com'
+    password = 'xszyjpklynmwqsgh'
+    receiver = email
 
-        subject = f'New food entry recorded'
-        body = f'You recorded a new entry for {food} on the date {date}'
+    subject = f'New food entry recorded'
+    body = f'You recorded a new entry for {food} on the date {date}'
 
-        try:
-        
-            em = EmailMessage()
-            em['From'] = sender
-            em['To'] = receiver
-            em['Subject'] = subject
-            em.set_content(body)
+    try:
 
-            context = ssl.create_default_context()
+        em = EmailMessage()
+        em['From'] = sender
+        em['To'] = receiver
+        em['Subject'] = subject
+        em.set_content(body)
 
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-                smtp.login(sender, password)
-                smtp.sendmail(sender, receiver, em.as_string())
-        except Exception as e:
-            print(f"Error sending email: {e}")
-            flash('Failed to send email but the entry is recorded', 'danger')
- 
+        context = ssl.create_default_context()
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(sender, password)
+            smtp.sendmail(sender, receiver, em.as_string())
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        flash('Failed to send email but the entry is recorded', 'danger')
+
 
 def add_burn_entry_email_notification(email, burn, date):
-        sender = 'burnoutapp123@gmail.com'
-        password = 'xszyjpklynmwqsgh'
-        receiver = email
+    sender = 'burnoutapp123@gmail.com'
+    password = 'xszyjpklynmwqsgh'
+    receiver = email
 
-        subject = f'New burn entry recorded'
-        body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
+    subject = f'New burn entry recorded'
+    body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
 
-        try:
-        
-            em = EmailMessage()
-            em['From'] = sender
-            em['To'] = receiver
-            em['Subject'] = subject
-            em.set_content(body)
+    try:
 
-            context = ssl.create_default_context()
+        em = EmailMessage()
+        em['From'] = sender
+        em['To'] = receiver
+        em['Subject'] = subject
+        em.set_content(body)
 
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-                smtp.login(sender, password)
-                smtp.sendmail(sender, receiver, em.as_string())
-        except Exception as e:
-            print(f"Error sending email: {e}")
-            flash('Failed to send email but the entry is recorded', 'danger')    
+        context = ssl.create_default_context()
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(sender, password)
+            smtp.sendmail(sender, receiver, em.as_string())
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        flash('Failed to send email but the entry is recorded', 'danger')
 
 
 @app.route("/workout", methods=['GET', 'POST'])
@@ -337,26 +367,47 @@ def workout():
                     'calories': -float(burn)
                 })
                 if float(burn) < 100:
-                    existing_user_entry = mongo.db.bronze_list.find_one({'date': selected_date, 'users': email})
+                    existing_user_entry = mongo.db.bronze_list.find_one({
+                        'date':
+                        selected_date,
+                        'users':
+                        email
+                    })
                     if existing_user_entry:
-                        mongo.db.bronze_list.delete_one({'date': selected_date, 'users': email})
+                        mongo.db.bronze_list.delete_one({
+                            'date': selected_date,
+                            'users': email
+                        })
                 if float(burn) > 100:
-                    flash(f'Hurray! You are a part of the bronze list for the day : {selected_date}', 'success')
-                    existing_user_entry = mongo.db.bronze_list.find_one({'date': selected_date, 'users': email})
+                    flash(
+                        f'Hurray! You are a part of the bronze list for the day : {selected_date}',
+                        'success')
+                    existing_user_entry = mongo.db.bronze_list.find_one({
+                        'date':
+                        selected_date,
+                        'users':
+                        email
+                    })
                     if existing_user_entry:
                         mongo.db.bronze_list.update_one(
                             {'date': selected_date},
-                            {'$addToSet': {'users': email}}
-                        )
+                            {'$addToSet': {
+                                'users': email
+                            }})
                     else:
-                        mongo.db.bronze_list.insert_one({'date': selected_date, 'users': [email]})
-                    
-                flash(f'Successfully sent email and updated the data!', 'success')
+                        mongo.db.bronze_list.insert_one({
+                            'date': selected_date,
+                            'users': [email]
+                        })
+
+                flash(f'Successfully sent email and updated the data!',
+                      'success')
                 add_burn_entry_email_notification(email, burn, selected_date)
                 return redirect(url_for('workout'))
     else:
         return redirect(url_for('home'))
     return render_template('workout.html', form=form)
+
 
 # New route to display the bronze list for the current day
 @app.route("/bronze_list", methods=['GET', 'POST'])
@@ -374,15 +425,24 @@ def bronze_list_page():
                 users = bronze_doc.get('users', [])
                 # Add the users from the database
                 bronze_users.extend(users)
-                mongo.db.bronze_list.update_one({'_id': bronze_doc['_id']}, {'$set': {'users': users}})
+                mongo.db.bronze_list.update_one({'_id': bronze_doc['_id']},
+                                                {'$set': {
+                                                    'users': users
+                                                }})
         else:
             # If no document exists for today, create a new one
             mongo.db.bronze_list.insert_one({'date': today, 'users': users})
             bronze_users = users
 
-        return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=bronze_users)
+        return render_template('bronze_list.html',
+                               title='Bronze List',
+                               form=form,
+                               bronze_users=bronze_users)
 
-    return render_template('bronze_list.html', title='Bronze List', form=form, bronze_users=[])
+    return render_template('bronze_list.html',
+                           title='Bronze List',
+                           form=form,
+                           bronze_users=[])
 
 
 @app.route("/history", methods=['GET'])
@@ -513,7 +573,7 @@ def friends():
             'sender': email,
             'accept': False
         }, {'sender', 'receiver', 'accept'}))
-     # Count the number of pending friend requests
+    # Count the number of pending friend requests
 
     pendingReceivers = list()
     for p in pendingRequests:
@@ -527,12 +587,13 @@ def friends():
         }, {'sender', 'receiver', 'accept'}))
     pending_requests_count = len(pendingApprovals)
     if len(pendingApprovals):
-    # Flash the count to be displayed in the template
-        flash(f"You have {pending_requests_count} pending friend requests.", 'info')   
+        # Flash the count to be displayed in the template
+        flash(f"You have {pending_requests_count} pending friend requests.",
+              'info')
     for p in pendingApprovals:
         pendingApproves.append(p['sender'])
 
-    #print(pendingApproves)
+    # print(pendingApproves)
 
     # print(pendingRequests)
     return render_template('friends.html',
@@ -565,11 +626,11 @@ def send_email():
     friend_email = str(request.form.get('share')).strip()
     friend_email = str(friend_email).split(',')
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-    #Storing sender's email address and password
+    # Storing sender's email address and password
     sender_email = "calorie.app.server@gmail.com"
     sender_password = "Temp@1234"
 
-    #Logging in with sender details
+    # Logging in with sender details
     server.login(sender_email, sender_password)
     message = 'Subject: Calorie History\n\n Your Friend wants to share their calorie history with you!\n {}'.format(
         tabulate(table))
@@ -943,7 +1004,7 @@ def hrx():
 
 @app.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_2fa():
-    form = TwoFactorForm() # Create a new form for 2FA verification
+    form = TwoFactorForm()  # Create a new form for 2FA verification
 
     if form.validate_on_submit():
         # Verify the entered 2FA code against the stored one in the session
@@ -957,7 +1018,8 @@ def verify_2fa():
             mongo.db.user.insert_one(user_data)
             session.pop('two_factor_secret')
             session.pop('registration_data')
-            flash('Two-Factor Authentication successful! User registered.', 'success')
+            flash('Two-Factor Authentication successful! User registered.',
+                  'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid Two-Factor Authentication code. ', 'danger')
@@ -991,10 +1053,40 @@ def verify_2fa():
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
 
+# put your API key here
+openai.api_key = ''
+
+
+def get_completion(prompt):
+    print(prompt)
+    query = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    response = query.choices[0].text
+    return response
+
+
+@app.route("/chat", methods=['POST', 'GET'])
+def query_view():
+    if request.method == 'POST':
+        print('step1')
+        prompt = request.form['prompt']
+        response = get_completion(prompt)
+        print(response)
+
+        return jsonify({'response': response})
+    return render_template('chat.html')
+
+
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
         # Use Docker-specific MongoDB URI
         app.run(host='0.0.0.0', debug=True)
     else:
         app.run(debug=True)
-
