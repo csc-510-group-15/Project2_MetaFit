@@ -29,4 +29,6 @@ black==23.10.0
 pylint==3.0.1
 pytest==7.4.2
 coverage==7.3.2
-flask-testing==2.0.1
+flask-testing==0.8.1
+mock==4.0.3
+mongomock==4.1.2
