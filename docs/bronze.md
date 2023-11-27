@@ -22,3 +22,17 @@ This Flask application route, `/bronze_list`, is designed to display the bronze 
 
 4. **Rendering the Template:**
    - The route renders the 'bronze_list.html' template, passing the form, title, and the list of bronze users.
+
+## Usage Instructions
+
+1. Users can access the bronze list page at `/bronze_list`.
+2. The page presents a form allowing users to select a target date.
+3. Upon form submission, the route retrieves or creates the bronze list for the specified date.
+4. The 'bronze_list.html' template displays the form, title, and the list of bronze users.
+
+## Further Considerations
+
+- Ensure that the `getDate` form is correctly implemented and handles user input validation.
+- Validate and sanitize user inputs to prevent potential security vulnerabilities.
+- Confirm that the MongoDB connection is properly configured and established.
+- Customize the 'bronze_list.html' template to suit the application's design and user interface requirements.
