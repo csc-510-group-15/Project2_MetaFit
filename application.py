@@ -17,6 +17,9 @@ from flask_pymongo import PyMongo
 from tabulate import tabulate
 from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate
 from service import history as history_service
+import openai
+from flask import jsonify
+
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -76,7 +79,7 @@ def login():
                     or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
-                #session['login_type'] = form.type.data
+                # session['login_type'] = form.type.data
                 return redirect(url_for('dashboard'))
             else:
                 flash('Login Unsuccessful. Please check username and password',
@@ -591,7 +594,7 @@ def friends():
     for p in pendingApprovals:
         pendingApproves.append(p['sender'])
 
-    #print(pendingApproves)
+    # print(pendingApproves)
 
     # print(pendingRequests)
     return render_template('friends.html',
@@ -624,11 +627,11 @@ def send_email():
     friend_email = str(request.form.get('share')).strip()
     friend_email = str(friend_email).split(',')
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-    #Storing sender's email address and password
+    # Storing sender's email address and password
     sender_email = "calorie.app.server@gmail.com"
     sender_password = "Temp@1234"
 
-    #Logging in with sender details
+    # Logging in with sender details
     server.login(sender_email, sender_password)
     message = 'Subject: Calorie History\n\n Your Friend wants to share their calorie history with you!\n {}'.format(
         tabulate(table))
@@ -1050,6 +1053,37 @@ def verify_2fa():
 #             else:
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
+
+
+openai.api_key = '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'
+
+
+def get_completion(prompt):
+    print(prompt)
+    query = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    response = query.choices[0].text
+    return response
+
+
+@app.route("/chat", methods=['POST', 'GET'])
+def query_view():
+    if request.method == 'POST':
+        print('step1')
+        prompt = request.form['prompt']
+        response = get_completion(prompt)
+        print(response)
+
+        return jsonify({'response': response})
+    return render_template('chat.html')
+
 
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
