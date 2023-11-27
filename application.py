@@ -1053,7 +1053,8 @@ def verify_2fa():
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
 
-openai.api_key = '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'
+# put your API key here
+openai.api_key = ''
 
 
 def get_completion(prompt):
