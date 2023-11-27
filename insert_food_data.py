@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from apps import App
 
 app = App()
