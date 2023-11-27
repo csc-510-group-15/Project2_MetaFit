@@ -22,3 +22,37 @@ This code integrates OpenAI's GPT-3 model into a Flask web application, allowing
 4. **Asynchronous Interaction:**
    - The web page dynamically updates with the user's prompt and the model's response without requiring a page reload.
    - The asynchronous interaction provides a seamless chat experience.
+
+## Code Structure
+
+### `get_completion` Function
+
+- Accepts a prompt as an argument.
+- Sends a request to the OpenAI GPT-3 engine using the `openai.Completion.create` method.
+- Retrieves and returns the response from the GPT-3 engine.
+
+### Flask Routes
+
+- **`/chat` (GET):**
+  - Renders the chat web page.
+- **`/chat` (POST):**
+  - Processes user prompts.
+  - Calls the `get_completion` function to interact with the OpenAI GPT-3 engine.
+  - Returns the GPT-3 response in JSON format.
+
+### Web Page (HTML and JavaScript)
+
+- Provides a form for users to input prompts.
+- Dynamically updates the page with the user's prompt and the GPT-3 response without requiring a page reload.
+
+## Usage Instructions
+
+1. Set up a Flask application and ensure the necessary dependencies are installed.
+2. Obtain an API key from OpenAI and insert it into the `openai.api_key` variable.
+3. Copy the provided Python code into your Flask application.
+4. Configure your web page template to integrate with the Flask routes and JavaScript functions.
+5. Run your Flask application and navigate to the `/chat` route to interact with the OpenAI chat interface.
+
+## Further Customization
+
+Feel free to customize the code and web page to align with your specific requirements. Adjust the styling, add more features, or tailor the interaction flow to enhance the user experience.
