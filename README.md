@@ -8,19 +8,22 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 <br>
 
 
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-[![DOI](https://zenodo.org/badge/692607606.svg)](https://zenodo.org/badge/latestdoi/692607606)
+[![MIT license](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/anuj672/calorieApp_server/blob/main/LICENSE)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211870.svg)](https://doi.org/10.5281/zenodo.10211870)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![Build Status](https://app.travis-ci.com/atharva1996/calorieApp_server.svg?branch=main)](https://app.travis-ci.com/atharva1996/calorieApp_server)
+<!-- [![Build Status](https://app.travis-ci.com/atharva1996/calorieApp_server.svg?branch=main)](hhttps://github.com/anuj672/calorieApp_server/actions) -->
+[![Test and Formatting](https://github.com/anuj672/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)](https://github.com/anuj672/calorieApp_server/actions/workflows/code_cov.yml)
+[![contributors](https://img.shields.io/github/contributors/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/graphs/contributors)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
-![last commit](https://img.shields.io/github/last-commit/utsavll0/calorieApp_server)
-![total lines](https://img.shields.io/tokei/lines/github/utsavll0/calorieApp_server)
-![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/unit_test.yml/badge.svg)
+![last commit](https://img.shields.io/github/last-commit/anuj672/calorieApp_server)
+![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)
 ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/style_checker.yml/badge.svg)
-![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/syntax_checker.yml/badge.svg)
-[![codecov](https://codecov.io/gh/deekay2310/calorieApp_server/branch/main/graph/badge.svg?token=IQW5PLLE22)](https://codecov.io/gh/deekay2310/calorieApp_server)
+[![GitHub issues](https://img.shields.io/github/issues/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues)
+[![closed issues](https://img.shields.io/github/issues-closed/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues?q=is%3Aissue+is%3Aclosed)
+<!-- [![codecov](https://codecov.io/gh/deekay2310/calorieApp_server/branch/main/graph/badge.svg?token=IQW5PLLE22)](https://codecov.io/gh/deekay2310/calorieApp_server) -->
 <!--Badges-->
-<a href="https://github.com/utsavll0/calorieApp_server/fork" target="blank">
+<!-- <a href="https://github.com/utsavll0/calorieApp_server/fork" target="blank">
 <img src="https://img.shields.io/github/forks/utsavll0/calorieApp_server?style=flat-square" alt="calorieApp_server forks"/>
 </a>
 <a href="https://github.com/utsavll0/calorieApp_server/stargazers" target="blank">
@@ -48,7 +51,7 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 <img src="https://img.shields.io/github/discussions/utsavll0/calorieApp_server" /></a> 
 
 <a href="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" alt="repo size">
-<img src="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" /></a>
+<img src="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" /></a> -->
 
 
 
