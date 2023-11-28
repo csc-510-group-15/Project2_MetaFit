@@ -227,6 +227,9 @@ This is the page where the user can see their history in the form of a bar graph
    
 <center>
   <table>
+  <tr>
+        <td align="center"><a href="https://github.com/VaibhaviSangawar"><br /><sub><b>Vaibhavi Sangawar</b></sub></a><br /></td>
+    </tr>
     <tr>
         <td align="center"><a href="https://github.com/utsavll0"><img src="https://avatars.githubusercontent.com/utsavll0" width="100px;" alt=""/><br /><sub><b>Utsavkumar Lal</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/neha7799"><img src="https://avatars.githubusercontent.com/neha7799" width="100px;" alt=""/><br /><sub><b>Neha Patil</b></sub></a></td>
