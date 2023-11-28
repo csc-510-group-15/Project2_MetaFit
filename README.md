@@ -185,7 +185,10 @@ This is the page where the user can see their history in the form of a bar graph
     pip install -r requirements.txt
     pip install openai==0.28.0
     
- Step 4:
+ Step 4: 
+    Go to https://platform.openai.com/ and create an API key for openai and paste it in application.py(in -> openai.api_key = '').
+
+ Step 5:
     If it's for the first time you're running the application you need to run this script once to populate data for food select field
 
     `python insert_food_data.py`
@@ -195,7 +198,7 @@ This is the page where the user can see their history in the form of a bar graph
     
     `python application.py`
     
- Step 5:
+ Step 6:
     Open the URL in your browser:  
       http://127.0.0.1:5000/
   
