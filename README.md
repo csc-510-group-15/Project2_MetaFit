@@ -1,9 +1,10 @@
-# walkthrough video:
+# walkthrough video: from phase 2
 
 
 https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4b-b263-63d470dcd80b
 
 
+For phase 3: refer https://www.youtube.com/watch?v=kXsI3x8_JAY
 <br>
 <br>
 
@@ -107,11 +108,6 @@ BurnOut is an easy to use application that keeps track of a user's daily calorie
 - Google Captcha -  The sign up form now tests for users using v2 captcha
 - Autopopulate user Profile data!
 
-# Implementation
-
-Link to the implementation video of the BurnOut application:
-
-https://www.youtube.com/watch?v=kXsI3x8_JAY
 
 # TechStack Used for the Development of Project
 
