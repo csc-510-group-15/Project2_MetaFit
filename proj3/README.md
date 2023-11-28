@@ -1,19 +1,19 @@
-Link to video :
+Link to video : https://www.youtube.com/watch?v=kXsI3x8_JAY
 
 |Score | Notes | Evidence |
 |-----|------|------|
 | 72 | Total	| |
-|3 |Video-demo mp4 in GH showing functionalities||
+|3 |Video-demo mp4 in GH showing functionalities|https://www.youtube.com/watch?v=kXsI3x8_JAY|
 |3	| Short release cycles| 4 Releases	-> https://github.com/anuj672/calorieApp_server/releases |
 |3	| Workload is spread over the whole team | Each member worked on features, docs, fixes & test -> https://github.com/anuj672/calorieApp_server/pulse|
-|3	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> https://github.com/anuj672/calorieApp_server/tree/development/docs|
 |3	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| https://github.com/anuj672/calorieApp_server/blob/main/CONTRIBUTING.md |	
-|3	| Docs: doco generated , format not ugly|	https://github.com/anuj672/calorieApp_server/blob/main/README.md|
+|3	| Docs: doco generated , format not ugly| https://github.com/anuj672/calorieApp_server/tree/development/docs|
 |3	| Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	| |
 |3	| Evidence that the members of the team are working across multiple places in the code base| https://github.com/anuj672/calorieApp_server/pulse|
 |3	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/anuj672/calorieApp_server/blob/main/README.md|
 |3  | Number of commits: by different people| https://github.com/anuj672/calorieApp_server/pulse|
-|3	| Issues are being closed| 30 Issues closed -> https://github.com/anuj672/calorieApp_server/issues?q=is%3Aissue+is%3Aclosed|
+|3	| Issues are being closed| 30 Issues closed -> https://github.com/anuj672/calorieApp_server/issues?q=is%3Aissue+is%3Aclosed| 
 |3	| Issues are discussed before they are closed|	Each issue is updated with the discussion before closing and comments added -> Yes for eg. https://github.com/users/anuj672/projects/4?pane=issue&itemId=45052517, https://github.com/users/anuj672/projects/4?pane=issue&itemId=45724391|
 |3	| Use of syntax checkers.| Use of Lint -> https://github.com/anuj672/calorieApp_server/blob/main/.github/workflows/python-app.yml |
 |3	| Issues reports: |https://github.com/anuj672/calorieApp_server/issues|
