@@ -16,8 +16,8 @@ For phase 3: refer https://www.youtube.com/watch?v=kXsI3x8_JAY
 [![contributors](https://img.shields.io/github/contributors/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/graphs/contributors)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 ![last commit](https://img.shields.io/github/last-commit/anuj672/calorieApp_server)
-![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)
-![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/style_checker.yml/badge.svg)
+<!-- ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)
+![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/style_checker.yml/badge.svg) -->
 [![GitHub issues](https://img.shields.io/github/issues/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues)
 [![closed issues](https://img.shields.io/github/issues-closed/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues?q=is%3Aissue+is%3Aclosed)
 ![Fork](https://img.shields.io/github/forks/anuj672/calorieApp_server)
@@ -52,8 +52,6 @@ For phase 3: refer https://www.youtube.com/watch?v=kXsI3x8_JAY
 
 <a href="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" alt="repo size">
 <img src="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" /></a> -->
-
-
 
 # BurnOut
 
