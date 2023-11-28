@@ -70,7 +70,7 @@ Link to video :
 |Y| 11.6: Does your software list the web address, and licences for all third-party dependencies and say whether the dependencies are mandatory or optional? |https://github.com/anuj672/calorieApp_server/blob/main/LICENSE| 
 |Y| 11.7: Can you download dependencies using a dependency management tool or package manager?  | using PIP| 
 |Y| 11.8: Do you have tests that can be run after your software has been built or deployed to show whether the build or deployment has been successful?  |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/.github/workflows/test.yml| 
-|Y| 12.1: Do you have an automated test suite for your software? |https://github.com/anuj672/MyDollarBot-BOTGo/tree/development/test| 
+|Y| 12.1: Do you have an automated test suite for your software? |https://github.com/anuj672/calorieApp_server/tree/main/tests| 
 |N| 12.2: Do you have a framework to periodically (e.g. nightly) run your tests on the latest version of the source code?  || 
 |Y| 12.3: Do you use continuous integration, automatically running tests whenever changes are made to your source code? |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/.github/workflows/test.yml| 
 |Y|12.4: Are your test results publicly visible?  |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/.github/workflows/test.yml| 
@@ -87,11 +87,11 @@ Link to video :
 |Y|14.2: Do you have a contributions policy? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md | 
 |Y|14.3: Is your contributions' policy publicly available?  | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md | 
 |N|14.4: Do contributors keep the copyright/IP of their contributions?  || 
-|Y|15.1: Does your website and documentation clearly state the copyright owners of your software and documentation? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/LICENSE | 
+|Y|15.1: Does your website and documentation clearly state the copyright owners of your software and documentation? | https://github.com/anuj672/calorieApp_server/blob/main/LICENSE| 
 |N| 15.2: Does each of your source code files include a copyright statement?   || 
-|Y| 15.3: Does your website and documentation clearly state the licence of your software?   | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/LICENSE | 
-|Y| 15.4: Is your software released under an open source licence? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/LICENSE | 
-|Y| 15.5: Is your software released under an OSI-approved open-source licence?  |https://github.com/anuj672/MyDollarBot-BOTGo/blob/development/LICENSE| 
+|Y| 15.3: Does your website and documentation clearly state the licence of your software?   | https://github.com/anuj672/calorieApp_server/blob/main/LICENSE | 
+|Y| 15.4: Is your software released under an open source licence? | https://github.com/anuj672/calorieApp_server/blob/main/LICENSE | 
+|Y| 15.5: Is your software released under an OSI-approved open-source licence?  |https://github.com/anuj672/calorieApp_server/blob/main/LICENSE| 
 |N| 15.6: Does each of your source code files include a licence header? || 
 |Y| 15.7: Do you have a recommended citation for your software? || 
 |N| 16.1: Does your website or documentation include a project roadmap (a list of project and development milestones for the next 3, 6 and 12 months)?   || 
