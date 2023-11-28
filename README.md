@@ -1,10 +1,12 @@
+# walkthrough video: from phase 3  
+https://www.youtube.com/watch?v=kXsI3x8_JAY
+
 # walkthrough video: from phase 2
 
 
 https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4b-b263-63d470dcd80b
 
 
-For phase 3: refer https://www.youtube.com/watch?v=kXsI3x8_JAY
 <br>
 <br>
 
