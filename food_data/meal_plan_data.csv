@@ -1,0 +1,51 @@
+food_name,calories,protein,carbs,fat,diet_type
+Chicken Salad,350,30,20,15,Non-Vegetarian
+Oatmeal with Berries,250,5,45,5,Vegetarian
+Grilled Salmon,400,40,0,25,Non-Vegetarian
+Vegan Burrito,500,15,50,20,Vegan
+Greek Yogurt,150,10,15,5,Vegetarian
+Turkey Sandwich,300,25,35,10,Non-Vegetarian
+Avocado Toast,350,8,45,20,Vegetarian
+Quinoa Salad,200,10,40,10,Vegetarian
+Egg White Omelet,150,20,5,2,Vegetarian
+Steak with Vegetables,600,45,10,30,Non-Vegetarian
+Tuna Salad,250,30,10,15,Non-Vegetarian
+Vegetable Stir Fry,300,10,50,10,Vegan
+Fruit Smoothie,200,5,40,5,Vegan
+Brown Rice with Vegetables,350,12,60,10,Vegetarian
+Protein Shake,180,25,10,8,Vegan
+Lentil Soup,250,10,30,5,Vegan
+Pasta Primavera,400,15,60,10,Vegetarian
+Grilled Chicken Breast,220,35,5,3,Non-Vegetarian
+Beef Tacos,500,20,40,15,Non-Vegetarian
+Veggie Burger,300,15,50,8,Vegetarian
+Cottage Cheese with Fruit,200,15,20,5,Vegetarian
+Pancakes with Maple Syrup,400,10,60,20,Vegetarian
+Sushi Roll,300,10,40,5,Non-Vegetarian
+Caesar Salad,250,20,20,15,Vegetarian
+Chickpea Curry,400,15,45,8,Vegan
+Tofu Stir Fry,300,20,50,10,Vegan
+Shrimp and Broccoli,250,25,15,10,Non-Vegetarian
+Chicken Wrap,300,20,45,15,Non-Vegetarian
+Baked Sweet Potato,200,4,50,2,Vegetarian
+Eggplant Parmesan,500,15,20,20,Vegetarian
+Pulled Pork Sandwich,450,40,40,25,Non-Vegetarian
+Spaghetti Bolognese,500,35,50,15,Non-Vegetarian
+Chicken and Rice,400,35,60,10,Non-Vegetarian
+Fish Tacos,350,25,40,12,Non-Vegetarian
+Vegetable Pizza,600,15,50,15,Vegetarian
+Chicken Quesadilla,450,25,45,20,Non-Vegetarian
+Hummus and Veggies,200,15,20,5,Vegan
+Beef Burrito,550,30,55,25,Non-Vegetarian
+Tomato Soup,150,8,30,10,Vegetarian
+Chicken Noodle Soup,180,12,15,5,Non-Vegetarian
+Vegetable Samosa,250,5,10,8,Vegan
+Shrimp Scampi,400,15,50,15,Non-Vegetarian
+Fried Rice with Vegetables,500,10,60,20,Vegetarian
+Spinach Smoothie,180,8,40,10,Vegetarian
+French Toast,400,12,50,15,Non-Vegetarian
+Pad Thai,550,20,55,20,Non-Vegetarian
+Chicken Pho,300,10,30,8,Vegetarian
+BBQ Ribs,600,45,45,30,Non-Vegetarian
+Avocado Salad,250,5,15,12,Vegan
+Beef Stew,450,40,20,20,Non-Vegetarian
