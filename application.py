@@ -21,7 +21,6 @@ import openai
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -487,6 +486,7 @@ def quiz():
     form = getDate()
     return render_template('layout.html')
 
+
 class Questions(db.Model):
     q_id = db.Column(db.Integer, primary_key=True)
     ques = db.Column(db.String(350), unique=True)
@@ -498,6 +498,7 @@ class Questions(db.Model):
 
     def __repr__(self):
         return '<Question: {}>'.format(self.ques)
+
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
@@ -514,7 +515,8 @@ def question(id):
     #     return redirect(url_for('question', id=(id+1)))
     # form.options.choices = [(q.a, q.a), (q.b, q.b), (q.c, q.c), (q.d, q.d)]
     # return render_template('question.html', form=form, q=q, title='Question {}'.format(id))
-    q = mongo.db.questions.find_one({"q_id": id})  # Query the MongoDB collection
+    q = mongo.db.questions.find_one({"q_id":
+                                     id})  # Query the MongoDB collection
     session['marks'] = 0
     if not q:
         return redirect(url_for('score'))
@@ -526,8 +528,13 @@ def question(id):
             session['marks'] += 10
         return redirect(url_for('question', id=(id + 1)))
 
-    form.options.choices = [(q['a'], q['a']), (q['b'], q['b']), (q['c'], q['c']), (q['d'], q['d'])]
-    return render_template('question.html', form=form, q=q, title='Question {}'.format(id))
+    form.options.choices = [(q['a'], q['a']), (q['b'], q['b']),
+                            (q['c'], q['c']), (q['d'], q['d'])]
+    return render_template('question.html',
+                           form=form,
+                           q=q,
+                           title='Question {}'.format(id))
+
 
 @app.route('/score')
 def score():
@@ -536,6 +543,7 @@ def score():
     # g.user.marks = session['marks']
     # db.session.commit()
     return render_template('score.html', title='Final Score')
+
 
 @app.route("/history", methods=['GET'])
 def history():
