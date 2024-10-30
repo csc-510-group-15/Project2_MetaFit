@@ -1043,8 +1043,8 @@ def verify_2fa():
             user_data = session.get('registration_data')
             print(f"user_data={user_data}")
             session['email'] = user_data['email']
-            user_data['last_login']= datetime.now()
-            user_data['streak']=1
+            user_data['last_login'] = datetime.now()
+            user_data['streak'] = 1
             mongo.db.user.insert_one(user_data)
             session.pop('two_factor_secret')
             session.pop('registration_data')
