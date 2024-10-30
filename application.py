@@ -486,10 +486,12 @@ def quiz():
     form = getDate()
     return render_template('layout.html')
 
+
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     form = QuestionForm()
-    q = mongo.db.questions.find_one({"q_id": id})  # Query the MongoDB collection
+    q = mongo.db.questions.find_one({"q_id":
+                                     id})  # Query the MongoDB collection
     session['marks'] = 0
     if not q:
         return redirect(url_for('score'))
