@@ -481,6 +481,7 @@ def bronze_list_page():
                            form=form,
                            bronze_users=[])
 
+
 @app.route("/quiz", methods=['GET', 'POST'])
 def quiz():
     form = getDate()
