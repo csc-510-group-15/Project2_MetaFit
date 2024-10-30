@@ -78,7 +78,6 @@ def login():
                     or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
-                # session['login_type'] = form.type.data
                 print(temp)
                 last_login = temp.get('last_login')
                 if datetime.now().date() - last_login.date() == timedelta(days=0):
@@ -470,6 +469,11 @@ def bronze_list_page():
                            title='Bronze List',
                            form=form,
                            bronze_users=[])
+
+@app.route("/quiz", methods=['GET', 'POST'])
+def quiz():
+    form = getDate()
+    return render_template('layout.html')
 
 
 @app.route("/history", methods=['GET'])
