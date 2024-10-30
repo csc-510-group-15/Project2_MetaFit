@@ -18,6 +18,36 @@
   {% else %}
   <title>BURNOUT</title>
   {% endif %}
+
+  <style>
+    /* Badge container styling */
+    .badge-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Badge styling */
+    .streak-badge {
+      background-color: #795902;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      margin-left: 30px;
+    }
+
+    /* Fire emoji styling for the streak symbol */
+    .streak-badge .fire-emoji {
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+  </style>
 </head>
 
 <body>
@@ -51,6 +81,12 @@
         <div class="navbar-nav ml-auto">
           <a class="nav-item nav-link">Welcome, {{ session.get("email") }}</a>
           <button class="nav-item nav-link btn btn-link" onclick="logout()">Log Out</button>
+        </div>
+        <div class="badge-container"> <!-- Container for the badge to center it on the page. -->
+          <div class="streak-badge"> <!-- The badge with the streak information. -->
+            <span class="fire-emoji">🔥</span> <!-- Fire emoji to represent the streak symbol. -->
+            <span id="streak-count">{{ session.get("streak") }}-Day Streak</span> <!-- Text displaying the streak count. -->
+          </div>
         </div>
         {% endif %}
       </div>
