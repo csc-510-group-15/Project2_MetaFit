@@ -15,12 +15,18 @@ from flask import render_template, session, url_for, flash, redirect, request, F
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from tabulate import tabulate
-from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate
+from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate, QuestionForm
 from service import history as history_service
 import openai
 from flask import jsonify
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
     # Use Docker-specific MongoDB URI
@@ -480,6 +486,55 @@ def quiz():
     form = getDate()
     return render_template('layout.html')
 
+class Questions(db.Model):
+    q_id = db.Column(db.Integer, primary_key=True)
+    ques = db.Column(db.String(350), unique=True)
+    a = db.Column(db.String(100))
+    b = db.Column(db.String(100))
+    c = db.Column(db.String(100))
+    d = db.Column(db.String(100))
+    ans = db.Column(db.String(100))
+
+    def __repr__(self):
+        return '<Question: {}>'.format(self.ques)
+
+@app.route('/question/<int:id>', methods=['GET', 'POST'])
+def question(id):
+    form = QuestionForm()
+    # q = Questions.query.filter_by(q_id=id).first()
+    # if not q:
+    #     return redirect(url_for('score'))
+    # if not g.user:
+    #     return redirect(url_for('login'))
+    # if request.method == 'POST':
+    #     option = request.form['options']
+    #     if option == q.ans:
+    #         session['marks'] += 10
+    #     return redirect(url_for('question', id=(id+1)))
+    # form.options.choices = [(q.a, q.a), (q.b, q.b), (q.c, q.c), (q.d, q.d)]
+    # return render_template('question.html', form=form, q=q, title='Question {}'.format(id))
+    q = mongo.db.questions.find_one({"q_id": id})  # Query the MongoDB collection
+    session['marks'] = 0
+    if not q:
+        return redirect(url_for('score'))
+    # if not g.user:
+    #     return redirect(url_for('login'))
+    if request.method == 'POST':
+        option = request.form['options']
+        if option == q['ans']:  # Access the answer from the document
+            session['marks'] += 10
+        return redirect(url_for('question', id=(id + 1)))
+
+    form.options.choices = [(q['a'], q['a']), (q['b'], q['b']), (q['c'], q['c']), (q['d'], q['d'])]
+    return render_template('question.html', form=form, q=q, title='Question {}'.format(id))
+
+@app.route('/score')
+def score():
+    # if not g.user:
+    #     return redirect(url_for('login'))
+    # g.user.marks = session['marks']
+    # db.session.commit()
+    return render_template('score.html', title='Final Score')
 
 @app.route("/history", methods=['GET'])
 def history():
