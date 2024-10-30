@@ -70,8 +70,9 @@ def login():
     if not session.get('email'):
         form = LoginForm()
         if form.validate_on_submit():
-            temp = mongo.db.user.find_one({'email': form.email.data},
-                                          {'email', 'password', 'last_login', 'streak'})
+            temp = mongo.db.user.find_one(
+                {'email': form.email.data},
+                {'email', 'password', 'last_login', 'streak'})
             if temp is not None and temp['email'] == form.email.data and (
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
@@ -81,23 +82,27 @@ def login():
                 # session['login_type'] = form.type.data
                 print(temp)
                 last_login = temp.get('last_login')
-                if datetime.now().date() - last_login.date() == timedelta(days=0):
-                    mongo.db.user.update_one(
-                        {'email': form.email.data},
-                        {
-                            "$inc": {"streak": 1},
-                            "$set": {"last_login": datetime.now()}
+                if datetime.now().date() - last_login.date() == timedelta(
+                        days=0):
+                    mongo.db.user.update_one({'email': form.email.data}, {
+                        "$inc": {
+                            "streak": 1
+                        },
+                        "$set": {
+                            "last_login": datetime.now()
                         }
-                    )
-                else :
-                    mongo.db.user.update_one(
-                        {'email': form.email.data},
-                        {
-                            "$set": {"streak": 0},
-                            "$set": {"last_login": datetime.now()}
+                    })
+                else:
+                    mongo.db.user.update_one({'email': form.email.data}, {
+                        "$set": {
+                            "streak": 0
+                        },
+                        "$set": {
+                            "last_login": datetime.now()
                         }
-                    )
-                temp1 = mongo.db.user.find_one({'email': form.email.data},{'streak'})
+                    })
+                temp1 = mongo.db.user.find_one({'email': form.email.data},
+                                               {'streak'})
                 print(f"temp1={temp1}\nsession={session}")
                 session['streak'] = temp1['streak']
                 return redirect(url_for('dashboard'))
