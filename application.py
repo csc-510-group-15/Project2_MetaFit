@@ -50,7 +50,7 @@ def home():
     input: The function takes session as the input
     Output: Out function will redirect to the login page
     """
-
+    print("Start")
     if session.get('email'):
         return redirect(url_for('dashboard'))
     else:
@@ -108,15 +108,19 @@ def register():
     Input: Username, Email, Password, Confirm Password, current height, current weight, target weight, target date
     Output: Value update in the database and redirected to the dashboard
     """
+    print("here0")
     if not session.get('email'):
         form = RegistrationForm()
         if form.validate_on_submit():
+            print("here1")
             email = request.form.get('email')
             password = request.form.get('password')
 
             # Generate and save 2FA secret to the session
             secret_key = secrets.token_urlsafe(20).replace('=', '')
+            print("here2")
             totp = TOTP(secret_key)
+            print("here3")
             two_factor_secret = totp.secret
             session['two_factor_secret'] = two_factor_secret
             session['registration_data'] = {
@@ -137,11 +141,13 @@ def register():
                 'target_date':
                 request.form.get('target_date')
             }
-
+            print("here4")
             send_2fa_email(email, two_factor_secret)
+            print("here5")
             # Redirect to 2FA verification page
             return redirect(url_for('verify_2fa'))
         else:
+            print("here6")
             return render_template('register.html',
                                    title='Register',
                                    form=form)
@@ -1014,7 +1020,10 @@ def verify_2fa():
         if stored_code and entered_code == stored_code:
             # 2FA code is correct, proceed with registration
             user_data = session.get('registration_data')
+            print(f"user_data={user_data}")
             session['email'] = user_data['email']
+            user_data['last_login']= datetime.now()
+            user_data['streak']=1
             mongo.db.user.insert_one(user_data)
             session.pop('two_factor_secret')
             session.pop('registration_data')
