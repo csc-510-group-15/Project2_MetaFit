@@ -78,10 +78,12 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+
 class QuestionForm(FlaskForm):
     options = RadioField('Options: ', validators=[DataRequired()], default=1)
     submit = SubmitField('Next')
-    
+
+
 class WorkoutForm(FlaskForm):
     app = App()
     mongo = app.mongo
