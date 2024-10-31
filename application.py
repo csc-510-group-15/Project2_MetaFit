@@ -19,6 +19,7 @@ from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserPro
 from service import history as history_service
 import openai
 from flask import jsonify
+from model.meal_recommendation import recommend_meal_plan
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -1082,6 +1083,32 @@ def query_view():
 
         return jsonify({'response': response})
     return render_template('chat.html')
+
+@app.route("/meal_plan")
+def meal_plan():
+    """
+    Renders the meal_plan.html template, where users can view their recommended meal plan.
+    """
+    return render_template("meal_plan.html", title="Meal Plan")
+
+
+@app.route('/recommend_meal_plan', methods=['POST'])
+def recommend_meal_plan_endpoint():
+    """
+    Endpoint to recommend a meal plan based on user preferences.
+    Receives JSON data with goal, calories, protein, carbs, and fat values, then generates a recommendation.
+    """
+    # Parse user data from the request
+    user_data = request.json
+    goal = user_data.get('goal')
+    calories = user_data.get('calories')
+    protein = user_data.get('protein')
+    carbs = user_data.get('carbs')
+    fat = user_data.get('fat')
+
+    # Generate meal recommendations
+    recommended_meals = recommend_meal_plan(goal, calories, protein, carbs, fat)
+    return jsonify(recommended_meals)
 
 
 if __name__ == "__main__":
