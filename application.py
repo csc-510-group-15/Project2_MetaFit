@@ -1192,16 +1192,23 @@ def get_weekly_summary(user_email):
     one_week_ago = today - timedelta(days=7)
 
     # Fetch calories burned in the last week
-    calories_burned = mongo.db.calories.find({"email": user_email, "date": {"$gte": one_week_ago}})
+    calories_burned = mongo.db.calories.find({
+        "email": user_email,
+        "date": {
+            "$gte": one_week_ago
+        }
+    })
     total_calories = sum(cal["calories"] for cal in calories_burned)
 
     # Fetch challenges completed in the last week
-    user_data = mongo.db.users.find_one({"email": user_email}, {"completed_challenges": 1}) or {}
+    user_data = mongo.db.users.find_one({"email": user_email},
+                                        {"completed_challenges": 1}) or {}
     completed_challenges = user_data.get("completed_challenges", {})
     weekly_challenges = [
         challenge_date.split('_', 1)[1]
         for challenge_date, is_completed in completed_challenges.items()
-        if is_completed and datetime.strptime(challenge_date.split('_', 1)[0], '%Y-%m-%d') >= one_week_ago
+        if is_completed and datetime.strptime(
+            challenge_date.split('_', 1)[0], '%Y-%m-%d') >= one_week_ago
     ]
 
     # Customize the message body based on user data
@@ -1240,7 +1247,6 @@ def get_weekly_summary(user_email):
     """
 
     return message_body
-
 
 
 def send_weekly_email(user_email):
