@@ -20,6 +20,7 @@ from service import history as history_service
 import openai
 from flask import jsonify
 import random
+from flask_apscheduler import APScheduler
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -41,6 +42,7 @@ app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
 
+scheduler = APScheduler()
 
 @app.route("/")
 @app.route("/home")
@@ -1174,6 +1176,109 @@ def daily_challenge():
                            challenges_status=challenges_status,
                            all_completed=all_completed,
                            shareable_message=shareable_message)
+
+def get_weekly_summary(user_email):
+    """
+    Fetch weekly progress data for a user and prepare a summary with social sharing buttons.
+    """
+    today = datetime.now()
+    one_week_ago = today - timedelta(days=7)
+
+    # Fetch calories burned in the last week
+    calories_burned = mongo.db.calories.find({"email": user_email, "date": {"$gte": one_week_ago}})
+    total_calories = sum(cal["calories"] for cal in calories_burned)
+
+    # Fetch challenges completed in the last week
+    challenges_completed = mongo.db.users.find_one({"email": user_email}, {"completed_challenges": 1}) or {}
+    weekly_challenges = [
+        challenge for challenge, date in challenges_completed.get("completed_challenges", {}).items()
+        if datetime.strptime(date, '%Y-%m-%d') >= one_week_ago
+    ]
+    
+    # Customize the message body based on user data
+    message_body = f"""
+    <html>
+    <body>
+    <p>Hello!</p>
+
+    <p>Here’s your weekly progress summary:</p>
+    <ul>
+        <li>Total calories burned this week: {total_calories}</li>
+        <li>Challenges completed: {len(weekly_challenges)}</li>
+    </ul>
+
+    <p>Keep up the great work and stay motivated for the next week!</p>
+    
+    <p>Share your progress with your friends on social media:</p>
+    """
+
+    # Social sharing message
+    share_message = f"I’ve burned {total_calories} calories and completed {len(weekly_challenges)} challenges this week! #CalorieApp"
+    
+    # Social sharing buttons with inline CSS for styling
+    twitter_url = f"https://twitter.com/intent/tweet?text={share_message.replace(' ', '%20')}"
+    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={share_message.replace(' ', '%20')}"
+    
+    message_body += f"""
+    <p>
+        <a href="{twitter_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#1DA1F2; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Twitter</a>
+        <a href="{facebook_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#3b5998; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Facebook</a>
+    </p>
+    
+    <p>Best,<br>The CalorieApp Team</p>
+    </body>
+    </html>
+    """
+    
+    return message_body
+
+def send_weekly_email(user_email):
+    """
+    Sends the weekly progress summary email to the user with social sharing buttons.
+    """
+    # Generate the email body
+    email_body = get_weekly_summary(user_email)
+    subject = "Your Weekly Progress Summary"
+    
+    # Setup email message
+    msg = EmailMessage()
+    msg.set_content(email_body, subtype='html')  # Use HTML format for clickable buttons
+    msg["Subject"] = subject
+    msg["From"] = app.config['MAIL_USERNAME']
+    msg["To"] = user_email
+
+    # Send the email using SMTP
+    try:
+        with smtplib.SMTP_SSL(app.config['MAIL_SERVER'], app.config['MAIL_PORT']) as smtp:
+            smtp.login(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+            smtp.send_message(msg)
+        print(f"Weekly summary sent to {user_email}")
+    except Exception as e:
+        print(f"Error sending weekly summary to {user_email}: {e}")
+
+def scheduled_weekly_email():
+    """
+    Scheduled job to send weekly progress emails to all users.
+    """
+    try:
+        # Retrieve all users from the database
+        users = mongo.db.user.find({}, {"email": 1})  
+        for user in users:
+            user_email = user["email"]
+            send_weekly_email(user_email)
+    except Exception as e:
+        print(f"Error in scheduled weekly email job: {e}")
+
+# Scheduler job configuration
+scheduler.add_job(
+    id="Weekly Email Job",
+    func=scheduled_weekly_email,  # Note: No user_email argument needed
+    trigger="cron",
+    day_of_week="mon",
+    hour=8,
+    minute=0
+)
+
 
 
 if __name__ == "__main__":
