@@ -25,8 +25,8 @@ def preprocess_data():
     """
     # Adding a 'goal' column based on calorie values
     meal_data['goal'] = meal_data['calories'].apply(
-        lambda x: 'Weight Loss' if x <= 300 else ('Muscle Gain' if x >= 400 else 'Maintenance')
-    )
+        lambda x: 'Weight Loss'
+        if x <= 300 else ('Muscle Gain' if x >= 400 else 'Maintenance'))
 
     # Selecting relevant features for model training
     features = meal_data[['calories', 'protein', 'carbs', 'fat']]
@@ -94,7 +94,6 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
 
     # Filter meals based on the predicted goal
     recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(
-        orient='records'
-    )
+        orient='records')
 
     return recommended_meals
