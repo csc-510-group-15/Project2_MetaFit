@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timedelta
-import smtplib
 import ssl
 from email.message import EmailMessage
 import bcrypt
@@ -20,6 +19,8 @@ from service import history as history_service
 import openai
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
+from model.meal_recommendation import recommend_meal_plan
+from time import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -44,6 +45,11 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
+
+
+@app.context_processor
+def inject_cache_buster():
+    return {'cache_buster': time()}
 
 
 @app.route("/")
@@ -1154,6 +1160,44 @@ def query_view():
 
         return jsonify({'response': response})
     return render_template('chat.html')
+
+
+@app.route("/meal_plan")
+def meal_plan():
+    """
+    Renders the meal_plan.html template, where users can view their recommended meal plan.
+    """
+    return render_template("meal_plan.html", title="Meal Plan")
+
+
+@app.route('/recommend_meal_plan', methods=['POST', 'GET'])
+def recommend_meal_plan_endpoint():
+    """
+    Endpoint to recommend a meal plan based on user preferences.
+    Receives JSON data with goal, calories, protein, carbs, and fat values, then generates a recommendation.
+    """
+    # Parse user data from the request
+    user_data = request.json
+    goal = user_data.get('goal')
+    calories = user_data.get('calories')
+    protein = user_data.get('protein')
+    carbs = user_data.get('carbs')
+    fat = user_data.get('fat')
+
+    # Generate meal recommendations
+    recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
+                                            fat)
+    return jsonify(recommended_meals)
+
+
+@app.after_request
+def add_header(response):
+    # Disable caching
+    response.headers[
+        "Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 if __name__ == "__main__":

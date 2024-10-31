@@ -74,6 +74,7 @@
             <a class="nav-item nav-link" href="{{ url_for('calories') }}">Enter Calories</a>
             <a class="nav-item nav-link" href="/history">Your plan</a>
             <a class="nav-item nav-link" href="/workout">Burnout</a>
+            <a class="nav-item nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a>
             <a class="nav-item nav-link" href="{{url_for('friends')}}">Friends</a>
             <a class="nav-item nav-link btn btn-link" href="{{ url_for('user_profile') }}">Profile</button>
             <a class="nav-item nav-link btn btn-link" href="{{ url_for('bronze_list_page') }}">Bronze</button>
@@ -215,7 +216,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
-  <script src="../static/js/script.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}?v={{ cache_buster }}"></script>
+  <script src="{{ url_for('static', filename='js/meal_plan.js') }}?v={{ cache_buster }}"></script>
+    
+    
 </body>
 
 </html>

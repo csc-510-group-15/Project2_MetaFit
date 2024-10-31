@@ -18,6 +18,10 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 [![contributors](https://img.shields.io/github/contributors/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/graphs/contributors)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 ![last commit](https://img.shields.io/github/last-commit/anuj672/calorieApp_server)
+[![Code Coverage](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Code_Coverage.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Code_Coverage.yml)
+[![CodeQL Advanced](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/codeql.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/codeql.yml)
+[![Flake8](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml)
+[![Pylint Lint](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml)
 <!-- ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)
 ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/style_checker.yml/badge.svg) -->
 [![GitHub issues](https://img.shields.io/github/issues/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues)
