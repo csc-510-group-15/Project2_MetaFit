@@ -19,6 +19,7 @@ from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserPro
 from service import history as history_service
 import openai
 from flask import jsonify
+import random
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -1120,6 +1121,57 @@ def log_share():
     # mongo.db.shares.insert_one({"user_id": user_id, "platform": platform, "timestamp": datetime.now()})
 
     return jsonify({"status": "success"})
+
+DAILY_CHALLENGES = [
+    "Drink 8 glasses of water",
+    "Walk 5,000 steps",
+    "Avoid sugary drinks",
+    "Eat at least 3 servings of vegetables",
+    "Complete a 15-minute meditation",
+    "Do a 30-minute workout",
+    "Sleep for at least 7 hours"
+]
+
+@app.route('/daily_challenge', methods=['GET', 'POST'])
+def daily_challenge():
+    today = datetime.today().strftime('%Y-%m-%d')
+    random.seed(today)
+    daily_challenges = random.sample(DAILY_CHALLENGES, 3)
+    
+    user_email = session.get('email')
+    user_data = mongo.db.users.find_one({"email": user_email}, {"completed_challenges": 1}) or {}
+    completed_challenges = user_data.get("completed_challenges", {})
+
+    challenges_status = {}
+    all_completed = True
+    for challenge in daily_challenges:
+        is_completed = completed_challenges.get(f"{today}_{challenge}", False)
+        challenges_status[challenge] = is_completed
+        if not is_completed:
+            all_completed = False
+
+    if request.method == 'POST':
+        completed_challenge = request.form.get('completed_challenge')
+        if completed_challenge and not challenges_status[completed_challenge]:
+            mongo.db.users.update_one(
+                {"email": user_email},
+                {"$set": {f"completed_challenges.{today}_{completed_challenge}": True}},
+                upsert=True
+            )
+            flash(f"Challenge '{completed_challenge}' completed! Great job!", "success")
+            return redirect(url_for('daily_challenge'))
+
+    # Define the shareable message if all challenges are completed
+    shareable_message = ""
+    if all_completed:
+        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
+
+    return render_template('daily_challenge.html', 
+                           daily_challenges=daily_challenges, 
+                           challenges_status=challenges_status, 
+                           all_completed=all_completed,
+                           shareable_message=shareable_message)
+
 
 
 if __name__ == "__main__":
