@@ -26,7 +26,6 @@ jobs:
           sudo apt update
           sudo apt install -y mongodb-org
           sudo service mongod start
-          mongo --version
         
       - name: Install dependencies
         run: |
@@ -39,7 +38,13 @@ jobs:
           while ! nc -z localhost 27017; do   
             sleep 1
           done
-          
+      
+      - name: Verify MongoDB installation
+        run: |
+          # Install MongoDB shell tools in the runner for testing
+          sudo apt-get update
+          sudo apt-get install -y mongodb-clients
+          mongo --version  # Check if the mongo client is installed
       - name: Run tests with coverage
         run: |
           pytest --cov=calorieApp_server tests/
