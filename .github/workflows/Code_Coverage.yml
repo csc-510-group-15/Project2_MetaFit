@@ -9,7 +9,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    services:
+      mongodb:
+          image: mongo:latest
+          ports:
+            - 27017:27017
+          options: >-
+            --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 3
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +33,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest pytest-cov codecov
-
+          
+      - name: Wait for MongoDB to start
+        run: |
+          while ! nc -z localhost 27017; do   
+            sleep 1
+          done
+          
       - name: Run tests with coverage
         run: |
           pytest --cov=calorieApp_server tests/
