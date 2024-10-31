@@ -21,7 +21,7 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 [![codecov](https://codecov.io/gh/apurv-choudhari/calorieApp_server/branch/main/graph/badge.svg)](https://codecov.io/gh/apurv-choudhari/calorieApp_server)
 ![Pylint](https://img.shields.io/badge/pylint-%E2%9C%94-green)
 ![linting](https://img.shields.io/badge/linting-flake8-blue)
-![CodeQL](https://github.com/apurv-choudhari/calorie_server/workflows/CodeQL/badge.svg)
+![CodeQL](https://github.com/apurv-choudhari/calorieApp_server/workflows/CodeQL/badge.svg)
 <!-- ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)
 ![github workflow](https://github.com/utsavll0/calorieApp_server/actions/workflows/style_checker.yml/badge.svg) -->
 [![GitHub issues](https://img.shields.io/github/issues/anuj672/calorieApp_server)](https://github.com/anuj672/calorieApp_server/issues)
