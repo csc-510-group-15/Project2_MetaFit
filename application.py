@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timedelta
-import smtplib
 import ssl
 from email.message import EmailMessage
 import bcrypt
@@ -20,6 +19,7 @@ from service import history as history_service
 import openai
 from flask import jsonify
 from model.meal_recommendation import recommend_meal_plan
+from time import time
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -41,6 +41,9 @@ app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
 
+@app.context_processor
+def inject_cache_buster():
+    return {'cache_buster': time()}
 
 @app.route("/")
 @app.route("/home")
@@ -1093,7 +1096,7 @@ def meal_plan():
     return render_template("meal_plan.html", title="Meal Plan")
 
 
-@app.route('/recommend_meal_plan', methods=['POST'])
+@app.route('/recommend_meal_plan', methods=['POST', 'GET'])
 def recommend_meal_plan_endpoint():
     """
     Endpoint to recommend a meal plan based on user preferences.
@@ -1111,6 +1114,13 @@ def recommend_meal_plan_endpoint():
     recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
                                             fat)
     return jsonify(recommended_meals)
+@app.after_request
+def add_header(response):
+    # Disable caching
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 if __name__ == "__main__":

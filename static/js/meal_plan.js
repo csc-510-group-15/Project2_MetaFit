@@ -1,5 +1,3 @@
-// meal_plan.js
-
 function getMealPlan() {
     const goal = "weight loss"; // Replace with dynamic values if needed
     const calories = 2000;
@@ -7,22 +5,26 @@ function getMealPlan() {
     const carbs = 200;
     const fat = 50;
 
+    console.log("Requesting meal plan with:", { goal, calories, protein, carbs, fat });
+
     $.ajax({
         type: "POST",
         url: "/recommend_meal_plan",
         contentType: "application/json",
         data: JSON.stringify({ goal, calories, protein, carbs, fat }),
         success: function(response) {
+            console.log("Meal plan response:", response); // Log the response
             displayMealPlan(response);
         },
         error: function(xhr, status, error) {
-            console.log("Error fetching meal plan:", error);
+            console.log("Error fetching meal plan:", xhr.status, xhr.responseText);
             alert("There was an error fetching your meal plan. Please try again.");
         }
     });
 }
 
 function displayMealPlan(meals) {
+    console.log("Displaying meals:", meals); // Log the meals data
     const mealContainer = $("#meal-plan-container");
     mealContainer.empty();
 
