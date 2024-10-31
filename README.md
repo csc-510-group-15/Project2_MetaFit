@@ -19,7 +19,6 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 ![last commit](https://img.shields.io/github/last-commit/anuj672/calorieApp_server)
 [![Code Coverage](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Code_Coverage.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Code_Coverage.yml)
-![linting](https://img.shields.io/badge/linting-flake8-blue)
 [![CodeQL Advanced](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/codeql.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/codeql.yml)
 [![Flake8](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml)
 [![Pylint Lint](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml/badge.svg)](https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml)
