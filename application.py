@@ -1084,6 +1084,7 @@ def query_view():
         return jsonify({'response': response})
     return render_template('chat.html')
 
+
 @app.route("/meal_plan")
 def meal_plan():
     """
@@ -1107,7 +1108,8 @@ def recommend_meal_plan_endpoint():
     fat = user_data.get('fat')
 
     # Generate meal recommendations
-    recommended_meals = recommend_meal_plan(goal, calories, protein, carbs, fat)
+    recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
+                                            fat)
     return jsonify(recommended_meals)
 
 
