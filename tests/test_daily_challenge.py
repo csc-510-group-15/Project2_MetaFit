@@ -1,5 +1,5 @@
 import pytest
-from app import app, mongo
+from application import app, mongo
 from flask import url_for
 from datetime import datetime
 
