@@ -597,7 +597,8 @@ def friends():
 
     # Retrieve burn_rate and target_date from the user's data
     user_data = mongo.db.user.find_one({"email": email})
-    burn_rate = user_data.get("burn_rate", 0)  # Adjust if burn_rate calculation differs
+    burn_rate = user_data.get("burn_rate",
+                              0)  # Adjust if burn_rate calculation differs
     target_date = user_data.get("target_date", "your goal date")
 
     # Create the shareable message
@@ -605,7 +606,6 @@ def friends():
         shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories daily to reach my goal by {target_date}! #CalorieApp"
     else:
         shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on track for my goal by {target_date}! #CalorieApp"
-
 
     # print(pendingRequests)
     return render_template('friends.html',
