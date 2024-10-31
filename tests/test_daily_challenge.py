@@ -1,72 +1,155 @@
-import pytest
+import html
+import unittest
+from flask import session
 from application import app, mongo
-from flask import url_for
 from datetime import datetime
+import random
 
-# Mock daily challenges
-DAILY_CHALLENGES = [
-    "Drink 8 glasses of water", "Walk 5,000 steps", "Avoid sugary drinks",
-    "Eat at least 3 servings of vegetables", "Complete a 15-minute meditation",
-    "Do a 30-minute workout", "Sleep for at least 7 hours"
-]
+class DailyChallengeTestCase(unittest.TestCase):
+    def setUp(self):
+        # Configure the app for testing
+        app.config['TESTING'] = True
+        app.config['MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'  # Use a test database
+        self.app = app.test_client()
+        self.app_context = app.app_context()
+        self.app_context.push()
 
+        # Clear the database collections
+        mongo.db.users.delete_many({})
 
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        with client.session_transaction() as sess:
-            sess['email'] = "testuser@example.com"
-
-        # Insert mock user data into MongoDB
+        # Insert a test user
+        self.user_email = 'test_user@example.com'
         mongo.db.users.insert_one({
-            "email": "testuser@example.com",
-            "completed_challenges": {}
+            'email': self.user_email,
+            'completed_challenges': {}
         })
 
-        yield client
+    def tearDown(self):
+        # Clean up after each test
+        mongo.db.users.delete_many({})
+        self.app_context.pop()
 
-        # Cleanup the mock data
-        mongo.db.users.delete_one({"email": "testuser@example.com"})
+    def test_daily_challenge_access(self):
+        # Simulate a logged-in user
+        with self.app.session_transaction() as sess:
+            sess['email'] = self.user_email
 
+        response = self.app.get('/daily_challenge')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Today's Challenges", response.data)
 
-def test_daily_challenges_render(client):
-    """Test that daily challenges render correctly on the page."""
-    response = client.get(url_for('daily_challenge'))
-    assert response.status_code == 200
-    for challenge in DAILY_CHALLENGES[:
-                                      3]:  # Assuming 3 daily challenges are displayed
-        assert challenge.encode() in response.data
+    def test_daily_challenge_display(self):
+        # Simulate a logged-in user
+        with self.app.session_transaction() as sess:
+            sess['email'] = self.user_email
 
+        response = self.app.get('/daily_challenge')
+        challenges = [
+            b"Drink 8 glasses of water",
+            b"Walk 5,000 steps",
+            b"Avoid sugary drinks",
+            b"Eat at least 3 servings of vegetables",
+            b"Complete a 15-minute meditation",
+            b"Do a 30-minute workout",
+            b"Sleep for at least 7 hours"
+        ]
+        self.assertTrue(any(challenge in response.data for challenge in challenges))
 
-def test_mark_challenge_completed(client):
-    """Test marking a daily challenge as completed."""
-    today = datetime.today().strftime('%Y-%m-%d')
-    challenge_to_complete = DAILY_CHALLENGES[0]
+    def test_mark_challenge_completed(self):
+        # Simulate a logged-in user
+        with self.app.session_transaction() as sess:
+            sess['email'] = self.user_email
 
-    response = client.post(url_for('daily_challenge'),
-                           data={"completed_challenge": challenge_to_complete})
+        # Get today's challenges
+        today = datetime.today().strftime('%Y-%m-%d')
+        random.seed(today)
+        DAILY_CHALLENGES = [
+            "Drink 8 glasses of water",
+            "Walk 5,000 steps",
+            "Avoid sugary drinks",
+            "Eat at least 3 servings of vegetables",
+            "Complete a 15-minute meditation",
+            "Do a 30-minute workout",
+            "Sleep for at least 7 hours"
+        ]
+        daily_challenges = random.sample(DAILY_CHALLENGES, 3)
+        challenge_to_complete = daily_challenges[0]
 
-    # Verify the challenge is marked as completed in the database
-    user_data = mongo.db.users.find_one({"email": "testuser@example.com"})
-    completed_key = f"{today}_{challenge_to_complete}"
-    assert user_data["completed_challenges"].get(completed_key) == True
-    assert response.status_code == 302  # Check for redirect after completing the challenge
+        # Post to mark the challenge as completed
+        response = self.app.post('/daily_challenge', data={
+            'completed_challenge': challenge_to_complete
+        }, follow_redirects=True)
 
+        # Check that the challenge is marked as completed in the database
+        user_data = mongo.db.users.find_one({'email': self.user_email})
+        completed_challenges = user_data.get('completed_challenges', {})
+        self.assertIn(f"{today}_{challenge_to_complete}", completed_challenges)
+        self.assertTrue(completed_challenges[f"{today}_{challenge_to_complete}"])
 
-def test_shareable_message_when_all_challenges_completed(client):
-    """Test the shareable message appears when all challenges are completed."""
-    today = datetime.today().strftime('%Y-%m-%d')
-    challenges = DAILY_CHALLENGES[:
-                                  3]  # Assuming the first 3 are displayed as daily challenges
+        # Decode response data to string and unescape HTML entities
+        response_text = response.data.decode('utf-8')
+        response_text_unescaped = html.unescape(response_text)
+        expected_message = f"Challenge '{challenge_to_complete}' completed! Great job!"
 
-    # Mark all challenges as completed
-    for challenge in challenges:
-        client.post(url_for('daily_challenge'),
-                    data={"completed_challenge": challenge})
+        # Uncomment the following lines if you want to print response data for debugging
+        # if expected_message not in response_text_unescaped:
+        #     print("Response data:", response_text_unescaped)
+        #     print("Expected message:", expected_message)
 
-    response = client.get(url_for('daily_challenge'))
+        self.assertIn(expected_message, response_text_unescaped)
 
-    # Check if the shareable message is present in the page content
-    shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
-    assert shareable_message.encode() in response.data
+    def test_all_challenges_completed(self):
+        # Simulate a logged-in user
+        with self.app.session_transaction() as sess:
+            sess['email'] = self.user_email
+
+        # Get today's challenges
+        today = datetime.today().strftime('%Y-%m-%d')
+        random.seed(today)
+        DAILY_CHALLENGES = [
+            "Drink 8 glasses of water",
+            "Walk 5,000 steps",
+            "Avoid sugary drinks",
+            "Eat at least 3 servings of vegetables",
+            "Complete a 15-minute meditation",
+            "Do a 30-minute workout",
+            "Sleep for at least 7 hours"
+        ]
+        daily_challenges = random.sample(DAILY_CHALLENGES, 3)
+
+        # Mark all challenges as completed
+        for challenge in daily_challenges:
+            mongo.db.users.update_one(
+                {"email": self.user_email},
+                {"$set": {f"completed_challenges.{today}_{challenge}": True}},
+                upsert=True
+            )
+
+        response = self.app.get('/daily_challenge')
+
+        # Check that the shareable message is displayed
+        response_text = response.data.decode('utf-8')
+        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
+        self.assertIn(shareable_message, response_text)
+
+        # Check that social share buttons are displayed
+        self.assertIn('Share on Twitter', response_text)
+        self.assertIn('Share on Facebook', response_text)
+
+    def test_daily_challenge_access_without_login(self):
+        # Clear the session to simulate a user not logged in
+        with self.app.session_transaction() as sess:
+            sess.clear()
+            # Uncomment for debugging
+            # print("Session after clearing:", dict(sess))
+
+        response = self.app.get('/daily_challenge', follow_redirects=False)
+        # Uncomment for debugging
+        # print("Response status code:", response.status_code)
+        # print("Response headers:", response.headers)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/login', response.headers['Location'])
+
+if __name__ == '__main__':
+    unittest.main()
