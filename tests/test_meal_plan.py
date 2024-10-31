@@ -15,7 +15,7 @@ mock_data = pd.DataFrame({
 
 @pytest.fixture(scope="module")
 def setup_model():
-    # Here we mock the pd.read_csv directly where it's called
+    # Mock pd.read_csv so that it returns mock_data instead of reading a file
     with patch('model.meal_recommendation.pd.read_csv', return_value=mock_data):
         model = train_model()
     return model
@@ -35,7 +35,6 @@ def test_valid_maintenance_meal(setup_model):
     result = recommend_meal_plan("Maintenance", 300, 25, 35, 10)
     assert result[0]['goal'] == "Maintenance"
 
-# Additional edge cases and tests
 def test_low_calorie_edge_case(setup_model):
     """Test an edge case with low calorie values."""
     result = recommend_meal_plan("Weight Loss", 0, 0, 0, 0)
