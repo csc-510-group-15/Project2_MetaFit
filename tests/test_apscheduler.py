@@ -7,7 +7,9 @@ import email
 import html
 from urllib.parse import quote
 
+
 class WeeklySummaryTestCase(unittest.TestCase):
+
     def setUp(self):
         # Set up test client and application context
         app.config['TESTING'] = True
@@ -16,12 +18,14 @@ class WeeklySummaryTestCase(unittest.TestCase):
         self.app_context.push()
 
         # Use a test database
-        app.config['MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'
+        app.config[
+            'MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'
 
         # Clear the test collections
         mongo.db.calories.delete_many({})
         mongo.db.users.delete_many({})
-        mongo.db.user.delete_many({})  # Assuming 'user' collection holds user data
+        mongo.db.user.delete_many(
+            {})  # Assuming 'user' collection holds user data
 
         # Insert test user
         self.user_email = 'test_user@example.com'
@@ -48,14 +52,24 @@ class WeeklySummaryTestCase(unittest.TestCase):
         today = datetime.now()
         one_week_ago = today - timedelta(days=7)
         mongo.db.calories.insert_many([
-            {'email': self.user_email, 'date': today - timedelta(days=1), 'calories': 500},
-            {'email': self.user_email, 'date': today - timedelta(days=3), 'calories': 300},
+            {
+                'email': self.user_email,
+                'date': today - timedelta(days=1),
+                'calories': 500
+            },
+            {
+                'email': self.user_email,
+                'date': today - timedelta(days=3),
+                'calories': 300
+            },
         ])
 
         # Insert completed challenges
         completed_challenges = {
-            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1": True,
-            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2": True,
+            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1":
+            True,
+            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2":
+            True,
         }
         mongo.db.users.insert_one({
             'email': self.user_email,
@@ -68,7 +82,9 @@ class WeeklySummaryTestCase(unittest.TestCase):
         # Check the content
         self.assertIn('Total calories burned this week: 800', summary)
         self.assertIn('Challenges completed: 2', summary)
-        self.assertIn('I’ve burned 800 calories and completed 2 challenges this week! #CalorieApp', summary)
+        self.assertIn(
+            'I’ve burned 800 calories and completed 2 challenges this week! #CalorieApp',
+            summary)
 
     @patch('smtplib.SMTP_SSL')
     def test_send_weekly_email(self, mock_smtp):
@@ -80,10 +96,12 @@ class WeeklySummaryTestCase(unittest.TestCase):
         send_weekly_email(self.user_email)
 
         # Verify that SMTP_SSL was called with correct parameters
-        mock_smtp.assert_called_with(app.config['MAIL_SERVER'], app.config['MAIL_PORT'])
+        mock_smtp.assert_called_with(app.config['MAIL_SERVER'],
+                                     app.config['MAIL_PORT'])
 
         # Verify that login was called
-        mock_server_instance.login.assert_called_with(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+        mock_server_instance.login.assert_called_with(
+            app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
 
         # Verify that send_message was called
         self.assertTrue(mock_server_instance.send_message.called)
@@ -92,8 +110,8 @@ class WeeklySummaryTestCase(unittest.TestCase):
         sent_message = mock_server_instance.send_message.call_args[0][0]
         self.assertEqual(sent_message['To'], self.user_email)
         self.assertEqual(sent_message['From'], app.config['MAIL_USERNAME'])
-        self.assertEqual(sent_message['Subject'], 'Your Weekly Progress Summary')
-
+        self.assertEqual(sent_message['Subject'],
+                         'Your Weekly Progress Summary')
 
     @patch('application.send_weekly_email')
     def test_scheduled_weekly_email(self, mock_send_weekly_email):
@@ -102,9 +120,15 @@ class WeeklySummaryTestCase(unittest.TestCase):
 
         # Insert test users
         test_users = [
-            {'email': 'user1@example.com'},
-            {'email': 'user2@example.com'},
-            {'email': 'user3@example.com'},
+            {
+                'email': 'user1@example.com'
+            },
+            {
+                'email': 'user2@example.com'
+            },
+            {
+                'email': 'user3@example.com'
+            },
         ]
         mongo.db.user.insert_many(test_users)
 
@@ -115,7 +139,6 @@ class WeeklySummaryTestCase(unittest.TestCase):
         calls = [unittest.mock.call(user['email']) for user in test_users]
         mock_send_weekly_email.assert_has_calls(calls, any_order=True)
         self.assertEqual(mock_send_weekly_email.call_count, len(test_users))
-
 
     def test_scheduler_job_configuration(self):
         # Verify that the job is added to the scheduler
@@ -141,9 +164,6 @@ class WeeklySummaryTestCase(unittest.TestCase):
         # For the minute field
         minute_expr = fields['minute'].expressions[0]
         self.assertEqual(str(minute_expr), '0')
-
-
-
 
 
 if __name__ == '__main__':
