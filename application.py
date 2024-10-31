@@ -1106,13 +1106,16 @@ def log_share():
     """
     user_id = session.get('email')  # Assuming the user ID is the email
     platform = request.json.get('platform')
-    
+
     if not user_id or not platform:
-        return jsonify({"status": "error", "message": "User or platform not specified"}), 400
-    
+        return jsonify({
+            "status": "error",
+            "message": "User or platform not specified"
+        }), 400
+
     # Log share action (can be stored in DB if needed)
     print(f"User {user_id} shared on {platform}.")
-    
+
     # Optional: Store in a collection for tracking shares (uncomment if desired)
     # mongo.db.shares.insert_one({"user_id": user_id, "platform": platform, "timestamp": datetime.now()})
 
