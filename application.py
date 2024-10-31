@@ -21,6 +21,7 @@ import openai
 from flask import jsonify
 import random
 from flask_apscheduler import APScheduler
+from urllib.parse import quote
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -1191,21 +1192,16 @@ def get_weekly_summary(user_email):
     one_week_ago = today - timedelta(days=7)
 
     # Fetch calories burned in the last week
-    calories_burned = mongo.db.calories.find({
-        "email": user_email,
-        "date": {
-            "$gte": one_week_ago
-        }
-    })
+    calories_burned = mongo.db.calories.find({"email": user_email, "date": {"$gte": one_week_ago}})
     total_calories = sum(cal["calories"] for cal in calories_burned)
 
     # Fetch challenges completed in the last week
-    challenges_completed = mongo.db.users.find_one(
-        {"email": user_email}, {"completed_challenges": 1}) or {}
+    user_data = mongo.db.users.find_one({"email": user_email}, {"completed_challenges": 1}) or {}
+    completed_challenges = user_data.get("completed_challenges", {})
     weekly_challenges = [
-        challenge for challenge, date in challenges_completed.get(
-            "completed_challenges", {}).items()
-        if datetime.strptime(date, '%Y-%m-%d') >= one_week_ago
+        challenge_date.split('_', 1)[1]
+        for challenge_date, is_completed in completed_challenges.items()
+        if is_completed and datetime.strptime(challenge_date.split('_', 1)[0], '%Y-%m-%d') >= one_week_ago
     ]
 
     # Customize the message body based on user data
@@ -1221,29 +1217,30 @@ def get_weekly_summary(user_email):
     </ul>
 
     <p>Keep up the great work and stay motivated for the next week!</p>
-    
-    <p>Share your progress with your friends on social media:</p>
     """
 
     # Social sharing message
     share_message = f"I’ve burned {total_calories} calories and completed {len(weekly_challenges)} challenges this week! #CalorieApp"
+    encoded_share_message = quote(share_message)
 
     # Social sharing buttons with inline CSS for styling
-    twitter_url = f"https://twitter.com/intent/tweet?text={share_message.replace(' ', '%20')}"
-    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={share_message.replace(' ', '%20')}"
+    twitter_url = f"https://twitter.com/intent/tweet?text={encoded_share_message}"
+    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
 
+    # Include the share message and social sharing buttons in the email body
     message_body += f"""
+    <p>{share_message}</p>
     <p>
         <a href="{twitter_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#1DA1F2; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Twitter</a>
         <a href="{facebook_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#3b5998; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Facebook</a>
     </p>
-    
     <p>Best,<br>The CalorieApp Team</p>
     </body>
     </html>
     """
 
     return message_body
+
 
 
 def send_weekly_email(user_email):
