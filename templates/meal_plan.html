@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <!-- Add jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h2>Get Your Meal Plan Recommendation</h2>
 
-    <form id="meal-plan-form" onsubmit="mealPlan(event)">
+    <form id="meal-plan-form" onsubmit="getMealPlan(event)">
         <label for="goal">Goal:</label>
         <select name="goal" id="goal">
             <option value="Weight Loss">Weight Loss</option>
@@ -33,6 +35,7 @@
     <h3>Recommended Meals:</h3>
     <div id="meal-plan-result"></div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Custom JS Script -->
+    <script src="{{ url_for('static', filename='js/meal_plan.js') }}"></script>
 </body>
 </html>

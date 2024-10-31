@@ -1,9 +1,12 @@
-function getMealPlan() {
-    const goal = "weight loss"; // Replace with dynamic values if needed
-    const calories = 2000;
-    const protein = 150;
-    const carbs = 200;
-    const fat = 50;
+function getMealPlan(event) {
+    event.preventDefault(); // Prevent form submission reload
+
+    // Fetching values from the form inputs
+    const goal = $("#goal").val();
+    const calories = parseInt($("#calories").val());
+    const protein = parseInt($("#protein").val());
+    const carbs = parseInt($("#carbs").val());
+    const fat = parseInt($("#fat").val());
 
     console.log("Requesting meal plan with:", { goal, calories, protein, carbs, fat });
 
@@ -13,7 +16,7 @@ function getMealPlan() {
         contentType: "application/json",
         data: JSON.stringify({ goal, calories, protein, carbs, fat }),
         success: function(response) {
-            console.log("Meal plan response:", response); // Log the response
+            console.log("Meal plan response:", response);
             displayMealPlan(response);
         },
         error: function(xhr, status, error) {
@@ -24,10 +27,10 @@ function getMealPlan() {
 }
 
 function displayMealPlan(meals) {
-    console.log("Displaying meals:", meals); // Log the meals data
-    const mealContainer = $("#meal-plan-container");
+    const mealContainer = $("#meal-plan-result");
     mealContainer.empty();
 
+    // Check if meals data exists and is not empty
     if (meals && meals.length > 0) {
         meals.forEach((meal, index) => {
             const mealHTML = `
@@ -38,7 +41,7 @@ function displayMealPlan(meals) {
                         <p class="card-text"><strong>Protein:</strong> ${meal.protein}g</p>
                         <p class="card-text"><strong>Carbs:</strong> ${meal.carbs}g</p>
                         <p class="card-text"><strong>Fat:</strong> ${meal.fat}g</p>
-                        <p class="card-text"><strong>Description:</strong> ${meal.description}</p>
+                        <p class="card-text"><strong>Food Name:</strong> ${meal.food_name || "No name available"}</p>
                     </div>
                 </div>
             `;
@@ -48,9 +51,3 @@ function displayMealPlan(meals) {
         mealContainer.append("<p>No meals found for your preferences.</p>");
     }
 }
-
-$(document).ready(function() {
-    if (window.location.pathname === "/meal_plan") {
-        getMealPlan();
-    }
-});
