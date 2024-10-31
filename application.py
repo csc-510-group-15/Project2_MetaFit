@@ -23,9 +23,6 @@ from model.meal_recommendation import recommend_meal_plan
 from time import time
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
