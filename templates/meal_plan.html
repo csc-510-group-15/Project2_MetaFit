@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
-    <!-- Add jQuery from CDN -->
+    <!-- Include jQuery from a CDN for handling AJAX and DOM manipulation -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h2>Get Your Meal Plan Recommendation</h2>
 
+    <!-- Meal Plan Form -->
     <form id="meal-plan-form" onsubmit="getMealPlan(event)">
+        <!-- Dropdown for selecting the user's dietary goal -->
         <label for="goal">Goal:</label>
         <select name="goal" id="goal">
             <option value="Weight Loss">Weight Loss</option>
@@ -17,25 +19,31 @@
             <option value="Maintenance">Maintenance</option>
         </select>
 
+        <!-- Input for the user's calorie goal -->
         <label for="calories">Calorie Goal:</label>
         <input type="number" id="calories" name="calories" placeholder="e.g., 500">
 
+        <!-- Input for the user's protein goal in grams -->
         <label for="protein">Protein (g):</label>
         <input type="number" id="protein" name="protein" placeholder="e.g., 30">
 
+        <!-- Input for the user's carbohydrate goal in grams -->
         <label for="carbs">Carbs (g):</label>
         <input type="number" id="carbs" name="carbs" placeholder="e.g., 50">
 
+        <!-- Input for the user's fat goal in grams -->
         <label for="fat">Fat (g):</label>
         <input type="number" id="fat" name="fat" placeholder="e.g., 15">
 
+        <!-- Submit button to fetch the meal recommendation -->
         <button type="submit">Get Recommendation</button>
     </form>
 
+    <!-- Section to display the recommended meal plan -->
     <h3>Recommended Meals:</h3>
     <div id="meal-plan-result"></div>
 
-    <!-- Custom JS Script -->
+    <!-- Link to custom JavaScript file for handling form submission and displaying results -->
     <script src="{{ url_for('static', filename='js/meal_plan.js') }}"></script>
 </body>
 </html>
