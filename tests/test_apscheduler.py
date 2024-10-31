@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_apscheduler import APScheduler
 from unittest.mock import patch, MagicMock
 
+
 @pytest.fixture
 def app_with_scheduler():
     """Set up an app instance with the scheduler."""
@@ -13,6 +14,7 @@ def app_with_scheduler():
     yield app
     scheduler.shutdown()
 
+
 def test_weekly_email_job_scheduled(app_with_scheduler):
     """Test if the weekly email job is scheduled."""
     job = scheduler.get_job("Weekly Email Job")
@@ -21,10 +23,15 @@ def test_weekly_email_job_scheduled(app_with_scheduler):
     assert job.trigger.hour == 8
     assert job.trigger.minute == 0
 
+
 @patch("app.send_weekly_email")
-def test_scheduled_weekly_email_function(mock_send_email, app_with_scheduler, mocker):
+def test_scheduled_weekly_email_function(mock_send_email, app_with_scheduler,
+                                         mocker):
     """Test the weekly email job functionality."""
-    mocker.patch("app.mongo.db.user.find", return_value=[{"email": "testuser@example.com"}])
+    mocker.patch("app.mongo.db.user.find",
+                 return_value=[{
+                     "email": "testuser@example.com"
+                 }])
 
     # Run the scheduled job manually
     from app import scheduled_weekly_email
@@ -32,6 +39,7 @@ def test_scheduled_weekly_email_function(mock_send_email, app_with_scheduler, mo
 
     # Verify send_weekly_email is called with correct parameters
     mock_send_email.assert_called_once_with("testuser@example.com")
+
 
 @patch("smtplib.SMTP_SSL")
 def test_send_weekly_email_function(mock_smtp, app_with_scheduler):
@@ -44,6 +52,7 @@ def test_send_weekly_email_function(mock_smtp, app_with_scheduler):
     send_weekly_email("testuser@example.com")
 
     # Verify email server is connected and email sent
-    mock_server.login.assert_called_once_with("bogusdummy123@gmail.com", "helloworld123!")
+    mock_server.login.assert_called_once_with("bogusdummy123@gmail.com",
+                                              "helloworld123!")
     mock_server.send_message.assert_called_once()
     print("Email sending tested successfully.")
