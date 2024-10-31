@@ -137,7 +137,8 @@ def register():
                 datetime.now().strftime('%Y-%m-%d'),
                 'target_date':
                 request.form.get('target_date'),
-                'completed_challenges': {}  # Initialize with an empty dictionary
+                'completed_challenges':
+                {}  # Initialize with an empty dictionary
             }
 
             send_2fa_email(email, two_factor_secret)
