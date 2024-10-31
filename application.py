@@ -41,9 +41,11 @@ app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
 
+
 @app.context_processor
 def inject_cache_buster():
     return {'cache_buster': time()}
+
 
 @app.route("/")
 @app.route("/home")
@@ -1114,10 +1116,13 @@ def recommend_meal_plan_endpoint():
     recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
                                             fat)
     return jsonify(recommended_meals)
+
+
 @app.after_request
 def add_header(response):
     # Disable caching
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+    response.headers[
+        "Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
