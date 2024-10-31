@@ -4,7 +4,7 @@ astroid==3.0.3
 bcrypt==4.0.1
 black==23.10.0
 blinker==1.4
-certifi==1.0.1
+certifi>=2017.4.17
 cffi==1.15.1
 click==8.0.1
 colorama==0.4.4

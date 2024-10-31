@@ -2,7 +2,7 @@ from datetime import date
 from re import sub
 from flask import app
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import FloatField, StringField, PasswordField, SubmitField, BooleanField
+from wtforms import FloatField, RadioField, StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from apps import App
@@ -77,6 +77,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class QuestionForm(FlaskForm):
+    options = RadioField('Options: ', validators=[DataRequired()], default=1)
+    submit = SubmitField('Next')
 
 
 class WorkoutForm(FlaskForm):
