@@ -2,7 +2,9 @@ import unittest
 from flask import session
 from application import app, mongo
 
+
 class FriendsRouteTestCase(unittest.TestCase):
+
     def setUp(self):
         # Create a test client
         self.app = app.test_client()
@@ -18,9 +20,24 @@ class FriendsRouteTestCase(unittest.TestCase):
 
         # Insert test users
         mongo.db.user.insert_many([
-            {'name': 'Alice', 'email': 'alice@example.com', 'burn_rate': 500, 'target_date': '2023-12-31'},
-            {'name': 'Bob', 'email': 'bob@example.com', 'burn_rate': -300, 'target_date': '2023-11-30'},
-            {'name': 'Charlie', 'email': 'charlie@example.com', 'burn_rate': 0, 'target_date': '2024-01-15'},
+            {
+                'name': 'Alice',
+                'email': 'alice@example.com',
+                'burn_rate': 500,
+                'target_date': '2023-12-31'
+            },
+            {
+                'name': 'Bob',
+                'email': 'bob@example.com',
+                'burn_rate': -300,
+                'target_date': '2023-11-30'
+            },
+            {
+                'name': 'Charlie',
+                'email': 'charlie@example.com',
+                'burn_rate': 0,
+                'target_date': '2024-01-15'
+            },
         ])
 
         # Simulate a logged-in user (Alice)
@@ -75,37 +92,35 @@ class FriendsRouteTestCase(unittest.TestCase):
         response = self.app.get('/friends')
         self.assertIn(
             b"I\xe2\x80\x99m working hard to gain 500 calories daily to reach my goal by 2023-12-31! #CalorieApp",
-            response.data
-        )
+            response.data)
 
     def test_shareable_message_negative_burn_rate(self):
         # Change Alice's burn_rate to negative
-        mongo.db.user.update_one(
-            {'email': 'alice@example.com'},
-            {'$set': {'burn_rate': -400}}
-        )
+        mongo.db.user.update_one({'email': 'alice@example.com'},
+                                 {'$set': {
+                                     'burn_rate': -400
+                                 }})
         response = self.app.get('/friends')
         self.assertIn(
             b"Burning 400 calories daily to stay on track for my goal by 2023-12-31! #CalorieApp",
-            response.data
-        )
+            response.data)
 
     def test_shareable_message_zero_burn_rate(self):
         # Change Alice's burn_rate to zero
-        mongo.db.user.update_one(
-            {'email': 'alice@example.com'},
-            {'$set': {'burn_rate': 0}}
-        )
+        mongo.db.user.update_one({'email': 'alice@example.com'},
+                                 {'$set': {
+                                     'burn_rate': 0
+                                 }})
         response = self.app.get('/friends')
         self.assertIn(
             b"Burning 0 calories daily to stay on track for my goal by 2023-12-31! #CalorieApp",
-            response.data
-        )
+            response.data)
 
     def test_social_media_share_links(self):
         response = self.app.get('/friends')
         self.assertIn(b'Share on Twitter', response.data)
         self.assertIn(b'Share on Facebook', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()
