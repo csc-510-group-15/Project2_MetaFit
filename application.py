@@ -1099,6 +1099,26 @@ def query_view():
     return render_template('chat.html')
 
 
+@app.route("/api/share", methods=['POST'])
+def log_share():
+    """
+    Logs each social share action to the backend.
+    """
+    user_id = session.get('email')  # Assuming the user ID is the email
+    platform = request.json.get('platform')
+    
+    if not user_id or not platform:
+        return jsonify({"status": "error", "message": "User or platform not specified"}), 400
+    
+    # Log share action (can be stored in DB if needed)
+    print(f"User {user_id} shared on {platform}.")
+    
+    # Optional: Store in a collection for tracking shares (uncomment if desired)
+    # mongo.db.shares.insert_one({"user_id": user_id, "platform": platform, "timestamp": datetime.now()})
+
+    return jsonify({"status": "success"})
+
+
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
         # Use Docker-specific MongoDB URI
