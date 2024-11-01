@@ -5,6 +5,8 @@ from sklearn.preprocessing import StandardScaler
 # Load CSV data
 meal_data = pd.read_csv('food_data/meal_plan_data.csv')
 
+# Initialize scaler globally
+scaler = StandardScaler()
 
 def preprocess_data():
     """
@@ -32,7 +34,7 @@ def preprocess_data():
     features = meal_data[['calories', 'protein', 'carbs', 'fat']]
 
     # Standardizing features to have a mean of 0 and a variance of 1
-    scaler = StandardScaler()
+    global scaler
     scaled_features = scaler.fit_transform(features)
 
     return scaled_features, meal_data['goal']
@@ -85,15 +87,25 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
         list: A list of dictionaries, where each dictionary represents a meal 
               that matches the predicted dietary goal.
     """
-    # Initialize StandardScaler and fit-transform user input data
-    scaler = StandardScaler()
-    input_data = scaler.fit_transform([[calories, protein, carbs, fat]])
+    # Validate the goal input
+    if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
+        raise ValueError("Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'.")
+
+    # Validate inputs
+    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
+       not isinstance(carbs, (int, float)) or not isinstance(fat, (int, float)):
+        raise ValueError("Caloric and macronutrient values must be numeric.")
+
+    if calories < 0 or protein < 0 or carbs < 0 or fat < 0:
+        raise ValueError("Caloric and macronutrient values must be non-negative.")
+
+    # Prepare input data for prediction
+    input_data = scaler.transform([[calories, protein, carbs, fat]])
 
     # Predict the dietary goal using the trained KNN model
     prediction = model.predict(input_data)
 
     # Filter meals based on the predicted goal
-    recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(
-        orient='records')
+    recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(orient='records')
 
     return recommended_meals
