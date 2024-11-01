@@ -59,9 +59,10 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 <a href="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" alt="repo size">
 <img src="https://img.shields.io/github/repo-size/utsavll0/calorieApp_server" /></a> -->
 
-# BurnOut
+# METAFIT
 
-![WhatsApp Image 2021-09-28 at 2 48 00 PM](https://user-images.githubusercontent.com/25662536/135546154-cfae1d2e-439a-4edc-b0bb-57f693ef5a83.jpeg)
+
+![WhatsApp Image 2024-11-01 at 5 06 00 PM](https://github.com/user-attachments/assets/2fe3d7e7-a387-4eaf-a16e-3fb3c8221738)
 
 BurnOut is an easy to use application that keeps track of a user's daily calories gained and burnt. It can help the user to set goals such as weight loss/gain. Users can edit their profile by entering their height, weight, goal and target-weight. Users can enroll into numerous programs involving fitness such as yoga classes and workout sessions. Users can now connect with their friends by sending a friend-request and share their progress. This document provides a major perspective for the users to understand and take up the project as an Open source software and add on multiple features before releasing to the market. Also, the document aids the developers in understanding the code and acts as a reference point for continuing the project. 
 
