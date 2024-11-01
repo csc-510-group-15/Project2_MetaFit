@@ -64,11 +64,11 @@ https://github.com/utsavll0/calorieApp_server/assets/122955760/54f2292f-86fa-4b4
 
 ![WhatsApp Image 2024-11-01 at 5 06 00 PM](https://github.com/user-attachments/assets/2fe3d7e7-a387-4eaf-a16e-3fb3c8221738)
 
-BurnOut is an easy to use application that keeps track of a user's daily calories gained and burnt. It can help the user to set goals such as weight loss/gain. Users can edit their profile by entering their height, weight, goal and target-weight. Users can enroll into numerous programs involving fitness such as yoga classes and workout sessions. Users can now connect with their friends by sending a friend-request and share their progress. This document provides a major perspective for the users to understand and take up the project as an Open source software and add on multiple features before releasing to the market. Also, the document aids the developers in understanding the code and acts as a reference point for continuing the project. 
+METAFIT is an easy to use application that keeps track of a user's daily calories gained and burnt. It can help the user to set goals such as weight loss/gain. Users can edit their profile by entering their height, weight, goal and target-weight. Users can enroll into numerous programs involving fitness such as yoga classes and workout sessions. Users can now get customized Ai planned Meal suggestions based on their lifestyle and calorie intake.The application can now track and reward daily login streaks, fostering consistent engagement, and offers interactive quizzes on health topics, allowing users to earn points and track their progress over time.Users can now broadcast their fitness milestones directly to social media platforms.This document provides a major perspective for the users to understand and take up the project as an Open source software and add on multiple features before releasing to the market. Also, the document aids the developers in understanding the code and acts as a reference point for continuing the project. 
 
 # Table of Contents  
 
-- [Why use BurnOut?](#why-use-burnout)
+- [Why use METAFIT?](#why-use-METAFIT)
 - [Implementation](#implementation)
 - [TechStack Used for the Development of Project:](#techstack-used-for-the-development-of-project)
 - [Help by using our Software:](#help-by-using-our-software)
@@ -80,6 +80,7 @@ BurnOut is an easy to use application that keeps track of a user's daily calorie
   - [Check History](#check-history)
   - [Adding Friends](#adding-friends)
   - [Enrolling into several programs](#enrolling-into-several-programs)
+  - 
 - [Steps for Execution:](#steps-for-execution)
 - [Source Code](#source-code)
 - [Future Scope](#future-scope)
