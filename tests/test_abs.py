@@ -8,6 +8,7 @@ from flask_pymongo import PyMongo
 sys.path.append(os.path.abspath(os.path.join('..')))
 from application import app, mongo
 
+
 class TestAbbsRoute(TestCase):
 
     def create_app(self):
@@ -22,10 +23,8 @@ class TestAbbsRoute(TestCase):
 
     def test_abbs_route_enroll(self):
         with self.client:
-            response = self.client.post(
-                url_for('abbs'),
-                data={'email': 'test@example.com'}
-            )
+            response = self.client.post(url_for('abbs'),
+                                        data={'email': 'test@example.com'})
             self.assert_redirects(response, url_for('dashboard'))
 
             # Check if the user is enrolled in the 'abbs' plan
