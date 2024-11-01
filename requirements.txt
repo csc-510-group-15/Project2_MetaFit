@@ -68,4 +68,15 @@ typing_extensions==4.12.2
 tzdata==2024.2
 Werkzeug==2.0.1
 WTForms==2.3.3
+pyotp==2.9.0
+black==23.10.0
+pylint==3.0.1
+pytest==7.4.2
+coverage==7.3.2
+flask-testing==0.8.1
+mock==4.0.3
+mongomock==4.1.2
+pytest_mock==3.11.1
+flask-apscheduler-1.11.0
+
 

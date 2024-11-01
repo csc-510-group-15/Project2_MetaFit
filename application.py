@@ -18,6 +18,9 @@ from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserPro
 from service import history as history_service
 import openai
 from flask import jsonify
+import random
+from flask_apscheduler import APScheduler
+from urllib.parse import quote
 from flask_sqlalchemy import SQLAlchemy
 from model.meal_recommendation import recommend_meal_plan
 from time import time
@@ -42,6 +45,8 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
+
+scheduler = APScheduler()
 
 
 @app.context_processor
@@ -172,7 +177,9 @@ def register():
                 'start_date':
                 datetime.now().strftime('%Y-%m-%d'),
                 'target_date':
-                request.form.get('target_date')
+                request.form.get('target_date'),
+                'completed_challenges':
+                {}  # Initialize with an empty dictionary
             }
             print("here4")
             send_2fa_email(email, two_factor_secret)
@@ -667,6 +674,18 @@ def friends():
 
     # print(pendingApproves)
 
+    # Retrieve burn_rate and target_date from the user's data
+    user_data = mongo.db.user.find_one({"email": email})
+    burn_rate = user_data.get("burn_rate",
+                              0)  # Adjust if burn_rate calculation differs
+    target_date = user_data.get("target_date", "your goal date")
+
+    # Create the shareable message
+    if burn_rate > 0:
+        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories daily to reach my goal by {target_date}! #CalorieApp"
+    else:
+        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on track for my goal by {target_date}! #CalorieApp"
+
     # print(pendingRequests)
     return render_template('friends.html',
                            allUsers=allUsers,
@@ -675,7 +694,10 @@ def friends():
                            pendingReceivers=pendingReceivers,
                            pendingApproves=pendingApproves,
                            myFriends=myFriends,
-                           myFriendsList=myFriendsList)
+                           myFriendsList=myFriendsList,
+                           burn_rate=burn_rate,
+                           target_date=target_date,
+                           shareable_message=shareable_message)
 
 
 @app.route("/send_email", methods=['GET', 'POST'])
@@ -1157,6 +1179,201 @@ def query_view():
 
         return jsonify({'response': response})
     return render_template('chat.html')
+
+
+@app.route("/api/share", methods=['POST'])
+def log_share():
+    """
+    Logs each social share action to the backend.
+    """
+    user_id = session.get('email')  # Assuming the user ID is the email
+    platform = request.json.get('platform')
+
+    if not user_id or not platform:
+        return jsonify({
+            "status": "error",
+            "message": "User or platform not specified"
+        }), 400
+
+    # Log share action (can be stored in DB if needed)
+    print(f"User {user_id} shared on {platform}.")
+
+    # Optional: Store in a collection for tracking shares (uncomment if desired)
+    # mongo.db.shares.insert_one({"user_id": user_id, "platform": platform, "timestamp": datetime.now()})
+
+    return jsonify({"status": "success"})
+
+
+DAILY_CHALLENGES = [
+    "Drink 8 glasses of water", "Walk 5,000 steps", "Avoid sugary drinks",
+    "Eat at least 3 servings of vegetables", "Complete a 15-minute meditation",
+    "Do a 30-minute workout", "Sleep for at least 7 hours"
+]
+
+
+@app.route('/daily_challenge', methods=['GET', 'POST'])
+def daily_challenge():
+    user_email = session.get('email')
+    if not user_email:
+        # Redirect unauthorized users to the login page
+        return redirect(url_for('login'))
+
+    today = datetime.today().strftime('%Y-%m-%d')
+    random.seed(today)
+    daily_challenges = random.sample(DAILY_CHALLENGES, 3)
+
+    user_data = mongo.db.users.find_one({"email": user_email},
+                                        {"completed_challenges": 1}) or {}
+    completed_challenges = user_data.get("completed_challenges", {})
+
+    challenges_status = {}
+    all_completed = True
+    for challenge in daily_challenges:
+        is_completed = completed_challenges.get(f"{today}_{challenge}", False)
+        challenges_status[challenge] = is_completed
+        if not is_completed:
+            all_completed = False
+
+    if request.method == 'POST':
+        completed_challenge = request.form.get('completed_challenge')
+        if completed_challenge and not challenges_status[completed_challenge]:
+            mongo.db.users.update_one({"email": user_email}, {
+                "$set": {
+                    f"completed_challenges.{today}_{completed_challenge}": True
+                }
+            },
+                                      upsert=True)
+            flash(f"Challenge '{completed_challenge}' completed! Great job!",
+                  "success")
+            return redirect(url_for('daily_challenge'))
+
+    # Define the shareable message if all challenges are completed
+    shareable_message = ""
+    if all_completed:
+        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
+
+    return render_template('daily_challenge.html',
+                           daily_challenges=daily_challenges,
+                           challenges_status=challenges_status,
+                           all_completed=all_completed,
+                           shareable_message=shareable_message)
+
+
+def get_weekly_summary(user_email):
+    """
+    Fetch weekly progress data for a user and prepare a summary with social sharing buttons.
+    """
+    today = datetime.now()
+    one_week_ago = today - timedelta(days=7)
+
+    # Fetch calories burned in the last week
+    calories_burned = mongo.db.calories.find({
+        "email": user_email,
+        "date": {
+            "$gte": one_week_ago
+        }
+    })
+    total_calories = sum(cal["calories"] for cal in calories_burned)
+
+    # Fetch challenges completed in the last week
+    user_data = mongo.db.users.find_one({"email": user_email},
+                                        {"completed_challenges": 1}) or {}
+    completed_challenges = user_data.get("completed_challenges", {})
+    weekly_challenges = [
+        challenge_date.split('_', 1)[1]
+        for challenge_date, is_completed in completed_challenges.items()
+        if is_completed and datetime.strptime(
+            challenge_date.split('_', 1)[0], '%Y-%m-%d') >= one_week_ago
+    ]
+
+    # Customize the message body based on user data
+    message_body = f"""
+    <html>
+    <body>
+    <p>Hello!</p>
+
+    <p>Here’s your weekly progress summary:</p>
+    <ul>
+        <li>Total calories burned this week: {total_calories}</li>
+        <li>Challenges completed: {len(weekly_challenges)}</li>
+    </ul>
+
+    <p>Keep up the great work and stay motivated for the next week!</p>
+    """
+
+    # Social sharing message
+    share_message = f"I’ve burned {total_calories} calories and completed {len(weekly_challenges)} challenges this week! #CalorieApp"
+    encoded_share_message = quote(share_message)
+
+    # Social sharing buttons with inline CSS for styling
+    twitter_url = f"https://twitter.com/intent/tweet?text={encoded_share_message}"
+    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
+
+    # Include the share message and social sharing buttons in the email body
+    message_body += f"""
+    <p>{share_message}</p>
+    <p>
+        <a href="{twitter_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#1DA1F2; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Twitter</a>
+        <a href="{facebook_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#3b5998; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Facebook</a>
+    </p>
+    <p>Best,<br>The CalorieApp Team</p>
+    </body>
+    </html>
+    """
+
+    return message_body
+
+
+def send_weekly_email(user_email):
+    """
+    Sends the weekly progress summary email to the user with social sharing buttons.
+    """
+    # Generate the email body
+    email_body = get_weekly_summary(user_email)
+    subject = "Your Weekly Progress Summary"
+
+    # Setup email message
+    msg = EmailMessage()
+    msg.set_content(email_body,
+                    subtype='html')  # Use HTML format for clickable buttons
+    msg["Subject"] = subject
+    msg["From"] = app.config['MAIL_USERNAME']
+    msg["To"] = user_email
+
+    # Send the email using SMTP
+    try:
+        with smtplib.SMTP_SSL(app.config['MAIL_SERVER'],
+                              app.config['MAIL_PORT']) as smtp:
+            smtp.login(app.config['MAIL_USERNAME'],
+                       app.config['MAIL_PASSWORD'])
+            smtp.send_message(msg)
+        print(f"Weekly summary sent to {user_email}")
+    except Exception as e:
+        print(f"Error sending weekly summary to {user_email}: {e}")
+
+
+def scheduled_weekly_email():
+    """
+    Scheduled job to send weekly progress emails to all users.
+    """
+    try:
+        # Retrieve all users from the database
+        users = mongo.db.user.find({}, {"email": 1})
+        for user in users:
+            user_email = user["email"]
+            send_weekly_email(user_email)
+    except Exception as e:
+        print(f"Error in scheduled weekly email job: {e}")
+
+
+# Scheduler job configuration
+scheduler.add_job(
+    id="Weekly Email Job",
+    func=scheduled_weekly_email,  # Note: No user_email argument needed
+    trigger="cron",
+    day_of_week="mon",
+    hour=8,
+    minute=0)
 
 
 @app.route("/meal_plan")

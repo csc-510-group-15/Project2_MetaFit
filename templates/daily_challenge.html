@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Display flashed messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ 'success' if category == 'success' else 'info' }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<div class="container mt-5">
+    <div class="daily-challenge-card">
+        <h2>Today's Challenges</h2>
+        {% for challenge in daily_challenges %}
+            <div class="daily-challenge-item">
+                <h4>{{ challenge }}</h4>
+                {% if challenges_status[challenge] %}
+                    <p class="text-success">You’ve completed this challenge. Great job!</p>
+                {% else %}
+                    <form method="POST" style="margin: 0;">
+                        <input type="hidden" name="completed_challenge" value="{{ challenge }}">
+                        <button type="submit" class="btn btn-success">Mark as Completed</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if all_completed %}
+    <div class="social-share mt-4">
+        <h3>Share Your Achievement!</h3>
+        <p>{{ shareable_message }}</p>
+        <!-- Social Share Buttons Below the Message -->
+        <div class="share-buttons">
+            <a href="https://twitter.com/intent/tweet?text={{ shareable_message|urlencode }}" 
+               target="_blank" class="btn share-button" id="twitter-share">Share on Twitter</a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}&quote={{ shareable_message|urlencode }}" 
+               target="_blank" class="btn share-button" id="facebook-share">Share on Facebook</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

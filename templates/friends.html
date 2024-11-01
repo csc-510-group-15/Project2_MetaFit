@@ -75,6 +75,55 @@
 </details>
 <br>
 
+<!-- Social Share Section -->
+
+<details>
+    <summary>Share Your Achievements on Social Media</summary>
+    <div id="achievement-section">
+        <h3>Your Latest Achievement:</h3>
+        <p>{{ shareable_message }}</p> <!-- This should display the message -->
+    </div>
+    <div class="social-share">
+        <!-- Twitter Share -->
+        <a href="https://twitter.com/intent/tweet?text={{ shareable_message | urlencode }}"
+           target="_blank" class="btn btn-primary">Share on Twitter</a>
+        
+        <!-- Facebook Share -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('friends', _external=True) }}"
+            target="_blank" class="btn btn-primary">Share on Facebook</a>
+        
+    </div>
+</details>
+<br>
+
+<!-- JavaScript to Fetch Achievement and Set Share Links -->
+<script>
+    // Fetch shareable message from the server
+    fetch('/get_shareable_message')
+        .then(response => response.json())
+        .then(data => {
+            const achievement = data.shareable_message;
+            document.getElementById('user-achievement').textContent = achievement;
+
+            const urlToShare = window.location.href;
+            // Update share links with achievement message
+            document.getElementById('facebook-share').onclick = () =>
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlToShare)}&quote=${encodeURIComponent(achievement)}`, '_blank');
+            document.getElementById('twitter-share').onclick = () =>
+                window.open(`https://twitter.com/share?url=${encodeURIComponent(urlToShare)}&text=${encodeURIComponent(achievement)}`, '_blank');
+            
+        });
+
+    // Log share action to backend
+    function logShareAction(platform) {
+        fetch('/api/share', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ platform: platform })
+        });
+    }
+</script>
+
 
 {% endblock content %}
 

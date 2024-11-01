@@ -160,3 +160,107 @@ img {
 .card-section {
   gap: 16px 0;
 }
+
+
+.social-share {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.share-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+}
+
+#facebook-share {
+  background-color: #3b5998;
+}
+
+#twitter-share {
+  background-color: #1da1f2;
+}
+
+.share-button:hover {
+  opacity: 0.9;
+}
+
+/* Styles for daily challenge card */
+/* Daily Challenge Section */
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Card for Today's Challenges */
+.daily-challenge-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Header for the Daily Challenges */
+.daily-challenge-card h2 {
+  color: #333;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Individual Challenge Section */
+.daily-challenge-item {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.daily-challenge-item h4 {
+  color: #0056b3;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Completed Challenge Message */
+.daily-challenge-item p.text-success {
+  color: #28a745;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Button for Marking Completion */
+.daily-challenge-item button {
+  background-color: #28a745;
+  color: #ffffff;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.daily-challenge-item button:hover {
+  background-color: #218838;
+}
+
+/* Separator Line */
+.daily-challenge-item + .daily-challenge-item {
+  border-top: 1px solid #e0e0e0;
+}
+
