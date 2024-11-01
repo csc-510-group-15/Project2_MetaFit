@@ -1,7 +1,7 @@
 # Contributing to METAFIT!!
 <h3>Hello!👋</h3>
 <p>Firstly, thank you so much for showing interest in METAFIT and contributing to our project.👍</p>
-The following are a set of guidelines for contributing to METAFIT We are open to suggestions to enhance our project so feel free to propose changes to this document in a pull request.
+The following are a set of guidelines for contributing to METAFIT. We are open to suggestions to enhance our project, so feel free to propose changes to this document in a pull request.
 
 
 ### Table of contents
@@ -24,7 +24,6 @@ Everyone participating in this project needs to abide by the aPAS - A Personal A
 
 ## How Can I Contribute?
 
-
   ## Reporting Bugs
 
   This section guides you through submitting a bug report for SE Group 49. 
@@ -37,18 +36,17 @@ Everyone participating in this project needs to abide by the aPAS - A Personal A
    <ul>
     <li><b>Use a clear and descriptive title</b> for the issue to identify the problem.</li>
     <li><b>Describe the exact steps which reproduce the problem in as many details as possible.</li></b>
-    <li><b>Provide specific examples to demonstrate the steps.</b> Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those     examples. If you're providing snippets in the issue, use Markdown code blocks.</li>
+    <li><b>Provide specific examples to demonstrate the steps.</b> Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use Markdown code blocks.</li>
     <li><b>If the problem is related to performance or memory, then ensure that you include a CPU profile capture with your report.</b></li>
     <li><b>Include screenshots and animated GIFs which show you following the described steps and clearly demonstrate the problem.</li></b>
     <li><b>If the problem wasn't triggered by a specific action</b>, describe what you were doing before the problem happened and share more information using the guidelines below.</li>
     </ul>
   
   ## Suggesting Enhancements
-  This section guides you through submitting a suggestion for BurnOut, including completely new features and minor improvements to existing functionality. 
+  This section guides you through submitting a suggestion for METAFIT, including completely new features and minor improvements to existing functionality. 
 
   Enhancement suggestions are tracked as GitHub issues. 
-  After you've determined which repository your enhancement suggestion is related to, create an issue on that repository and provide the information like title, step-by-step description, specific examples.\
-  Giving more detailed information will help us understand the suggestion better. 
+  After you've determined which repository your enhancement suggestion is related to, create an issue on that repository and provide the information like title, step-by-step description, and specific examples. Giving more detailed information will help us understand the suggestion better. 
   
   #### Provide details like 
   1) What is the enhancement? 
@@ -57,9 +55,9 @@ Everyone participating in this project needs to abide by the aPAS - A Personal A
   ## Pull Requests Methods
   The process described here has several goals: 
 
-  - Maintain BurnOut 3.0 quality
+  - Maintain METAFIT quality
   - Fix problems that are important to the users 
-  - Engage the community in working towards the best possible BurnOut 
+  - Engage the community in working towards the best possible METAFIT 
   - Enable a sustainable system for Atom's maintainers to review contributions
 
   Ensure that you follow the steps mentioned below in order to have your contribution reviewed by the maintainers:
