@@ -90,8 +90,7 @@ class FriendsRouteTestCase(unittest.TestCase):
     def test_shareable_message_positive_burn_rate(self):
         response = self.app.get('/friends')
         self.assertIn(
-            b"I\xe2\x80\x99m working hard to gain 500 \
-                calories daily to reach my goal by 2023-12-31! #CalorieApp",
+            b"I\xe2\x80\x99m working hard to gain 500 calories daily to reach my goal by 2023-12-31! #CalorieApp",
             response.data)
 
     def test_shareable_message_negative_burn_rate(self):
@@ -102,8 +101,7 @@ class FriendsRouteTestCase(unittest.TestCase):
                                  }})
         response = self.app.get('/friends')
         self.assertIn(
-            b"Burning 400 calories daily to stay \
-                on track for my goal by 2023-12-31! #CalorieApp",
+            b"Burning 400 calories daily to stay on track for my goal by 2023-12-31! #CalorieApp",
             response.data)
 
     def test_shareable_message_zero_burn_rate(self):
@@ -114,8 +112,7 @@ class FriendsRouteTestCase(unittest.TestCase):
                                  }})
         response = self.app.get('/friends')
         self.assertIn(
-            b"Burning 0 calories daily to stay on track\
-                for my goal by 2023-12-31! #CalorieApp", response.data)
+            b"Burning 0 calories daily to stay on track for my goal by 2023-12-31! #CalorieApp", response.data)
 
     def test_social_media_share_links(self):
         response = self.app.get('/friends')
