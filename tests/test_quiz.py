@@ -25,7 +25,7 @@ def test_quiz_route_post(client):
     assert response.status_code == 200
 
 def test_question_route_get_valid_id(client, mocker):
-    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "Option A"}
+    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "a"}
     mocker.patch.object(mongo.db.questions, 'find_one', return_value=mock_question)
     response = client.get('/question/1')
     assert response.status_code == 200
@@ -38,7 +38,7 @@ def test_question_route_get_invalid_id(client, mocker):
     assert response.location.endswith('/score')
 
 def test_question_route_get_first_question(client, mocker):
-    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "Option A"}
+    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "a"}
     mocker.patch.object(mongo.db.questions, 'find_one', return_value=mock_question)
     response = client.get('/question/1')
     assert response.status_code == 200
@@ -50,11 +50,11 @@ def test_question_route_get_non_existent(client, mocker):
     assert response.location.endswith('/score')
 
 def test_question_route_post_wrong_answer(client, mocker):
-    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "Option A"}
+    mock_question = {"q_id": 1, "a": "Option A", "b": "Option B", "c": "Option C", "d": "Option D", "ans": "a"}
     mocker.patch.object(mongo.db.questions, 'find_one', return_value=mock_question)
     with client.session_transaction() as sess:
         sess['marks'] = 0
-    response = client.post('/question/1', data={'options': 'Option B'}, follow_redirects=True)
+    response = client.post('/question/1', data={'options': 'b'}, follow_redirects=True)
     assert session['marks'] == 0
 
 def test_question_route_post_all_questions_complete(client):
