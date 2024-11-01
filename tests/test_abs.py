@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 from flask_testing import TestCase
 from flask import url_for
 from flask_pymongo import PyMongo

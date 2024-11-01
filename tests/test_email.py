@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import patch
-from flask.testing import FlaskClient
-from application import add_food_entry_email_notification, add_burn_entry_email_notification, send_2fa_email, send_email, app, mongo
+from application import add_food_entry_email_notification, add_burn_entry_email_notification, send_2fa_email, app
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join('..')))

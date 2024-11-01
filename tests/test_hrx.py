@@ -1,5 +1,4 @@
 import pytest
-from flask import session
 from application import app, mongo
 import sys, os
 

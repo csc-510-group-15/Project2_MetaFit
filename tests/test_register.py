@@ -2,7 +2,6 @@ import pytest
 from application import app
 import sys, os
 from flask import session
-from application import RegistrationForm
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 import mongomock

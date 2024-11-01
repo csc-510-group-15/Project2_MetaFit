@@ -2,10 +2,6 @@ import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
 from application import app, mongo, get_weekly_summary, send_weekly_email, scheduled_weekly_email, scheduler
-import smtplib
-import email
-import html
-from urllib.parse import quote
 
 
 class WeeklySummaryTestCase(unittest.TestCase):

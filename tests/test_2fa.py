@@ -1,9 +1,7 @@
 # tests/test_2fa.py
 
 import pytest
-from flask import session
-from application import app, mongo
-from application import TwoFactorForm
+from application import app
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join('..')))

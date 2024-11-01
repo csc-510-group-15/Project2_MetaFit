@@ -1,8 +1,6 @@
-from flask import Flask, session
+from flask import session
 from flask.testing import FlaskClient
-from flask import url_for
-from application import app, mongo  # Replace 'your_flask_app_file' with the actual filename
-from application import LoginForm  # Replace 'your_login_form_file' with the actual filename
+from application import app  # Replace 'your_flask_app_file' with the actual filename
 import pytest
 
 

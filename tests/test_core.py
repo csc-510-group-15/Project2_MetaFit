@@ -1,8 +1,7 @@
-from flask import session, url_for
+from flask import session
 from flask.testing import FlaskClient
-from application import app, mongo
+from application import app
 from application import EnrollForm
-from pytest_mock import mocker
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join('..')))

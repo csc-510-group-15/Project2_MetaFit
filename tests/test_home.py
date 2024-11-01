@@ -1,7 +1,6 @@
 # tests/test_home.py
 
 import pytest
-from flask import session
 from application import app
 import sys, os
 

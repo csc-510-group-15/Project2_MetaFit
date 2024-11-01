@@ -1,6 +1,5 @@
 import html
 import unittest
-from flask import session
 from application import app, mongo
 from datetime import datetime
 import random

@@ -1,5 +1,4 @@
 import pytest
-from flask import Flask, url_for, render_template
 from application import app  # Replace 'your_flask_app_file' with the actual filename
 import sys, os
 

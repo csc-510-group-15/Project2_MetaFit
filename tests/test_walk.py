@@ -1,9 +1,8 @@
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join('..')))
-from flask import session
 from flask.testing import FlaskClient
-from application import app, mongo, EnrollForm
+from application import app
 import pytest
 
 

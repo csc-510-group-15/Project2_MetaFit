@@ -1,5 +1,5 @@
 import pytest
-from flask import Flask, session
+from flask import session
 from application import app, mongo
 from datetime import datetime, timedelta
 import tempfile

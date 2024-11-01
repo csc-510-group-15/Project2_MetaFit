@@ -1,6 +1,5 @@
 import pytest
-from flask import Flask, session
-from application import app, mongo, CalorieForm, WorkoutForm, getDate
+from application import app, mongo
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join('..')))

@@ -1,5 +1,4 @@
 import unittest
-from flask import session
 from application import app, mongo
 
 

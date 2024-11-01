@@ -1,7 +1,6 @@
-from flask import session, url_for
+from flask import session
 from flask.testing import FlaskClient
-from application import app, mongo
-from application import EnrollForm
+from application import app
 import pytest
 import sys, os
 
