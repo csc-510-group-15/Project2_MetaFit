@@ -509,10 +509,10 @@ def question(id):
         return redirect(url_for('score'))
 
     answer_mapping = {
-    q['options']['a']: 'a',
-    q['options']['b']: 'b',
-    q['options']['c']: 'c',
-    q['options']['d']: 'd'
+        q['options']['a']: 'a',
+        q['options']['b']: 'b',
+        q['options']['c']: 'c',
+        q['options']['d']: 'd'
     }
 
     if request.method == 'POST':
@@ -526,26 +526,23 @@ def question(id):
             print(f"Current Marks: {session['marks']}")
         return redirect(url_for('question', id=(id + 1)))
 
-    form.options.choices = [
-        (q['options']['a'], q['options']['a']),
-        (q['options']['b'], q['options']['b']),
-        (q['options']['c'], q['options']['c']),
-        (q['options']['d'], q['options']['d'])
-    ]
+    form.options.choices = [(q['options']['a'], q['options']['a']),
+                            (q['options']['b'], q['options']['b']),
+                            (q['options']['c'], q['options']['c']),
+                            (q['options']['d'], q['options']['d'])]
 
-    return render_template(
-        'question.html',
-        form=form,
-        q=q,
-        title='Question {}'.format(id),
-        score=session.get('marks')
-    )
-
+    return render_template('question.html',
+                           form=form,
+                           q=q,
+                           title='Question {}'.format(id),
+                           score=session.get('marks'))
 
 
 @app.route('/score')
 def score():
-    return render_template('score.html', title='Final Score', score=session.get('marks', 0))
+    return render_template('score.html',
+                           title='Final Score',
+                           score=session.get('marks', 0))
 
 
 @app.route("/history", methods=['GET'])
