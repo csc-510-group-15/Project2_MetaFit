@@ -130,6 +130,7 @@ class DailyChallengeTestCase(unittest.TestCase):
         response_text = response.data.decode('utf-8')
         shareable_message = "I completed all my daily challenges today!\
             Feeling great and staying on track with #CalorieApp."
+
         self.assertIn(shareable_message, response_text)
 
         # Check that social share buttons are displayed

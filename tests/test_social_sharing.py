@@ -115,8 +115,7 @@ class FriendsRouteTestCase(unittest.TestCase):
         response = self.app.get('/friends')
         self.assertIn(
             b"Burning 0 calories daily to stay on track\
-                for my goal by 2023-12-31! #CalorieApp",
-            response.data)
+                for my goal by 2023-12-31! #CalorieApp", response.data)
 
     def test_social_media_share_links(self):
         response = self.app.get('/friends')

@@ -72,6 +72,7 @@ def test_register_redirect_to_verify_2fa(client, mocker):
 
     assert response.status_code == 200
 
+
 def test_register_redirect_to_home_when_logged_in(client):
     # Simulate an active session
     with app.test_request_context('/register'):
