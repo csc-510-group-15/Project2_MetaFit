@@ -18,5 +18,5 @@ def client():
 def test_home_redirect_to_login(client):
     response = client.get('/home', follow_redirects=True)
 
-    assert response.status_code == 200  # Or the status code you expect for the login page
-    assert b'Login' in response.data  # Or some other identifier on your login page
+    assert response.status_code == 200
+    assert b'Login' in response.data

@@ -90,6 +90,7 @@ def test_question_route_post_wrong_answer(client, mocker):
     response = client.post('/question/1',
                            data={'options': 'b'},
                            follow_redirects=True)
+    print(response)
     assert session['marks'] == 0
 
 
@@ -123,6 +124,7 @@ def test_session_initial_marks(client):
     with client.session_transaction() as sess:
         sess['marks'] = 0
     response = client.get('/question/1')
+    print(response)
     assert session['marks'] == 0
 
 
@@ -130,6 +132,7 @@ def test_session_persistence(client):
     with client.session_transaction() as sess:
         sess['marks'] = 10
     response = client.get('/score')
+    print(response)
     assert session['marks'] == 10
 
 
@@ -210,6 +213,7 @@ def test_question_route_post_repeated(client, mocker):
     response = client.post('/question/1',
                            data={'options': 'a'},
                            follow_redirects=True)
+    print(response)
     assert sess['marks'] == 0
 
 

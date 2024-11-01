@@ -30,7 +30,7 @@ def test_workout_route(client):
                                'burnout': '150',
                                'target_date': '2023-12-01'
                            })
-    assert response.status_code == 302  # Expect a redirect after form submission
+    assert response.status_code == 302
 
     # Check if the database is updated
     entry = mongo.db.calories.find_one({

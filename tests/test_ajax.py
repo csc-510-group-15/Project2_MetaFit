@@ -4,6 +4,7 @@ import os
 import pytest
 sys.path.append(os.path.abspath(os.path.join('..')))
 
+
 @pytest.fixture
 def client():
     with app.test_client() as client:

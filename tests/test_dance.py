@@ -21,7 +21,7 @@ def login(client, email):
 def test_dance_route(client):
     # Test if the dance route is accessible
     response = client.get('/dance')
-    assert response.status_code == 302  # Expect a redirect since the user is not logged in
+    assert response.status_code == 302
 
     # Test if the form submission updates the database
     login(client, 'test@example.com')

@@ -7,6 +7,7 @@ from application import app
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 
+
 class TestAbbsRoute(TestCase):
 
     def create_app(self):

@@ -69,8 +69,7 @@ def test_register_redirect_to_verify_2fa(client, mocker):
                            },
                            follow_redirects=True)
 
-    assert response.status_code == 200  # Or the status code you expect for the verify_2fa page
-
+    assert response.status_code == 200
 
 def test_register_redirect_to_home_when_logged_in(client):
     # Simulate an active session
@@ -79,4 +78,4 @@ def test_register_redirect_to_home_when_logged_in(client):
 
     response = client.get('/register', follow_redirects=True)
 
-    assert response.status_code == 200  # Or the status code you expect for the home page
+    assert response.status_code == 200

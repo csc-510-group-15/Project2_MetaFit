@@ -11,7 +11,7 @@ class DailyChallengeTestCase(unittest.TestCase):
         # Configure the app for testing
         app.config['TESTING'] = True
         app.config[
-            'MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'  # Use a test database
+            'MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'
         self.app = app.test_client()
         self.app_context = app.app_context()
         self.app_context.push()
@@ -88,9 +88,11 @@ class DailyChallengeTestCase(unittest.TestCase):
         # Decode response data to string and unescape HTML entities
         response_text = response.data.decode('utf-8')
         response_text_unescaped = html.unescape(response_text)
-        expected_message = f"Challenge '{challenge_to_complete}' completed! Great job!"
+        expected_message = f"Challenge \
+            '{challenge_to_complete}' completed! Great job!"
 
-        # Uncomment the following lines if you want to print response data for debugging
+        # Uncomment the following lines if you want
+        # to print response data for debugging
         # if expected_message not in response_text_unescaped:
         #     print("Response data:", response_text_unescaped)
         #     print("Expected message:", expected_message)
@@ -126,7 +128,8 @@ class DailyChallengeTestCase(unittest.TestCase):
 
         # Check that the shareable message is displayed
         response_text = response.data.decode('utf-8')
-        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
+        shareable_message = "I completed all my daily challenges today!\
+            Feeling great and staying on track with #CalorieApp."
         self.assertIn(shareable_message, response_text)
 
         # Check that social share buttons are displayed

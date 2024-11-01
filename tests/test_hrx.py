@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath(os.path.join('..')))
 def test_hrx_route(client):
     # Test if the hrx route is accessible
     response = client.get('/hrx')
-    assert response.status_code == 302  # Expect a redirect since the user is not logged in
+    assert response.status_code == 302
 
     # Test if the form submission updates the database
     login(client, 'test@example.com')

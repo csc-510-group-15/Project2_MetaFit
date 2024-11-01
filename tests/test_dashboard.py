@@ -1,5 +1,5 @@
 import pytest
-from application import app  # Replace 'your_flask_app_file' with the actual filename
+from application import app
 import sys
 import os
 
@@ -19,4 +19,4 @@ def test_dashboard_route(client):
     assert response.status_code == 200
 
     # Ensure that the route renders the dashboard.html template
-    assert b'Dashboard' in response.data  # Assuming 'Dashboard' is present in the rendered HTML
+    assert b'Dashboard' in response.data

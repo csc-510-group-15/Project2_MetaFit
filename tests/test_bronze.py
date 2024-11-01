@@ -25,4 +25,4 @@ def test_bronze_list_page(client):
 
     # Test if the form submission updates the bronze list
     response = client.post('/bronze_list', data={'target_date': '2023-12-01'})
-    assert response.status_code == 200  # Or adjust based on your expected behavior
+    assert response.status_code == 200
