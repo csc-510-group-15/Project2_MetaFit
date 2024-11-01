@@ -42,12 +42,8 @@ def clear_calories_db():
 
 if __name__ == '__main__':
     # Add email and database will be populated with random values for that email
-    add_fake_values_to_database(
-        'npatil22@ncsu.edu', 30
-    )
-    add_fake_negative_values_to_database(
-        'npatil22@ncsu.edu', 30
-    )
+    add_fake_values_to_database('npatil22@ncsu.edu', 30)
+    add_fake_negative_values_to_database('npatil22@ncsu.edu', 30)
 
     # Uncomment this line to clear calories collection
     # clear_calories_db()
