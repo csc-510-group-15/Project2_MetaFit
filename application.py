@@ -500,28 +500,49 @@ def quiz():
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     form = QuestionForm()
-    q = mongo.db.questions.find_one({"q_id":
-                                     id})  # Query the MongoDB collection
-    session['marks'] = 0
+    q = mongo.db.questions.find_one({"q_id": id})
+
+    if 'marks' not in session:
+        session['marks'] = 0
+
     if not q:
         return redirect(url_for('score'))
+
+    answer_mapping = {
+        q['options']['a']: 'a',
+        q['options']['b']: 'b',
+        q['options']['c']: 'c',
+        q['options']['d']: 'd'
+    }
+
     if request.method == 'POST':
         option = request.form['options']
-        if option == q['ans']:  # Access the answer from the document
+        option = answer_mapping.get(option)
+
+        print(option)
+        print(q['ans'])
+        if option == q['ans']:
             session['marks'] += 10
+            print(f"Current Marks: {session['marks']}")
         return redirect(url_for('question', id=(id + 1)))
 
-    form.options.choices = [(q['a'], q['a']), (q['b'], q['b']),
-                            (q['c'], q['c']), (q['d'], q['d'])]
+    form.options.choices = [(q['options']['a'], q['options']['a']),
+                            (q['options']['b'], q['options']['b']),
+                            (q['options']['c'], q['options']['c']),
+                            (q['options']['d'], q['options']['d'])]
+
     return render_template('question.html',
                            form=form,
                            q=q,
-                           title='Question {}'.format(id))
+                           title='Question {}'.format(id),
+                           score=session.get('marks'))
 
 
 @app.route('/score')
 def score():
-    return render_template('score.html', title='Final Score')
+    return render_template('score.html',
+                           title='Final Score',
+                           score=session.get('marks', 0))
 
 
 @app.route("/history", methods=['GET'])
