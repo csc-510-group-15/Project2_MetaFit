@@ -1181,7 +1181,6 @@ def query_view():
     return render_template('chat.html')
 
 
-
 @app.route("/api/share", methods=['POST'])
 def log_share():
     """
@@ -1375,6 +1374,7 @@ scheduler.add_job(
     day_of_week="mon",
     hour=8,
     minute=0)
+
 
 @app.route("/meal_plan")
 def meal_plan():
