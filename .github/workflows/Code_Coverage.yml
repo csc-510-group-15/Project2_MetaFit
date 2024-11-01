@@ -41,6 +41,7 @@ jobs:
           while ! nc -z localhost 27017; do   
             sleep 1
           done
+          mongoimport --db test --collection questions --file quizDB.json --jsonArray
       
       - name: Run tests with coverage
         run: |
