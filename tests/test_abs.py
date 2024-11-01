@@ -4,8 +4,10 @@ import pytest
 from flask_testing import TestCase
 from flask import url_for
 from flask_pymongo import PyMongo
+
 sys.path.append(os.path.abspath(os.path.join('..')))
-from application import app, mongo  
+from application import app, mongo
+
 
 class TestAbbsRoute(TestCase):
 
