@@ -222,3 +222,24 @@ def test_sql_injection_in_inputs(setup_model):
 def test_empty_input_fields(setup_model):
     with pytest.raises(ValueError):
         recommend_meal_plan("", "", "", "", "")
+
+# Additional Test Cases
+def test_valid_weight_loss_recommendation(setup_model):
+    result = recommend_meal_plan("Weight Loss", 300, 20, 40, 10)
+    assert any(meal['goal'] == "Weight Loss" for meal in result)
+
+def test_valid_fat_intake_for_weight_loss(setup_model):
+    result = recommend_meal_plan("Weight Loss", 350, 25, 30, 10)
+    assert any(meal['goal'] == "Weight Loss" for meal in result)
+
+def test_high_calories_for_muscle_gain(setup_model):
+    result = recommend_meal_plan("Muscle Gain", 750, 60, 40, 30)
+    assert any(meal['goal'] == "Muscle Gain" for meal in result)
+
+def test_calories_and_macros_positive(setup_model):
+    result = recommend_meal_plan("Muscle Gain", 600, 40, 50, 20)
+    assert len(result) > 0  # Expecting results for valid input
+
+def test_edge_case_high_protein(setup_model):
+    result = recommend_meal_plan("Muscle Gain", 600, 100, 30, 15)
+    assert any(meal['goal'] == "Muscle Gain" for meal in result)
