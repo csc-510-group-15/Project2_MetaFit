@@ -1,6 +1,5 @@
 import datetime
 import random
-
 from pymongo import MongoClient
 
 
@@ -15,10 +14,10 @@ def add_fake_values_to_database(email: str, days: int):
             'email': email,
             'calories': random.randint(2100, 2300)
         })
-    print("Positive Values have been added to the database")
+    print("Positive values have been added to the database")
 
 
-def add_fake_negetive_values_to_database(email: str, days: int):
+def add_fake_negative_values_to_database(email: str, days: int):
     mongo = MongoClient('mongodb://127.0.0.1:27017/test')
     db = mongo['test']
     calories = db.get_collection('calories')
@@ -43,8 +42,12 @@ def clear_calories_db():
 
 if __name__ == '__main__':
     # Add email and database will be populated with random values for that email
-    add_fake_values_to_database('npatil22@ncsu.edu', 30)
-    add_fake_negetive_values_to_database('npatil22@ncsu.edu', 30)
+    add_fake_values_to_database(
+        'npatil22@ncsu.edu', 30
+    )
+    add_fake_negative_values_to_database(
+        'npatil22@ncsu.edu', 30
+    )
 
     # Uncomment this line to clear calories collection
     # clear_calories_db()
