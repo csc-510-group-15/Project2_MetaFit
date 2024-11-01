@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timedelta
-import smtplib
 import ssl
 from email.message import EmailMessage
 import bcrypt
@@ -15,15 +14,19 @@ from flask import render_template, session, url_for, flash, redirect, request, F
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from tabulate import tabulate
-from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate
+from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate, QuestionForm
 from service import history as history_service
 import openai
 from flask import jsonify
 import random
 from flask_apscheduler import APScheduler
 from urllib.parse import quote
+from flask_sqlalchemy import SQLAlchemy
+from model.meal_recommendation import recommend_meal_plan
+from time import time
 
 app = Flask(__name__)
+
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
     # Use Docker-specific MongoDB URI
@@ -46,6 +49,11 @@ mail = Mail(app)
 scheduler = APScheduler()
 
 
+@app.context_processor
+def inject_cache_buster():
+    return {'cache_buster': time()}
+
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -55,7 +63,7 @@ def home():
     input: The function takes session as the input
     Output: Out function will redirect to the login page
     """
-
+    print("Start")
     if session.get('email'):
         return redirect(url_for('dashboard'))
     else:
@@ -75,15 +83,40 @@ def login():
     if not session.get('email'):
         form = LoginForm()
         if form.validate_on_submit():
-            temp = mongo.db.user.find_one({'email': form.email.data},
-                                          {'email', 'password'})
+            temp = mongo.db.user.find_one(
+                {'email': form.email.data},
+                {'email', 'password', 'last_login', 'streak'})
             if temp is not None and temp['email'] == form.email.data and (
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
-                # session['login_type'] = form.type.data
+                print(temp)
+                last_login = temp.get('last_login')
+                if datetime.now().date() - last_login.date() == timedelta(
+                        days=0):
+                    mongo.db.user.update_one({'email': form.email.data}, {
+                        "$inc": {
+                            "streak": 1
+                        },
+                        "$set": {
+                            "last_login": datetime.now()
+                        }
+                    })
+                else:
+                    mongo.db.user.update_one({'email': form.email.data}, {
+                        "$set": {
+                            "streak": 0
+                        },
+                        "$set": {
+                            "last_login": datetime.now()
+                        }
+                    })
+                temp1 = mongo.db.user.find_one({'email': form.email.data},
+                                               {'streak'})
+                print(f"temp1={temp1}\nsession={session}")
+                session['streak'] = temp1['streak']
                 return redirect(url_for('dashboard'))
             else:
                 flash('Login Unsuccessful. Please check username and password',
@@ -113,15 +146,19 @@ def register():
     Input: Username, Email, Password, Confirm Password, current height, current weight, target weight, target date
     Output: Value update in the database and redirected to the dashboard
     """
+    print("here0")
     if not session.get('email'):
         form = RegistrationForm()
         if form.validate_on_submit():
+            print("here1")
             email = request.form.get('email')
             password = request.form.get('password')
 
             # Generate and save 2FA secret to the session
             secret_key = secrets.token_urlsafe(20).replace('=', '')
+            print("here2")
             totp = TOTP(secret_key)
+            print("here3")
             two_factor_secret = totp.secret
             session['two_factor_secret'] = two_factor_secret
             session['registration_data'] = {
@@ -144,11 +181,13 @@ def register():
                 'completed_challenges':
                 {}  # Initialize with an empty dictionary
             }
-
+            print("here4")
             send_2fa_email(email, two_factor_secret)
+            print("here5")
             # Redirect to 2FA verification page
             return redirect(url_for('verify_2fa'))
         else:
+            print("here6")
             return render_template('register.html',
                                    title='Register',
                                    form=form)
@@ -450,6 +489,39 @@ def bronze_list_page():
                            title='Bronze List',
                            form=form,
                            bronze_users=[])
+
+
+@app.route("/quiz", methods=['GET', 'POST'])
+def quiz():
+    form = getDate()
+    return render_template('layout.html')
+
+
+@app.route('/question/<int:id>', methods=['GET', 'POST'])
+def question(id):
+    form = QuestionForm()
+    q = mongo.db.questions.find_one({"q_id":
+                                     id})  # Query the MongoDB collection
+    session['marks'] = 0
+    if not q:
+        return redirect(url_for('score'))
+    if request.method == 'POST':
+        option = request.form['options']
+        if option == q['ans']:  # Access the answer from the document
+            session['marks'] += 10
+        return redirect(url_for('question', id=(id + 1)))
+
+    form.options.choices = [(q['a'], q['a']), (q['b'], q['b']),
+                            (q['c'], q['c']), (q['d'], q['d'])]
+    return render_template('question.html',
+                           form=form,
+                           q=q,
+                           title='Question {}'.format(id))
+
+
+@app.route('/score')
+def score():
+    return render_template('score.html', title='Final Score')
 
 
 @app.route("/history", methods=['GET'])
@@ -1036,7 +1108,10 @@ def verify_2fa():
         if stored_code and entered_code == stored_code:
             # 2FA code is correct, proceed with registration
             user_data = session.get('registration_data')
+            print(f"user_data={user_data}")
             session['email'] = user_data['email']
+            user_data['last_login'] = datetime.now()
+            user_data['streak'] = 1
             mongo.db.user.insert_one(user_data)
             session.pop('two_factor_secret')
             session.pop('registration_data')
@@ -1104,6 +1179,7 @@ def query_view():
 
         return jsonify({'response': response})
     return render_template('chat.html')
+
 
 
 @app.route("/api/share", methods=['POST'])
@@ -1299,6 +1375,44 @@ scheduler.add_job(
     day_of_week="mon",
     hour=8,
     minute=0)
+
+@app.route("/meal_plan")
+def meal_plan():
+    """
+    Renders the meal_plan.html template, where users can view their recommended meal plan.
+    """
+    return render_template("meal_plan.html", title="Meal Plan")
+
+
+@app.route('/recommend_meal_plan', methods=['POST', 'GET'])
+def recommend_meal_plan_endpoint():
+    """
+    Endpoint to recommend a meal plan based on user preferences.
+    Receives JSON data with goal, calories, protein, carbs, and fat values, then generates a recommendation.
+    """
+    # Parse user data from the request
+    user_data = request.json
+    goal = user_data.get('goal')
+    calories = user_data.get('calories')
+    protein = user_data.get('protein')
+    carbs = user_data.get('carbs')
+    fat = user_data.get('fat')
+
+    # Generate meal recommendations
+    recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
+                                            fat)
+    return jsonify(recommended_meals)
+
+
+@app.after_request
+def add_header(response):
+    # Disable caching
+    response.headers[
+        "Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
