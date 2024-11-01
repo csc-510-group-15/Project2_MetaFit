@@ -8,6 +8,7 @@ meal_data = pd.read_csv('food_data/meal_plan_data.csv')
 # Initialize scaler globally
 scaler = StandardScaler()
 
+
 def preprocess_data():
     """
     Preprocesses the meal data for model training.
@@ -89,7 +90,9 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
     """
     # Validate the goal input
     if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
-        raise ValueError("Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'.")
+        raise ValueError(
+            "Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'."
+        )
 
     # Validate inputs
     if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
@@ -97,7 +100,8 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
         raise ValueError("Caloric and macronutrient values must be numeric.")
 
     if calories < 0 or protein < 0 or carbs < 0 or fat < 0:
-        raise ValueError("Caloric and macronutrient values must be non-negative.")
+        raise ValueError(
+            "Caloric and macronutrient values must be non-negative.")
 
     # Prepare input data for prediction
     input_data = scaler.transform([[calories, protein, carbs, fat]])
@@ -106,6 +110,7 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
     prediction = model.predict(input_data)
 
     # Filter meals based on the predicted goal
-    recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(orient='records')
+    recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(
+        orient='records')
 
     return recommended_meals
