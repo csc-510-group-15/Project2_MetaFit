@@ -27,11 +27,13 @@ from time import time
 app = Flask(__name__)
 
 app.secret_key = 'secret'
-app.config['MONGO_URI'] = 'mongodb://mongo:27017/test' if os.environ.get('DOCKERIZED') else 'mongodb://localhost:27017/test'
+app.config['MONGO_URI'] = 'mongodb://mongo:27017/test' if os.environ.get(
+    'DOCKERIZED') else 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
-app.config['RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
+app.config[
+    'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
@@ -39,6 +41,7 @@ app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
 scheduler = APScheduler()
+
 
 @app.context_processor
 def inject_cache_buster():
