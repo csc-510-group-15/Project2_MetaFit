@@ -1,6 +1,6 @@
 from flask import session
 from flask.testing import FlaskClient
-from application import app  # Replace 'your_flask_app_file' with the actual filename
+from application import app
 import pytest
 
 

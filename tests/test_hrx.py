@@ -1,6 +1,7 @@
 import pytest
 from application import app, mongo
-import sys, os
+import sys
+import os
 
 
 @pytest.fixture

@@ -1,13 +1,12 @@
 import pytest
 from unittest.mock import patch
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join('..')))
-from application import app, mongo
+import sys
+import os
+from application import app
 import mongomock
 from flask import session
-from application import UserProfileForm  # Replace with the actual import path
-
+from application import UserProfileForm  #Replace with the actual import path
+sys.path.append(os.path.abspath(os.path.join('..')))
 
 @pytest.fixture
 def client():

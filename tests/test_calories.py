@@ -1,6 +1,7 @@
 import pytest
 from application import app
-import sys, os
+import sys
+import os
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 
@@ -29,4 +30,4 @@ def test_calories_route(client):
                                'food': 'Test Food',
                                'target_date': '2023-12-01'
                            })
-    assert response.status_code == 200  # Expect a redirect after form submission
+    assert response.status_code == 200

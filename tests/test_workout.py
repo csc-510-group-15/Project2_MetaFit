@@ -1,6 +1,7 @@
 import pytest
 from application import app, mongo
-import sys, os
+import sys
+import os
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 

@@ -1,10 +1,10 @@
 import pytest
 from application import app
-import sys, os
+import sys
+import os
 from flask import session
-
-sys.path.append(os.path.abspath(os.path.join('..')))
 import mongomock
+sys.path.append(os.path.abspath(os.path.join('..')))
 
 
 @pytest.fixture

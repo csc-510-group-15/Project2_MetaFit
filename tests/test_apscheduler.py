@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
-from application import app, mongo, get_weekly_summary, send_weekly_email, scheduled_weekly_email, scheduler
+from application import app, mongo, get_weekly_summary
+from application import send_weekly_email, scheduled_weekly_email, scheduler
 
 
 class WeeklySummaryTestCase(unittest.TestCase):
@@ -47,6 +48,7 @@ class WeeklySummaryTestCase(unittest.TestCase):
         # Insert calories burned in the last week
         today = datetime.now()
         one_week_ago = today - timedelta(days=7)
+        print(one_week_ago)
         mongo.db.calories.insert_many([
             {
                 'email': self.user_email,
@@ -79,7 +81,8 @@ class WeeklySummaryTestCase(unittest.TestCase):
         self.assertIn('Total calories burned this week: 800', summary)
         self.assertIn('Challenges completed: 2', summary)
         self.assertIn(
-            'I’ve burned 800 calories and completed 2 challenges this week! #CalorieApp',
+            'I’ve burned 800 calories and \
+            completed 2 challenges this week! #CalorieApp',
             summary)
 
     @patch('smtplib.SMTP_SSL')

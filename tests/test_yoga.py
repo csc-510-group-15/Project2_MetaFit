@@ -2,7 +2,8 @@ from flask import session
 from flask.testing import FlaskClient
 from application import app
 import pytest
-import sys, os
+import sys
+import os
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 

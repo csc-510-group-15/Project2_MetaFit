@@ -1,10 +1,8 @@
-import json
 from application import app, mongo
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join('..')))
+import sys
+import os
 import pytest
-
+sys.path.append(os.path.abspath(os.path.join('..')))
 
 @pytest.fixture
 def client():
@@ -30,9 +28,6 @@ def test_ajaxhistory_route_with_data(client, monkeypatch):
 
     # Simulate a POST request to the ajaxhistory route
     response = client.post('/ajaxhistory', data={'date': '2023-01-01'})
-
-    # Parse the JSON response
-    response_data = json.loads(response.data)
 
     # Assert the response contains the expected data
     assert response.status_code == 200

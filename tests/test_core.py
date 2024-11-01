@@ -2,10 +2,10 @@ from flask import session
 from flask.testing import FlaskClient
 from application import app
 from application import EnrollForm
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join('..')))
+import sys
+import os
 import pytest
+sys.path.append(os.path.abspath(os.path.join('..')))
 
 
 # Fixture for creating a test client

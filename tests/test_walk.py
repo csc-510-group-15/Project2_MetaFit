@@ -1,9 +1,9 @@
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join('..')))
+import sys
+import os
 from flask.testing import FlaskClient
 from application import app
 import pytest
+sys.path.append(os.path.abspath(os.path.join('..')))
 
 
 # Fixture for creating a test client

@@ -3,10 +3,9 @@ import os
 from flask_testing import TestCase
 from flask import url_for
 from flask_pymongo import PyMongo
+from application import app
 
 sys.path.append(os.path.abspath(os.path.join('..')))
-from application import app, mongo
-
 
 class TestAbbsRoute(TestCase):
 
@@ -28,9 +27,9 @@ class TestAbbsRoute(TestCase):
 
             # Check if the user is enrolled in the 'abbs' plan
             user = self.mongo.db.user.find_one({'Email': 'test@example.com'})
-
+            print(user)
             # Check the status code of the response
-            assert response.status_code == 302  # Assuming you expect a redirect status code
+            assert response.status_code == 302
 
     def test_abbs_route_no_session_redirect(self):
         with self.client:
