@@ -1,8 +1,14 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
-from application import app, mongo, get_weekly_summary
-from application import send_weekly_email, scheduled_weekly_email, scheduler
+from application import (
+    app,
+    mongo,
+    get_weekly_summary,
+    send_weekly_email,
+    scheduled_weekly_email,
+    scheduler,
+)
 
 
 class WeeklySummaryTestCase(unittest.TestCase):
@@ -15,14 +21,15 @@ class WeeklySummaryTestCase(unittest.TestCase):
         self.app_context.push()
 
         # Use a test database
-        app.config[
-            'MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'
+        app.config['MONGO_URI'] = (
+            'mongodb://localhost:27017/your_database_test'
+        )
 
         # Clear the test collections
+        # Assuming 'user' collection holds user data
         mongo.db.calories.delete_many({})
         mongo.db.users.delete_many({})
-        mongo.db.user.delete_many(
-            {})  # Assuming 'user' collection holds user data
+        mongo.db.user.delete_many({})
 
         # Insert test user
         self.user_email = 'test_user@example.com'
@@ -41,14 +48,20 @@ class WeeklySummaryTestCase(unittest.TestCase):
     def test_get_weekly_summary_no_data(self):
         # Test with no calories burned and no challenges completed
         summary = get_weekly_summary(self.user_email)
-        self.assertIn('Total calories burned this week: 0', summary)
-        self.assertIn('Challenges completed: 0', summary)
+        self.assertIn(
+            'Total calories burned this week: 0',
+            summary
+        )
+        self.assertIn(
+            'Challenges completed: 0',
+            summary
+        )
 
     def test_get_weekly_summary_with_data(self):
         # Insert calories burned in the last week
         today = datetime.now()
         one_week_ago = today - timedelta(days=7)
-        print(one_week_ago)
+        # print(one_week_ago)  # Commented out unnecessary print statement
         mongo.db.calories.insert_many([
             {
                 'email': self.user_email,
@@ -64,10 +77,8 @@ class WeeklySummaryTestCase(unittest.TestCase):
 
         # Insert completed challenges
         completed_challenges = {
-            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1":
-            True,
-            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2":
-            True,
+            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1": True,
+            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2": True,
         }
         mongo.db.users.insert_one({
             'email': self.user_email,
@@ -78,11 +89,19 @@ class WeeklySummaryTestCase(unittest.TestCase):
         summary = get_weekly_summary(self.user_email)
 
         # Check the content
-        self.assertIn('Total calories burned this week: 800', summary)
-        self.assertIn('Challenges completed: 2', summary)
         self.assertIn(
-            'I’ve burned 800 calories and \
-            completed 2 challenges this week! #CalorieApp', summary)
+            'Total calories burned this week: 800',
+            summary
+        )
+        self.assertIn(
+            'Challenges completed: 2',
+            summary
+        )
+        expected_summary = (
+            'I’ve burned 800 calories and '
+            'completed 2 challenges this week! #CalorieApp'
+        )
+        self.assertIn(expected_summary, summary)
 
     @patch('smtplib.SMTP_SSL')
     def test_send_weekly_email(self, mock_smtp):
@@ -94,12 +113,16 @@ class WeeklySummaryTestCase(unittest.TestCase):
         send_weekly_email(self.user_email)
 
         # Verify that SMTP_SSL was called with correct parameters
-        mock_smtp.assert_called_with(app.config['MAIL_SERVER'],
-                                     app.config['MAIL_PORT'])
+        mock_smtp.assert_called_with(
+            app.config['MAIL_SERVER'],
+            app.config['MAIL_PORT']
+        )
 
         # Verify that login was called
         mock_server_instance.login.assert_called_with(
-            app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
+            app.config['MAIL_USERNAME'],
+            app.config['MAIL_PASSWORD']
+        )
 
         # Verify that send_message was called
         self.assertTrue(mock_server_instance.send_message.called)
@@ -108,8 +131,10 @@ class WeeklySummaryTestCase(unittest.TestCase):
         sent_message = mock_server_instance.send_message.call_args[0][0]
         self.assertEqual(sent_message['To'], self.user_email)
         self.assertEqual(sent_message['From'], app.config['MAIL_USERNAME'])
-        self.assertEqual(sent_message['Subject'],
-                         'Your Weekly Progress Summary')
+        self.assertEqual(
+            sent_message['Subject'],
+            'Your Weekly Progress Summary'
+        )
 
     @patch('application.send_weekly_email')
     def test_scheduled_weekly_email(self, mock_send_weekly_email):
@@ -118,15 +143,9 @@ class WeeklySummaryTestCase(unittest.TestCase):
 
         # Insert test users
         test_users = [
-            {
-                'email': 'user1@example.com'
-            },
-            {
-                'email': 'user2@example.com'
-            },
-            {
-                'email': 'user3@example.com'
-            },
+            {'email': 'user1@example.com'},
+            {'email': 'user2@example.com'},
+            {'email': 'user3@example.com'},
         ]
         mongo.db.user.insert_many(test_users)
 
@@ -136,7 +155,10 @@ class WeeklySummaryTestCase(unittest.TestCase):
         # Verify that send_weekly_email was called for each user
         calls = [unittest.mock.call(user['email']) for user in test_users]
         mock_send_weekly_email.assert_has_calls(calls, any_order=True)
-        self.assertEqual(mock_send_weekly_email.call_count, len(test_users))
+        self.assertEqual(
+            mock_send_weekly_email.call_count,
+            len(test_users)
+        )
 
     def test_scheduler_job_configuration(self):
         # Verify that the job is added to the scheduler
