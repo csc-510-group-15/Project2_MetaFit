@@ -493,12 +493,26 @@ def bronze_list_page():
 
 @app.route("/quiz", methods=['GET', 'POST'])
 def quiz():
+    # ############################
+    # quiz() function displays the quiz start page.
+    # The route "/quiz" triggers this function, which initializes a form and renders the main layout template.
+    # - Input: None (form is initialized but not directly used here).
+    # - Output: Renders 'layout.html' as the quiz introduction or start page.
+    # ############################
     form = getDate()
     return render_template('layout.html')
 
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
+    # ############################
+    # question() function displays and processes each quiz question based on the provided question ID.
+    # The route "/question/<int:id>" triggers this function, which retrieves the question and handles user answers.
+    # - Input: Question ID (URL parameter), form submission with selected answer.
+    # - Output: If answer is correct, 10 points are added to the user's score; otherwise, no points are added.
+    #           Redirects to the next question or the score page upon completion.
+    # ############################
+
     form = QuestionForm()
     q = mongo.db.questions.find_one({"q_id": id})
 
@@ -540,6 +554,13 @@ def question(id):
 
 @app.route('/score')
 def score():
+    # ############################
+    # score() function displays the user's final score at the end of the quiz.
+    # The route "/score" triggers this function, rendering a final score summary page.
+    # - Input: None.
+    # - Output: Renders 'score.html' with the total score accumulated in the session.
+    # ############################
+
     return render_template('score.html',
                            title='Final Score',
                            score=session.get('marks', 0))
