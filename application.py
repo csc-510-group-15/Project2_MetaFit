@@ -7,28 +7,33 @@ import secrets
 import smtplib
 import re
 from pyotp import TOTP
-from flask import json, render_template, session, url_for, flash, redirect, request, Flask, jsonify
-from flask_mail import Mail
+# from apps import App
+from flask import json
+# from utilities import Utilities
+from flask import render_template, session, url_for, flash, redirect, request, Flask
+from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from tabulate import tabulate
 from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate, QuestionForm
 from service import history as history_service
 import openai
+from flask import jsonify
 import random
 from flask_apscheduler import APScheduler
 from urllib.parse import quote
+from flask_sqlalchemy import SQLAlchemy
 from model.meal_recommendation import recommend_meal_plan
 from time import time
 
-# Removed unused imports: Message and SQLAlchemy (F401)
-# Note: import statements split into multiple lines where necessary (E501)
-
-# App initialization
 app = Flask(__name__)
 
 app.secret_key = 'secret'
-app.config['MONGO_URI'] = 'mongodb://mongo:27017/test' if os.environ.get(
-    'DOCKERIZED') else 'mongodb://localhost:27017/test'
+if os.environ.get('DOCKERIZED'):
+    # Use Docker-specific MongoDB URI
+    app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
+else:
+    # Use localhost MongoDB URI
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
@@ -40,6 +45,7 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
+
 scheduler = APScheduler()
 
 
@@ -487,26 +493,12 @@ def bronze_list_page():
 
 @app.route("/quiz", methods=['GET', 'POST'])
 def quiz():
-    # ############################
-    # quiz() function displays the quiz start page.
-    # The route "/quiz" triggers this function, which initializes a form and renders the main layout template.
-    # - Input: None (form is initialized but not directly used here).
-    # - Output: Renders 'layout.html' as the quiz introduction or start page.
-    # ############################
     form = getDate()
     return render_template('layout.html')
 
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
-    # ############################
-    # question() function displays and processes each quiz question based on the provided question ID.
-    # The route "/question/<int:id>" triggers this function, which retrieves the question and handles user answers.
-    # - Input: Question ID (URL parameter), form submission with selected answer.
-    # - Output: If answer is correct, 10 points are added to the user's score; otherwise, no points are added.
-    #           Redirects to the next question or the score page upon completion.
-    # ############################
-
     form = QuestionForm()
     q = mongo.db.questions.find_one({"q_id": id})
 
@@ -548,13 +540,6 @@ def question(id):
 
 @app.route('/score')
 def score():
-    # ############################
-    # score() function displays the user's final score at the end of the quiz.
-    # The route "/score" triggers this function, rendering a final score summary page.
-    # - Input: None.
-    # - Output: Renders 'score.html' with the total score accumulated in the session.
-    # ############################
-
     return render_template('score.html',
                            title='Final Score',
                            score=session.get('marks', 0))
