@@ -96,10 +96,13 @@ BurnOut is an easy to use application that keeps track of a user's daily calorie
  - Users can connect with their friends and keep track of each other's progress
  - Enrollment into numerous yoga and workout sessions.
  - Accessible to everyone and easy to use.
+ - Get your customized food plan using sophisticated AI.
 
-# What's new? (From Phase 2 to Phase 3)
+# What's new? (From Burnout to METAFIT)
 
-- 2 Factor Authorization: Implemented 2FA to verify new users when they register into the system.
+- Added a customized Meal Plan and recommendation based on user needs.
+- No need to guess calories rather enter your calorie intake and other details to get your meal plan ready.
+- Utilized KNN model for meal_recommendation.
 - Graphical Visualizations: Added various graphs such as bar, pie, line, radar, doughnut and bubble charts.
 - OpenAI: Implemented integration with openAI 
 - Flash pending requests: Users if they have any pending requests are displayed at the top of the UI
