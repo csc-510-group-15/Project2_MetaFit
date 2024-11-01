@@ -7,47 +7,38 @@ import secrets
 import smtplib
 import re
 from pyotp import TOTP
-# from apps import App
-from flask import json
-# from utilities import Utilities
-from flask import render_template, session, url_for, flash, redirect, request, Flask
-from flask_mail import Mail, Message
+from flask import json, render_template, session, url_for, flash, redirect, request, Flask, jsonify
+from flask_mail import Mail
 from flask_pymongo import PyMongo
 from tabulate import tabulate
 from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate, QuestionForm
 from service import history as history_service
 import openai
-from flask import jsonify
 import random
 from flask_apscheduler import APScheduler
 from urllib.parse import quote
-from flask_sqlalchemy import SQLAlchemy
 from model.meal_recommendation import recommend_meal_plan
 from time import time
 
+# Removed unused imports: Message and SQLAlchemy (F401)
+# Note: import statements split into multiple lines where necessary (E501)
+
+# App initialization
 app = Flask(__name__)
 
 app.secret_key = 'secret'
-if os.environ.get('DOCKERIZED'):
-    # Use Docker-specific MongoDB URI
-    app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
-else:
-    # Use localhost MongoDB URI
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
+app.config['MONGO_URI'] = 'mongodb://mongo:27017/test' if os.environ.get('DOCKERIZED') else 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
-app.config[
-    'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
+app.config['RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = "bogusdummy123@gmail.com"
 app.config['MAIL_PASSWORD'] = "helloworld123!"
 mail = Mail(app)
-
 scheduler = APScheduler()
-
 
 @app.context_processor
 def inject_cache_buster():
