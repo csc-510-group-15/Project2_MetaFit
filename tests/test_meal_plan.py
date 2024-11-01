@@ -235,6 +235,8 @@ def test_empty_input_fields(setup_model):
     """Test for empty input fields."""
     with pytest.raises(ValueError):
         recommend_meal_plan("", "", "", "", "")
+
+
 def test_valid_weight_loss_recommendation(setup_model):
     """Test for valid weight loss recommendation."""
     result = recommend_meal_plan("Weight Loss", 300, 20, 40, 10)
