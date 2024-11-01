@@ -6,7 +6,9 @@ from application import app
 import mongomock
 from flask import session
 from application import UserProfileForm  #Replace with the actual import path
+
 sys.path.append(os.path.abspath(os.path.join('..')))
+
 
 @pytest.fixture
 def client():

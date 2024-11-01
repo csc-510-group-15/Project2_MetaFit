@@ -2,7 +2,9 @@ from application import app, mongo
 import sys
 import os
 import pytest
+
 sys.path.append(os.path.abspath(os.path.join('..')))
+
 
 @pytest.fixture
 def client():
