@@ -1,13 +1,11 @@
-from application import app, mongo  # Import your Flask app and mongo instance
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join('..')))
-from application import app, mongo
+import sys
+import os
+import pytest
 from flask_testing import TestCase
 from flask import url_for
 from flask_pymongo import PyMongo
-import pytest
-
+sys.path.append(os.path.abspath(os.path.join('..')))
+from application import app, mongo  
 
 class TestAbbsRoute(TestCase):
 
