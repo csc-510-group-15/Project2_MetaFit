@@ -10,18 +10,37 @@ from pyotp import TOTP
 # from apps import App
 from flask import json
 # from utilities import Utilities
-from flask import render_template, session, url_for, flash, redirect, request, Flask
-from flask_mail import Mail, Message
+from flask import (
+    render_template,
+    session,
+    url_for,
+    flash,
+    redirect,
+    request,
+    Flask,
+)
+
+from flask_mail import Mail
 from flask_pymongo import PyMongo
 from tabulate import tabulate
-from forms import HistoryForm, RegistrationForm, LoginForm, CalorieForm, UserProfileForm, EnrollForm, WorkoutForm, TwoFactorForm, getDate, QuestionForm
+from forms import (
+    HistoryForm,
+    RegistrationForm,
+    LoginForm,
+    CalorieForm,
+    UserProfileForm,
+    EnrollForm,
+    WorkoutForm,
+    TwoFactorForm,
+    getDate,
+    QuestionForm,
+)
 from service import history as history_service
 import openai
 from flask import jsonify
 import random
 from flask_apscheduler import APScheduler
 from urllib.parse import quote
-from flask_sqlalchemy import SQLAlchemy
 from model.meal_recommendation import recommend_meal_plan
 from time import time
 
@@ -96,31 +115,34 @@ def login():
                 last_login = temp.get('last_login')
                 if datetime.now().date() - last_login.date() == timedelta(
                         days=0):
-                    mongo.db.user.update_one({'email': form.email.data}, {
-                        "$inc": {
-                            "streak": 1
-                        },
-                        "$set": {
-                            "last_login": datetime.now()
+                    mongo.db.user.update_one(
+                        {'email': form.email.data},
+                        {
+                            "$inc": {"streak": 1},
+                            "$set": {"last_login": datetime.now()},
                         }
-                    })
+                    )
                 else:
-                    mongo.db.user.update_one({'email': form.email.data}, {
-                        "$set": {
-                            "streak": 0
-                        },
-                        "$set": {
-                            "last_login": datetime.now()
+                    mongo.db.user.update_one(
+                        {'email': form.email.data},
+                        {
+                            "$set": {
+                                "streak": 0,
+                                "last_login": datetime.now(),
+                            }
                         }
-                    })
+                    )
                 temp1 = mongo.db.user.find_one({'email': form.email.data},
                                                {'streak'})
                 print(f"temp1={temp1}\nsession={session}")
                 session['streak'] = temp1['streak']
                 return redirect(url_for('dashboard'))
             else:
-                flash('Login Unsuccessful. Please check username and password',
-                      'danger')
+                flash(
+                        'Login Unsuccessful. Please check username and password',
+                        'danger'
+                    )
+
     else:
         return redirect(url_for('home'))
     return render_template('login.html', title='Login', form=form)
@@ -202,7 +224,7 @@ def send_2fa_email(email, two_factor_secret):
     password = 'xszyjpklynmwqsgh'
     receiver = email
 
-    subject = f'Two-Factor Authentication Code'
+    subject = 'Two-Factor Authentication Code'
     body = f'Your Two-Factor Authentication Code: {two_factor_secret}'
 
     try:
@@ -1260,7 +1282,7 @@ def daily_challenge():
         # Redirect unauthorized users to the login page
         return redirect(url_for('login'))
 
-    today = datetime.today().strftime('%Y-%m-%d')
+    
     random.seed(today)
     daily_challenges = random.sample(DAILY_CHALLENGES, 3)
 
