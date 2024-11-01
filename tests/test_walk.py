@@ -3,6 +3,7 @@ import os
 from flask.testing import FlaskClient
 from application import app
 import pytest
+
 sys.path.append(os.path.abspath(os.path.join('..')))
 
 

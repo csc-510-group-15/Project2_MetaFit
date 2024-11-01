@@ -4,6 +4,7 @@ import os
 from application import app
 import mongomock
 from flask import session
+
 sys.path.append(os.path.abspath(os.path.join('..')))
 
 

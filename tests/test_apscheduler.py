@@ -82,8 +82,7 @@ class WeeklySummaryTestCase(unittest.TestCase):
         self.assertIn('Challenges completed: 2', summary)
         self.assertIn(
             'I’ve burned 800 calories and \
-            completed 2 challenges this week! #CalorieApp',
-            summary)
+            completed 2 challenges this week! #CalorieApp', summary)
 
     @patch('smtplib.SMTP_SSL')
     def test_send_weekly_email(self, mock_smtp):
