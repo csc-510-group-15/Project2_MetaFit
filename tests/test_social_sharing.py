@@ -89,34 +89,37 @@ class FriendsRouteTestCase(unittest.TestCase):
 
     def test_shareable_message_positive_burn_rate(self):
         response = self.app.get('/friends')
-        self.assertIn(
-            b"I\xe2\x80\x99m working hard to gain 500 \
-            calories daily to reach my goal by 2023-12-31! #CalorieApp",
-            response.data)
+        expected_message = (
+            "I’m working hard to gain 500 calories daily to reach "
+            "my goal by 2023-12-31! #CalorieApp"
+        ).encode('utf-8')
+        self.assertIn(expected_message, response.data)
 
     def test_shareable_message_negative_burn_rate(self):
         # Change Alice's burn_rate to negative
-        mongo.db.user.update_one({'email': 'alice@example.com'},
-                                 {'$set': {
-                                     'burn_rate': -400
-                                 }})
+        mongo.db.user.update_one(
+            {'email': 'alice@example.com'},
+            {'$set': {'burn_rate': -400}}
+        )
         response = self.app.get('/friends')
-        self.assertIn(
-            b"Burning 400 calories daily to stay on track \
-            for my goal by 2023-12-31! #CalorieApp",
-            response.data)
+        expected_message = (
+            "Burning 400 calories daily to stay on track for my goal "
+            "by 2023-12-31! #CalorieApp"
+        ).encode('utf-8')
+        self.assertIn(expected_message, response.data)
 
     def test_shareable_message_zero_burn_rate(self):
         # Change Alice's burn_rate to zero
-        mongo.db.user.update_one({'email': 'alice@example.com'},
-                                 {'$set': {
-                                     'burn_rate': 0
-                                 }})
+        mongo.db.user.update_one(
+            {'email': 'alice@example.com'},
+            {'$set': {'burn_rate': 0}}
+        )
         response = self.app.get('/friends')
-        self.assertIn(
-            b"Burning 0 calories daily to stay on track \
-            for my goal by 2023-12-31! #CalorieApp",
-            response.data)
+        expected_message = (
+            "Burning 0 calories daily to stay on track for my goal "
+            "by 2023-12-31! #CalorieApp"
+        ).encode('utf-8')
+        self.assertIn(expected_message, response.data)
 
     def test_social_media_share_links(self):
         response = self.app.get('/friends')
