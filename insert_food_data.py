@@ -5,11 +5,11 @@ app = App()
 mongo = app.mongo
 
 f = open('food_data/calories.csv', 'r', encoding="ISO-8859-1")
-l = f.readlines()
+var = f.readlines()
 
-for i in range(1, len(l)):
-    l[i] = l[i][1:len(l[i]) - 2]
+for i in range(1, len(var)):
+    var[i] = var[i][1:len(var[i]) - 2]
 
-for i in range(1, len(l)):
-    temp = l[i].split(",")
+for i in range(1, len(var)):
+    temp = var[i].split(",")
     mongo.db.food.insert_one({'food': temp[0], 'calories': temp[1]})
