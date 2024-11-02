@@ -60,7 +60,6 @@ class WeeklySummaryTestCase(unittest.TestCase):
     def test_get_weekly_summary_with_data(self):
         # Insert calories burned in the last week
         today = datetime.now()
-        one_week_ago = today - timedelta(days=7)
         # print(one_week_ago)  # Commented out unnecessary print statement
         mongo.db.calories.insert_many([
             {
