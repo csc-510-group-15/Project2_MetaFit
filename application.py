@@ -420,7 +420,6 @@ def workout():
     # now = datetime.now()
     # now = now.strftime('%Y-%m-%d')
     get_session = session.get('email')
-    today = datetime.today().strftime('%Y-%m-%d')
     if get_session is not None:
         form = WorkoutForm()
         if form.validate_on_submit():
@@ -523,7 +522,6 @@ def quiz():
     # ############################
     form = getDate()
     return render_template('layout.html')
-
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
