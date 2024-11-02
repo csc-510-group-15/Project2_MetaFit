@@ -176,6 +176,10 @@ This is the page where the user can see their history in the form of a bar graph
 <img width="1217" alt="image" src="https://github.com/user-attachments/assets/3b4c57fb-78bd-46bf-92d5-59bd554ddc7f">
 - This is the page where a user can enter the details to get an ai enhanced list of meals that suits their purpose.
 
+## Knowledge Quiz
+<img width="1217" alt="image" src="https://github.com/apurv-choudhari/calorieApp_server/blob/main/static/img/quiz.png">
+- This is the page where a user can test the knowledge about diet, calories and workout through the quiz.
+
 ## Share your achievements on Social Media
 <img width="1324" alt="Screenshot 2024-11-01 at 7 55 16 PM" src="https://github.com/user-attachments/assets/0ee71288-a719-4e19-91dd-f242dab50c84">
 <img width="1323" alt="Screenshot 2024-11-01 at 7 55 42 PM" src="https://github.com/user-attachments/assets/4060aecc-84cc-441a-8ea2-8ad8955683c9">
