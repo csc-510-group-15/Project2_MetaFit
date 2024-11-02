@@ -10,7 +10,9 @@ class DailyChallengeTestCase(unittest.TestCase):
     def setUp(self):
         # Configure the app for testing
         app.config['TESTING'] = True
-        app.config['MONGO_URI'] = 'mongodb://localhost:27017/your_database_test'
+        app.config['MONGO_URI'] = (
+            'mongodb://localhost:27017/your_database_test'
+        )
         self.app = app.test_client()
         self.app_context = app.app_context()
         self.app_context.push()
