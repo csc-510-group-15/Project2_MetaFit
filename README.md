@@ -1,5 +1,10 @@
 # walkthrough video: METAFIT
 
+
+https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
+
+
+
 # walkthrough video: from phase 3  
 https://www.youtube.com/watch?v=kXsI3x8_JAY
 
@@ -170,6 +175,16 @@ This is the page where the user can see their history in the form of a bar graph
 ## Meal Plan
 <img width="1217" alt="image" src="https://github.com/user-attachments/assets/3b4c57fb-78bd-46bf-92d5-59bd554ddc7f">
 - This is the page where a user can enter the details to get an ai enhanced list of meals that suits their purpose.
+
+## Share your achievements on Social Media
+<img width="1324" alt="Screenshot 2024-11-01 at 7 55 16 PM" src="https://github.com/user-attachments/assets/0ee71288-a719-4e19-91dd-f242dab50c84">
+<img width="1323" alt="Screenshot 2024-11-01 at 7 55 42 PM" src="https://github.com/user-attachments/assets/4060aecc-84cc-441a-8ea2-8ad8955683c9">
+- This is the page where you can share your progress to Social Media.
+
+#Daily Challenge
+<img width="1321" alt="Screenshot 2024-11-01 at 7 48 30 PM" src="https://github.com/user-attachments/assets/aabed0e1-9418-4c2f-ac92-ebed33184aad">
+<img width="1323" alt="Screenshot 2024-11-01 at 7 48 53 PM" src="https://github.com/user-attachments/assets/d86f6713-f87e-43bb-b591-b9383295af58">
+- This is the page where you can find Daily Challenges and share your achievements once completed.
 
  # Steps for execution
  
