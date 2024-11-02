@@ -14,7 +14,13 @@ from wtforms.fields.core import (
     DateField,
     SelectField,
 )
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import {
+    DataRequired, 
+    Length, 
+    Email, 
+    EqualTo, 
+    ValidationError
+}
 from apps import App
 from wtforms.validators import Regexp
 
@@ -34,29 +40,36 @@ class RegistrationForm(FlaskForm):
                    message="Password must contain at least one capital letter")
         ])
     confirm_password = PasswordField(
-        'Confirm Password', validators=[DataRequired(),
-                                        EqualTo('password')])
+        'Confirm Password', 
+        validators=[DataRequired(), 
+        EqualTo('password')
+                   ]
+    )
     weight = StringField('Weight',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                                    message="Height must be a valid number")
-                         ])
+                             message="Height must be a valid number")
+                         ]
+                        )
     height = StringField('Height',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                                    message="height must be a valid number")
-                         ])
+                            message="height must be a valid number")
+                         ]
+                        )
     target_weight = StringField(
         'Target Weight',
         validators=[
             DataRequired(),
             Length(min=2, max=20),
-            Regexp('^\d*\.?\d*$', message="height must be a valid number")
-        ])
+            Regexp('^\d*\.?\d*$', 
+            message="height must be a valid number")
+        ]
+    )
     target_date = DateField(DataRequired())
 
     submit = SubmitField('Sign Up')
@@ -113,7 +126,9 @@ class WorkoutForm(FlaskForm):
     #     'Select Food', choices=result)
 
     date = DateField(DataRequired())
-    burnout = FloatField('Burn Out', validators=[DataRequired()])
+    burnout = FloatField('Burn Out', 
+                         validators=[DataRequired()]
+                        )
     # def validate_burnout(self, field):
     #     # Custom validation to check if input contains only number
     #     if not field.data.isdigit():
