@@ -245,31 +245,40 @@ This is the page where the user can see their history in the form of a bar graph
    
 <center>
   <table>
-  <tr>
-        <td align="center"><a href="https://github.com/prabhudatta3004"><br /><sub><b>Prabhudatta Mishra</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/apurv-choudhari"><br /><sub><b>Apurv Choudhari</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/sankar16"><br /><sub><b>Sankar Raghuthaman</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/anuj672"><br /><sub><b>Anuj Naresh Chetwani</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/bhaveshittadwar"><br /><sub><b>Bhavesh Ittadwar</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/itsJash"><br /><sub><b>Jash Shah</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/VaibhaviSangawar"><br /><sub><b>Vaibhavi Sangawar</b></sub></a><br /></td>
-    </tr>
+    <!-- First Row -->
     <tr>
-        <td align="center"><a href="https://github.com/utsavll0"><img src="https://avatars.githubusercontent.com/utsavll0" width="100px;" alt=""/><br /><sub><b>Utsavkumar Lal</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/prabhudatta3004"><br /><sub><b>Prabhudatta Mishra</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/apurv-choudhari"><br /><sub><b>Apurv Choudhari</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/sankar16"><br /><sub><b>Sankar Raghuthaman</b></sub></a><br /></td>
+    </tr>
+    <!-- Second Row -->
+    <tr>
+      <td align="center"><a href="https://github.com/anuj672"><br /><sub><b>Anuj Naresh Chetwani</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/bhaveshittadwar"><br /><sub><b>Bhavesh Ittadwar</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/itsJash"><br /><sub><b>Jash Shah</b></sub></a><br /></td>
+    </tr>
+    <!-- Additional Rows -->
+    <tr>
+      <td align="center"><a href="https://github.com/VaibhaviSangawar"><br /><sub><b>Vaibhavi Sangawar</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/utsavll0"><img src="https://avatars.githubusercontent.com/utsavll0" width="100px;" alt=""/><br /><sub><b>Utsavkumar Lal</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/neha7799"><img src="https://avatars.githubusercontent.com/neha7799" width="100px;" alt=""/><br /><sub><b>Neha Patil</b></sub></a></td>
-    <td align="center"><a href="https://github.com/ojas1901"><img src="https://avatars.githubusercontent.com/ojas1901" width="100px;" alt=""/><br /><sub><b>Ojas Kulkarni</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/Viggy12126"><img src="https://avatars.githubusercontent.com/Viggy12126" width="100px;" alt=""/><br /><sub><b>Vighnesh Hegde</b></sub></a><br /></td>
     </tr>
     <tr>
-      <tr><td></td></tr>
-        <td align="center"><a href="https://github.com/deekay2310"><img src="https://avatars.githubusercontent.com/u/29257773?v=4" width="100px;" alt=""/><br /><sub><b>Dev Kumar</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ojas1901"><img src="https://avatars.githubusercontent.com/ojas1901" width="100px;" alt=""/><br /><sub><b>Ojas Kulkarni</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Viggy12126"><img src="https://avatars.githubusercontent.com/Viggy12126" width="100px;" alt=""/><br /><sub><b>Vighnesh Hegde</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/deekay2310"><img src="https://avatars.githubusercontent.com/u/29257773?v=4" width="100px;" alt=""/><br /><sub><b>Dev Kumar</b></sub></a><br /></td>
+    </tr>
+    <tr>
       <td align="center"><a href="https://github.com/PrakruthiSomashekar"><img src="https://avatars.githubusercontent.com/u/62984587?v=4" width="100px;" alt=""/><br /><sub><b>Prakruthi Somashekar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/radhikaraman20"><img src="https://avatars.githubusercontent.com/u/89432698?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Radhika Raman</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/radhikaraman20"><img src="https://avatars.githubusercontent.com/u/89432698?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Radhika Raman</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/RohanSinha96"><img src="https://avatars.githubusercontent.com/u/15325746?v=4" width="100px;" alt=""/><br /><sub><b>Rohan Sinha</b></sub></a><br /></td>
+    </tr>
+    <tr>
       <td align="center"><a href="https://github.com/SunidhiHegde"><img src="https://avatars.githubusercontent.com/u/62884191?v=4" width="100px;" alt=""/><br /><sub><b>Sunidhi Hegde</b></sub></a><br /></td>
     </tr>
   </table>
 </center>
+
 
   # Contribution
   
