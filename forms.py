@@ -15,11 +15,12 @@ from wtforms.fields.core import (
     SelectField,
 )
 from wtforms.validators import (
-    DataRequired, 
-    Length, 
-    Email, 
-    EqualTo, 
-    ValidationError
+    DataRequired,
+    Length,
+    Email,
+    EqualTo,
+    ValidationError,
+    Regexp
 )
 from apps import App
 from wtforms.validators import Regexp
@@ -49,14 +50,14 @@ class RegistrationForm(FlaskForm):
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                             message="Height must be a valid number")]
+                                    message="Height must be a valid number")]
                         )
     height = StringField('Height',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                            message="height must be a valid number")]
+                                    message="height must be a valid number")]
                         )
     target_weight = StringField(
         'Target Weight',
@@ -64,7 +65,7 @@ class RegistrationForm(FlaskForm):
             DataRequired(),
             Length(min=2, max=20),
             Regexp('^\d*\.?\d*$', 
-            message="height must be a valid number")]
+                   message="height must be a valid number")]
     )
     target_date = DateField(DataRequired())
 
