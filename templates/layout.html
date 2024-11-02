@@ -5,6 +5,12 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <meta property="og:title" content="CalorieApp - Track Your Goals">
+  <meta property="og:description" content="{{ shareable_message }}">
+  <meta property="og:url" content="{{ url_for('friends', _external=True) }}">
+  <meta property="og:image" content="https://example.com/path/to/image.jpg"> <!-- Replace with a valid image URL -->
+  <meta property="og:type" content="website">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -79,7 +85,9 @@
             <a class="nav-item nav-link btn btn-link" href="{{ url_for('user_profile') }}">Profile</button>
             <a class="nav-item nav-link btn btn-link" href="{{ url_for('bronze_list_page') }}">Bronze</button>
             <a class="nav-item nav-link btn btn-link" href="{{ url_for('question', id=1)}}">Quiz</button>
+            <a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a>
             <a class="nav-item nav-link btn btn-link" href="/chat">Chat Help</button>
+            
           </div>
         </div>
         <div class="navbar-nav ml-auto">
