@@ -2,8 +2,8 @@ import pandas as pd
 import pymongo
 import collections
 import matplotlib.pyplot as plt
-#import numpy as np
-#import string
+# import numpy as np
+# import string
 
 df = pd.read_csv('model/cleaned_data.csv')
 index_list = df.index.tolist()
@@ -90,7 +90,7 @@ cur_wt_track.append(cur_wt)
 # set_goal = int(input('In how many days? '))
 
 cal_to_burn = (cur_wt - goal_wt) * 7700
-if goal_wt < cur_wt:  #diet
+if goal_wt < cur_wt:  # diet
     daily_target = int((cur_wt - goal_wt) * 7700 / 30) - int(
         (cur_wt - goal_wt) * 7700 * 0.8 / 30)  # -2000 #1 kg = 7700 cal
 else:
@@ -102,7 +102,7 @@ r = round((cur_wt - goal_wt) / 30, 2)
 for i in range(30):
     cur_wt = round(cur_wt - r, 2)
     cur_wt_track.append(cur_wt)
-# print(cur_wt_track)                #shows weight trend if diet is followed for 30 days
+# print(cur_wt_track)                # shows weight trend if diet is followed for 30 days
 
 # calories.sort(reverse = True)
 food_sort = [x for _, x in sorted(zip(calories, food))]
