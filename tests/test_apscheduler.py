@@ -108,20 +108,28 @@ class WeeklySummaryTestCase(unittest.TestCase):
         mock_server_instance = MagicMock()
         mock_smtp.return_value.__enter__.return_value = mock_server_instance
 
+        
+        
         # Call the function
         send_weekly_email(self.user_email)
 
         # Verify that SMTP_SSL was called with correct parameters
-        mock_smtp.assert_called_with(
-            app.config['MAIL_SERVER'],
-            app.config['MAIL_PORT']
-        )
+        mail_server = app.config['MAIL_SERVER']
+        mail_port = app.config['MAIL_PORT']
+        mail_username = app.config['MAIL_USERNAME']
+        mail_password = app.config['MAIL_PASSWORD']
 
+        # Verify that SMTP_SSL was called with correct parameters
+        mock_smtp.assert_called_with(
+            mail_server,
+            mail_port
+        )
         # Verify that login was called
         mock_server_instance.login.assert_called_with(
-            app.config['MAIL_USERNAME'],
-            app.config['MAIL_PASSWORD']
+            mail_username,
+            mail_password
         )
+
 
         # Verify that send_message was called
         self.assertTrue(mock_server_instance.send_message.called)
