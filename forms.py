@@ -41,27 +41,34 @@ class RegistrationForm(FlaskForm):
                    message="Password must contain at least one capital letter")
         ])
     confirm_password = PasswordField('Confirm Password', 
-                                     validators=[DataRequired(), EqualTo('password')]
+                                     validators=[DataRequired(), 
+                                                 EqualTo('password')]
     )
     weight = StringField('Weight',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                                    message="Height must be a valid number")]
+                                    message="Height must be a valid number"
+                                   )
+                         ]
                         )
     height = StringField('Height',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                                    message="height must be a valid number")]
+                                    message="height must be a valid number"
+                                   )
+                         ]
                         )
     target_weight = StringField('Target Weight',
                                 validators=[DataRequired(),
                                             Length(min=2, max=20),
                                             Regexp('^\d*\.?\d*$', 
-                                                   message="height must be a valid number")]
+                                                   message="height must be a valid number"
+                                                  )
+                                           ]
     )
     target_date = DateField(DataRequired())
 
