@@ -14,13 +14,13 @@ from wtforms.fields.core import (
     DateField,
     SelectField,
 )
-from wtforms.validators import {
+from wtforms.validators import (
     DataRequired, 
     Length, 
     Email, 
     EqualTo, 
     ValidationError
-}
+)
 from apps import App
 from wtforms.validators import Regexp
 
