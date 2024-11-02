@@ -42,8 +42,7 @@ class RegistrationForm(FlaskForm):
         ])
     confirm_password = PasswordField('Confirm Password', 
                                      validators=[DataRequired(), 
-                                                 EqualTo('password')]
-    )
+                                                 EqualTo('password')])
     weight = StringField('Weight',
                          validators=[
                              DataRequired(),
@@ -51,23 +50,19 @@ class RegistrationForm(FlaskForm):
                              Regexp('^\d*\.?\d*$',
                                     message="Height must be a valid number"
                                    )
-                         ]
-                        )
+                         ])
     height = StringField('Height',
                          validators=[
                              DataRequired(),
                              Length(min=2, max=20),
                              Regexp('^\d*\.?\d*$',
-                                    message="height must be a valid number"
-                                   )
-                         ]
-                        )
+                                    message="height must be a valid number")
+                         ])
     target_weight = StringField('Target Weight',
                                 validators=[DataRequired(),
                                             Length(min=2, max=20),
                                             Regexp('^\d*\.?\d*$', 
-                                                   message="height must be a valid number"
-                                                  )
+                                                   message="height must be a valid number")
                                            ]
     )
     target_date = DateField(DataRequired())
