@@ -2,15 +2,15 @@ import pandas as pd
 import pymongo
 import collections
 import matplotlib.pyplot as plt
-import numpy as np
-import string
+#import numpy as np
+#import string
 
 df = pd.read_csv('model/cleaned_data.csv')
 index_list = df.index.tolist()
 
 client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client["test"]
-p_details = db["profile"]  #profile details
+p_details = db["profile"]  # profile details
 records = p_details.find()
 list_record = list(records)
 
@@ -23,10 +23,10 @@ calories = df['Calories'].tolist()
 
 
 def find_subset(weight: list, req_sum: int):
-    l = len(weight)
+    length = len(weight)
 
     # ROWS : array, # COL : range(sum)
-    row = l
+    row = length
     col = req_sum + 1
 
     # 2d array storing Sum
@@ -82,45 +82,45 @@ def find_subset(weight: list, req_sum: int):
 
 
 cur_wt_track = []
-#cur_wt = int(input('Enter current weight: '))
+# cur_wt = int(input('Enter current weight: '))
 cur_wt = int(cur_wt_list[0])
 goal_wt = int(goal_wt_list[0])
 cur_wt_track.append(cur_wt)
-#goal_wt = int(input('Enter goal weight: '))
-#set_goal = int(input('In how many days? '))
+# goal_wt = int(input('Enter goal weight: '))
+# set_goal = int(input('In how many days? '))
 
 cal_to_burn = (cur_wt - goal_wt) * 7700
 if goal_wt < cur_wt:  #diet
     daily_target = int((cur_wt - goal_wt) * 7700 / 30) - int(
-        (cur_wt - goal_wt) * 7700 * 0.8 / 30)  #-2000 #1 kg = 7700 cal
+        (cur_wt - goal_wt) * 7700 * 0.8 / 30)  # -2000 #1 kg = 7700 cal
 else:
     daily_target = int((goal_wt - cur_wt) * 7700 / 30) - int(
         (goal_wt - cur_wt) * 7700 * 0.8 / 30)
-#print(daily_target)
+# print(daily_target)
 r = round((cur_wt - goal_wt) / 30, 2)
 
 for i in range(30):
     cur_wt = round(cur_wt - r, 2)
     cur_wt_track.append(cur_wt)
-#print(cur_wt_track)                #shows weight trend if diet is followed for 30 days
+# print(cur_wt_track)                #shows weight trend if diet is followed for 30 days
 
-#calories.sort(reverse = True)
+# calories.sort(reverse = True)
 food_sort = [x for _, x in sorted(zip(calories, food))]
-#print(food_sort)
+# print(food_sort)
 calories.sort()
 
 sum_subset = find_subset(calories, daily_target)
-#print(sum_subset)
+# print(sum_subset)
 
-#if sum_subset is None:
-#print("Sum :", daily_target, "is not possible")
-#else:
-#print("Subset for sum", daily_target, ' :', sum_subset)
+# if sum_subset is None:
+# print("Sum :", daily_target, "is not possible")
+# else:
+# print("Subset for sum", daily_target, ' :', sum_subset)
 
 occurrences = collections.Counter(sum_subset)
-#print(occurrences)
+# print(occurrences)
 dict_occ = dict(occurrences)
-#print(dict_occ)
+# print(dict_occ)
 
 list_occ = []
 for i in dict_occ:
@@ -128,7 +128,7 @@ for i in dict_occ:
     t.append(i)
     t.append(dict_occ[i])
     list_occ.append(t)
-#print(list_occ)
+# print(list_occ)
 
 u_cal = list(set(sum_subset))
 u_cal_food = []
@@ -139,20 +139,25 @@ for i in range(len(u_cal)):
         if u_cal[i] == calories[j]:
             t.append(food_sort[j])
     u_cal_food.append(t)
-#print(u_cal_food)
+# print(u_cal_food)
 '''
 for i in range(len(u_cal)):
     print('Consume one of these items', u_cal_food[i],'*',list_occ[i][1], 'times')
 '''
 
-diet_report = open('model/diet_guide.txt', "wt")  #path
+diet_report = open('model/diet_guide.txt', "wt")  # path
 
 for i in range(len(u_cal)):
-    fl = 'Consume one of these items', u_cal_food[i], '*', list_occ[i][
-        1], 'times'
+    fl = (
+        'Consume one of these items',
+        u_cal_food[i],
+        '*',
+        list_occ[i][1],
+        'times'
+    )
     fl = list(fl)
-    string = ' '.join([str(item) for item in fl])
-    diet_report.writelines(string)
+    output_string = ' '.join([str(item) for item in fl])
+    diet_report.writelines(output_string)
     diet_report.writelines('\n')
 
 diet_report.close()
@@ -160,5 +165,7 @@ diet_report.close()
 plt.plot(cur_wt_track, marker='o', color='green')
 plt.xlabel('Days')
 plt.ylabel('Weight')
-plt.title('30 day weight gain/loss projections')
+plt.title(
+    '30 day weight gain/loss projections'
+)
 plt.show()
