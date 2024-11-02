@@ -139,9 +139,9 @@ def login():
                 return redirect(url_for('dashboard'))
             else:
                 flash(
-                        'Login Unsuccessful. Please check username and password',
-                        'danger'
-                    )
+                    'Login Unsuccessful. Please check username and password',
+                    'danger'
+                )
 
     else:
         return redirect(url_for('home'))
@@ -1306,7 +1306,8 @@ def daily_challenge():
                     f"completed_challenges.{today}_{completed_challenge}": True
                 }
             },
-                                      upsert=True)
+                upsert=True
+            )
             flash(f"Challenge '{completed_challenge}' completed! Great job!",
                   "success")
             return redirect(url_for('daily_challenge'))
