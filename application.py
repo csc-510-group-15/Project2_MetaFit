@@ -305,7 +305,7 @@ def user_profile():
                     'goal': goal,
                     'target_weight': target_weight
                 })
-            flash(f'User Profile Updated', 'success')
+            flash('User Profile Updated', 'success')
 
             # Redirect to a page where you display the updated profile
             return redirect(url_for('user_profile'))
@@ -353,7 +353,7 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                flash(f'Successfully sent email and updated the data!',
+                flash('Successfully sent email and updated the data!',
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
                 return redirect(url_for('calories'))
@@ -368,7 +368,7 @@ def add_food_entry_email_notification(email, food, date):
     password = 'xszyjpklynmwqsgh'
     receiver = email
 
-    subject = f'New food entry recorded'
+    subject = 'New food entry recorded'
     body = f'You recorded a new entry for {food} on the date {date}'
 
     try:
@@ -394,7 +394,7 @@ def add_burn_entry_email_notification(email, burn, date):
     password = 'xszyjpklynmwqsgh'
     receiver = email
 
-    subject = f'New burn entry recorded'
+    subject = 'New burn entry recorded'
     body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
 
     try:
@@ -468,7 +468,7 @@ def workout():
                             'users': [email]
                         })
 
-                flash(f'Successfully sent email and updated the data!',
+                flash('Successfully sent email and updated the data!',
                       'success')
                 add_burn_entry_email_notification(email, burn, selected_date)
                 return redirect(url_for('workout'))
