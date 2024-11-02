@@ -55,8 +55,8 @@ def test_user_profile_route(client, mocker):
     response = client.get('/user_profile', follow_redirects=True)
 
     assert response.status_code == 200
-
-
+    
+    
 def test_user_profile_redirect_to_login_when_not_logged_in(client):
     response = client.get('/user_profile', follow_redirects=True)
 
