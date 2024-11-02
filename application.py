@@ -1282,7 +1282,7 @@ def daily_challenge():
         # Redirect unauthorized users to the login page
         return redirect(url_for('login'))
 
-    
+    today = datetime.today().strftime('%Y-%m-%d')
     random.seed(today)
     daily_challenges = random.sample(DAILY_CHALLENGES, 3)
 
