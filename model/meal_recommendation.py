@@ -12,15 +12,12 @@ scaler = StandardScaler()
 def preprocess_data():
     """
     Preprocesses the meal data for model training.
-    
     Adds a 'goal' column to classify each meal based on its calorie value:
     - 'Weight Loss' if calories <= 300
     - 'Muscle Gain' if calories >= 400
     - 'Maintenance' otherwise
-    
-    Normalizes the selected features (calories, protein, carbs, fat) 
+    Normalizes the selected features (calories, protein, carbs, fat)
     using StandardScaler.
-    
     Returns:
         tuple: A tuple (scaled_features, goals) where:
             - scaled_features (ndarray): Normalized feature values.
@@ -43,12 +40,10 @@ def preprocess_data():
 
 def train_model():
     """
-    Initializes and trains a K-Nearest Neighbors (KNN) classifier model 
+    Initializes and trains a K-Nearest Neighbors (KNN) classifier model
     using the preprocessed meal data.
-    
-    The model uses 5 neighbors to classify meals into categories based on the 
+    The model uses 5 neighbors to classify meals into categories based on the
     preprocessed calorie, protein, carbs, and fat values.
-    
     Returns:
         KNeighborsClassifier: The trained KNN model.
     """
@@ -70,22 +65,19 @@ model = train_model()
 
 def recommend_meal_plan(goal, calories, protein, carbs, fat):
     """
-    Recommends meals from the dataset that match the user's dietary goal 
+    Recommends meals from the dataset that match the user's dietary goal
     and macro-nutrient preferences.
-
-    Uses the trained KNN model to classify the user's input data into a 
-    dietary goal (Weight Loss, Muscle Gain, or Maintenance) and then 
+    Uses the trained KNN model to classify the user's input data into a
+    dietary goal (Weight Loss, Muscle Gain, or Maintenance) and then
     filters meals from the dataset based on the predicted goal.
-
     Args:
         goal (str): The user's dietary goal, used here only for reference.
         calories (int): The user's target calories.
         protein (int): The user's target protein intake in grams.
         carbs (int): The user's target carbohydrate intake in grams.
         fat (int): The user's target fat intake in grams.
-
     Returns:
-        list: A list of dictionaries, where each dictionary represents a meal 
+        list: A list of dictionaries, where each dictionary represents a meal
               that matches the predicted dietary goal.
     """
     # Validate the goal input
