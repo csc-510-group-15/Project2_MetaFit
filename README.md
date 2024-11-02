@@ -89,7 +89,7 @@ METAFIT is an easy to use application that keeps track of a user's daily calorie
 - [License](#license)
 
 
-# Why use BurnOut?
+# Why use METAFIT?
  - User can keep a track of their calorie intake.
  - User just needs to input the food they've had, calories get calculated automatically.
  - Displays a record of calories in and calories burnt out day wise in History tab.
@@ -98,24 +98,19 @@ METAFIT is an easy to use application that keeps track of a user's daily calorie
  - Enrollment into numerous yoga and workout sessions.
  - Accessible to everyone and easy to use.
  - Get your customized food plan using sophisticated AI.
+ - Take a Quiz to test your knowledge about fitness
+ - Share your achievements on social media platforms to build a strong community.
 
 # What's new? (From Burnout to METAFIT)
 
 - Added a customized Meal Plan and recommendation based on user needs.
 - No need to guess calories rather enter your calorie intake and other details to get your meal plan ready.
 - Utilized KNN model for meal_recommendation.
-- Graphical Visualizations: Added various graphs such as bar, pie, line, radar, doughnut and bubble charts.
-- OpenAI: Implemented integration with openAI 
-- Flash pending requests: Users if they have any pending requests are displayed at the top of the UI
-- Brone list Feature: The UI has a new tab where any users if they burn more than 100 calories are displayed
-- Kubernetes: Deployment for kubernetes service has been configrued 
-- Dockerization: The application has been dockerized.
+- Quiz Feature povides an interactive experience where users can test their knowledge on topics like diet, calories, and fitness.
+- Users can now maintain thier strek of fitness on the application itself.
+- Users can now share their achievements on social media platforms.
+- Users can now see daily tasks which are 3 major fitness tasks that they have to do on that particular day.
 - Test cases: We have increased the code coverage from 38% to 75% and fixed all failing test cases.
-- CI/CD - There is a new pipeline which now checks for code coverage and fails if it is under 60%
-- Email notifications -  For every entry/burn out the user does they receive an email
-- UI - UI is more responsive and has validators for forms such as correct email, password requirements,etc.
-- Google Captcha -  The sign up form now tests for users using v2 captcha
-- Autopopulate user Profile data!
 
 
 # TechStack Used for the Development of Project
@@ -170,6 +165,9 @@ This is the page where the user can see their history in the form of a bar graph
 <img src=https://github.com/utsavll0/calorieApp_server/blob/main/static/img/workout.png>
 - This is the page where a user can enter the calories burnt. The value will be updated to the database.
 
+## Meal Plan
+<img width="1217" alt="image" src="https://github.com/user-attachments/assets/3b4c57fb-78bd-46bf-92d5-59bd554ddc7f">
+- This is the page where a user can enter the details to get an ai enhanced list of meals that suits their purpose.
 
  # Steps for execution
  
@@ -242,20 +240,15 @@ This is the page where the user can see their history in the form of a bar graph
   
   Link to the repository:
   https://github.com/deekay2310/calorieApp_server
-  
-  # Enhancements from version 2
-
-   1. Make the website view port adaptable - the website should look good on phone, tablet and computer.
-   2. Chatbot to guide through the application.
-   3. Share workout plans with friends via email.
-   4. Bug Fixes
-
-   
+     
    # Contributers
    
 <center>
   <table>
   <tr>
+        <td align="center"><a href="https://github.com/prabhudatta3004"><br /><sub><b>Prabhudatta Mishra</b></sub></a><br /></td>
+        <td align="center"><a href="https://github.com/apurv-choudhari"><br /><sub><b>Apurv Choudhari</b></sub></a><br /></td>
+        <td align="center"><a href="https://github.com/sankar16"><br /><sub><b>Sankar Raghuthaman</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/anuj672"><br /><sub><b>Anuj Naresh Chetwani</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/bhaveshittadwar"><br /><sub><b>Bhavesh Ittadwar</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/itsJash"><br /><sub><b>Jash Shah</b></sub></a><br /></td>
