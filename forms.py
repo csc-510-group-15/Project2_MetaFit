@@ -1,9 +1,19 @@
-from datetime import date
-from re import sub
-from flask import app
+# from datetime import date
+# from re import sub
+# from flask import app
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import FloatField, RadioField, StringField, PasswordField, SubmitField, BooleanField
-from wtforms.fields.core import DateField, SelectField
+from wtforms import (
+    FloatField,
+    RadioField,
+    StringField,
+    PasswordField,
+    SubmitField,
+    BooleanField,
+)
+from wtforms.fields.core import (
+    DateField,
+    SelectField,
+)
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from apps import App
 from wtforms.validators import Regexp
