@@ -76,8 +76,8 @@ class WeeklySummaryTestCase(unittest.TestCase):
 
         # Insert completed challenges
         completed_challenges = {
-            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1": True, # noqa: E501
-            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2": True, # noqa: E501
+            f"{(today - timedelta(days=1)).strftime('%Y-%m-%d')}_Challenge1": True,  # noqa: E501
+            f"{(today - timedelta(days=2)).strftime('%Y-%m-%d')}_Challenge2": True,  # noqa: E501
         }
         mongo.db.users.insert_one({
             'email': self.user_email,
