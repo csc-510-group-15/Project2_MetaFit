@@ -94,8 +94,8 @@ def login():
     """"
     login() function displays the Login form (login.html) template
     route "/login" will redirect to login() function.
-    LoginForm() called and if the form is submitted 
-    then various values are fetched 
+    LoginForm() called and if the form is submitted
+    then various values are fetched
     and verified from the database entries
     Input: Email, Password, Login Type
     Output: Account Authentication and redirecting to Dashboard
@@ -166,9 +166,9 @@ def register():
     """
     register() function displays the Registration portal (register.html) template
     route "/register" will redirect to register() function.
-    RegistrationForm() called and if the form is submitted 
+    RegistrationForm() called and if the form is submitted
     then various values are fetched and updated into the database
-    Input: Username, Email, Password, Confirm Password, current height, 
+    Input: Username, Email, Password, Confirm Password, current height,
     current weight, target weight, target date
     Output: Value update in the database and redirected to the dashboard
     """
@@ -257,7 +257,7 @@ def user_profile():
     user_profile() function displays 
     the UserProfileForm (user_profile.html) template
     route "/user_profile" will redirect to user_profile() function.
-    user_profile() called and if the form is submitted 
+    user_profile() called and if the form is submitted
     then various values are fetched and updated into the database entries
     Input: Email, height, weight, goal, Target weight
     Output: Value update in database and redirected to home login page
@@ -331,7 +331,7 @@ def calories():
     """
     calorie() function displays the Calorieform (calories.html) template
     route "/calories" will redirect to calories() function.
-    CalorieForm() called and if the form is submitted 
+    CalorieForm() called and if the form is submitted
     then various values are fetched and updated into the database entries
     Input: Email, date, food, burnout
     Output: Value update in database and redirected to home page
@@ -455,7 +455,8 @@ def workout():
                         })
                 if float(burn) > 100:
                     flash(
-                        f'Hurray! You are a part of the bronze list for the day : {selected_date}',
+                        f'Hurray! You are a part of the'
+                        'bronze list for the day : {selected_date}',
                         'success')
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -524,7 +525,8 @@ def bronze_list_page():
 def quiz():
     # ############################
     # quiz() function displays the quiz start page.
-    # The route "/quiz" triggers this function, which initializes a form and renders the main layout template.
+    # The route "/quiz" triggers this function, 
+    # which initializes a form and renders the main layout template.
     # - Input: None (form is initialized but not directly used here).
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
@@ -534,10 +536,13 @@ def quiz():
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     # ############################
-    # question() function displays and processes each quiz question based on the provided question ID.
-    # The route "/question/<int:id>" triggers this function, which retrieves the question and handles user answers.
+    # question() function displays and processes each 
+    # quiz question based on the provided question ID.
+    # The route "/question/<int:id>" triggers this function,
+    # which retrieves the question and handles user answers.
     # - Input: Question ID (URL parameter), form submission with selected answer.
-    # - Output: If answer is correct, 10 points are added to the user's score; otherwise, no points are added.
+    # - Output: If answer is correct, 10 points are added to the user's score; 
+    # otherwise, no points are added.
     #           Redirects to the next question or the score page upon completion.
     # ############################
 
@@ -599,7 +604,8 @@ def history():
     # ############################
     # history() function displays the Historyform (history.html) template
     # route "/history" will redirect to history() function.
-    # HistoryForm() called and if the form is submitted then various values are fetched and update into the database entries
+    # HistoryForm() called and if the form is submitted
+    # then various values are fetched and update into the database entries
     # Input: Email, date
     # Output: Value fetched and displayed
     # ##########################
@@ -625,7 +631,8 @@ def history():
     target_weight = mongo.db.user.find({'email': email})[0]['target_weight']
     current_weight = mongo.db.user.find({'email': email})[0]['weight']
 
-    # Find out the actual calories which user needed to burn/gain to achieve goal from the start day
+    # Find out the actual calories which user needed 
+    # to burn/gain to achieve goal from the start day
     target_calories_to_burn = history_service.total_calories_to_burn(
         target_weight=int(target_weight), current_weight=int(current_weight))
     print(f'########## {target_calories_to_burn}')
@@ -637,7 +644,8 @@ def history():
     current_calories = 0
     for calorie in calories_till_today:
         current_calories += calorie['SUM']
-    # current_calories = [x for x in calories_till_today][0]['SUM'] if len(list(calories_till_today)) != 0 else 0
+    # current_calories = [x for x in calories_till_today][0]['SUM'] 
+    # if len(list(calories_till_today)) != 0 else 0
 
     # Find out no of calories user has to burn/gain in future per day
     calories_to_burn = history_service.calories_to_burn(
@@ -657,7 +665,8 @@ def history():
 @app.route("/ajaxhistory", methods=['POST'])
 def ajaxhistory():
     # ############################
-    # ajaxhistory() is a POST function displays the fetches the various information from database
+    # ajaxhistory() is a POST function displays
+    # the fetches the various information from database
     # route "/ajaxhistory" will redirect to ajaxhistory() function.
     # Details corresponding to given email address are fetched from the database entries
     # Input: Email, date
@@ -697,7 +706,8 @@ def friends():
     # ############################
     # friends() function displays the list of friends corrsponding to given email
     # route "/friends" will redirect to friends() function which redirects to friends.html page.
-    # friends() function will show a list of "My friends", "Add Friends" functionality, "send Request" and Pending Approvals" functionality
+    # friends() function will show a list of "My friends", "Add Friends" functionality,
+    # "send Request" and Pending Approvals" functionality
     # Details corresponding to given email address are fetched from the database entries
     # Input: Email
     # Output: My friends, Pending Approvals, Sent Requests and Add new friends
@@ -752,9 +762,11 @@ def friends():
 
     # Create the shareable message
     if burn_rate > 0:
-        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories daily to reach my goal by {target_date}! #CalorieApp"
+        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories"
+        "daily to reach my goal by {target_date}! #CalorieApp"
     else:
-        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on track for my goal by {target_date}! #CalorieApp"
+        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on"
+        " track for my goal by {target_date}! #CalorieApp"
 
     # print(pendingRequests)
     return render_template('friends.html',
@@ -796,7 +808,8 @@ def send_email():
 
     # Logging in with sender details
     server.login(sender_email, sender_password)
-    message = 'Subject: Calorie History\n\n Your Friend wants to share their calorie history with you!\n {}'.format(
+    message = 'Subject: Calorie History\n\n Your Friend wants to share"
+    " their calorie history with you!\n {}'.format(
         tabulate(table))
     for e in friend_email:
         print(e)
@@ -849,9 +862,11 @@ def ajaxsendrequest():
     # ############################
     # ajaxsendrequest() is a function that updates friend request information into database
     # route "/ajaxsendrequest" will redirect to ajaxsendrequest() function.
-    # Details corresponding to given email address are fetched from the database entries and send request details updated
+    # Details corresponding to given email address are fetched
+    # from the database entries and send request details updated
     # Input: Email, receiver
-    # Output: DB entry of receiver info into database and return TRUE if success and FALSE otherwise
+    # Output: DB entry of receiver info into database and
+    # return TRUE if success and FALSE otherwise
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -875,9 +890,11 @@ def ajaxcancelrequest():
     # ############################
     # ajaxcancelrequest() is a function that updates friend request information into database
     # route "/ajaxcancelrequest" will redirect to ajaxcancelrequest() function.
-    # Details corresponding to given email address are fetched from the database entries and cancel request details updated
+    # Details corresponding to given email address are fetched
+    # from the database entries and cancel request details updated
     # Input: Email, receiver
-    # Output: DB deletion of receiver info into database and return TRUE if success and FALSE otherwise
+    # Output: DB deletion of receiver info into database
+    # and return TRUE if success and FALSE otherwise
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -900,9 +917,11 @@ def ajaxapproverequest():
     # ############################
     # ajaxapproverequest() is a function that updates friend request information into database
     # route "/ajaxapproverequest" will redirect to ajaxapproverequest() function.
-    # Details corresponding to given email address are fetched from the database entries and approve request details updated
+    # Details corresponding to given email address are fetched
+    # from the database entries and approve request details updated
     # Input: Email, receiver
-    # Output: DB updation of accept as TRUE info into database and return TRUE if success and FALSE otherwise
+    # Output: DB updation of accept as TRUE info into database
+    # and return TRUE if success and FALSE otherwise
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -948,7 +967,8 @@ def yoga():
     # ############################
     # yoga() function displays the yoga.html template
     # route "/yoga" will redirect to yoga() function.
-    # A page showing details about yoga is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about yoga is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -973,7 +993,8 @@ def swim():
     # ############################
     # swim() function displays the swim.html template
     # route "/swim" will redirect to swim() function.
-    # A page showing details about swimming is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about swimming is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -998,7 +1019,8 @@ def abbs():
     # ############################
     # abbs() function displays the abbs.html template
     # route "/abbs" will redirect to abbs() function.
-    # A page showing details about abbs workout is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about abbs workout is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1022,7 +1044,8 @@ def belly():
     # ############################
     # belly() function displays the belly.html template
     # route "/belly" will redirect to belly() function.
-    # A page showing details about belly workout is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about belly workout is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1047,7 +1070,8 @@ def core():
     # ############################
     # core() function displays the belly.html template
     # route "/core" will redirect to core() function.
-    # A page showing details about core workout is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about core workout is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1071,7 +1095,8 @@ def gym():
     # ############################
     # gym() function displays the gym.html template
     # route "/gym" will redirect to gym() function.
-    # A page showing details about gym plan is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about gym plan is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1096,7 +1121,8 @@ def walk():
     # ############################
     # walk() function displays the walk.html template
     # route "/walk" will redirect to walk() function.
-    # A page showing details about walk plan is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about walk plan is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1121,7 +1147,8 @@ def dance():
     # ############################
     # dance() function displays the dance.html template
     # route "/dance" will redirect to dance() function.
-    # A page showing details about dance plan is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about dance plan is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1146,7 +1173,8 @@ def hrx():
     # ############################
     # hrx() function displays the hrx.html template
     # route "/hrx" will redirect to hrx() function.
-    # A page showing details about hrx plan is shown and if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about hrx plan is shown and
+    # if clicked on enroll then DB updation done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1203,7 +1231,8 @@ def verify_2fa():
 #     # ############################
 #     # login() function displays the Login form (login.html) template
 #     # route "/login" will redirect to login() function.
-#     # LoginForm() called and if the form is submitted then various values are fetched and verified from the database entries
+#     # LoginForm() called and if the form is submitted 
+    # then various values are fetched and verified from the database entries
 #     # Input: Email, Password, Login Type
 #     # Output: Account Authentication and redirecting to Dashboard
 #     # ##########################
@@ -1214,7 +1243,8 @@ def verify_2fa():
 #             result = mongo.db.user.find_one(
 #                 {'email': email}, {'email', 'Status'})
 #             if result:
-#                 return json.dumps({'email': result['email'], 'Status': result['result']}), 200, {
+#                 return json.dumps({'email': result['email'], 
+#    'Status': result['result']}), 200, {
 #                     'ContentType': 'application/json'}
 #             else:
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
@@ -1321,7 +1351,8 @@ def daily_challenge():
     # Define the shareable message if all challenges are completed
     shareable_message = ""
     if all_completed:
-        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
+        shareable_message = "I completed all my daily challenges today!" 
+        " Feeling great and staying on track with #CalorieApp."
 
     return render_template('daily_challenge.html',
                            daily_challenges=daily_challenges,
