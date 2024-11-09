@@ -41,10 +41,9 @@ class RegistrationForm(FlaskForm):
                    message="Password must contain at least one capital letter")
         ])
     confirm_password = PasswordField(
-        'Confirm Password', 
+        'Confirm Password',
         validators=[DataRequired(),
-                    EqualTo('password')
-                   ]
+                    EqualTo('password')]
     )
     weight = StringField(
         'Weight',
@@ -126,13 +125,14 @@ class WorkoutForm(FlaskForm):
     #     'Select Food', choices=result)
 
     date = DateField(DataRequired())
-    burnout = FloatField('Burn Out', 
+    burnout = FloatField('Burn Out',
                          validators=[DataRequired()]
                         )
     # def validate_burnout(self, field):
     #     # Custom validation to check if input contains only number
     #     if not field.data.isdigit():
-    #         raise ValidationError('Burn Out field should only contain number.')
+    #         raise ValidationError('Burn Out 
+    # field should only contain number.')
     submit = SubmitField('Save')
 
 
@@ -189,9 +189,8 @@ class EnrollForm(FlaskForm):
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField(
-        'Confirm Password', 
-        validators=[DataRequired(), 
-                    EqualTo('password')
-                   ]
+        'Confirm Password',
+        validators=[DataRequired(),
+                    EqualTo('password')]
     )
     submit = SubmitField('Reset')
