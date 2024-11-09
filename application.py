@@ -447,8 +447,7 @@ def workout():
                         })
                 if float(burn) > 100:
                     flash(
-                        f'Hurray! You are a part of the'
-                        'bronze list for the day : {selected_date}',
+                        f'Hurray! You are a part of the bronze list for the day : {selected_date}',
                         'success')
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -754,11 +753,9 @@ def friends():
 
     # Create the shareable message
     if burn_rate > 0:
-        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories"
-        "daily to reach my goal by {target_date}! #CalorieApp"
+        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories daily to reach my goal by {target_date}! #CalorieApp"
     else:
-        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on"
-        " track for my goal by {target_date}! #CalorieApp"
+        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on track for my goal by {target_date}! #CalorieApp"
 
     # print(pendingRequests)
     return render_template('friends.html',
@@ -800,8 +797,7 @@ def send_email():
 
     # Logging in with sender details
     server.login(sender_email, sender_password)
-    message = 'Subject: Calorie History\n\n Your Friend wants to share"
-    " their calorie history with you!\n {}'.format(
+    message = 'Subject: Calorie History\n\n Your Friend wants to share their calorie history with you!\n {}'.format(
         tabulate(table))
     for e in friend_email:
         print(e)
@@ -1343,8 +1339,7 @@ def daily_challenge():
     # Define the shareable message if all challenges are completed
     shareable_message = ""
     if all_completed:
-        shareable_message = "I completed all my daily challenges today!" 
-        " Feeling great and staying on track with #CalorieApp."
+        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
 
     return render_template('daily_challenge.html',
                            daily_challenges=daily_challenges,
