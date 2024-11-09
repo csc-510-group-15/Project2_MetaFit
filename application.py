@@ -516,7 +516,7 @@ def bronze_list_page():
 def quiz():
     # ############################
     # quiz() function displays the quiz start page.
-    # The route "/quiz" triggers this function, 
+    # The route "/quiz" triggers this function,
     # which initializes a form and renders the main layout template.
     # - Input: None (form is initialized but not directly used here).
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
@@ -524,15 +524,16 @@ def quiz():
     form = getDate()
     return render_template('layout.html')
 
+
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     # ############################
-    # question() function displays and processes each 
+    # question() function displays and processes each
     # quiz question based on the provided question ID.
     # The route "/question/<int:id>" triggers this function,
     # which retrieves the question and handles user answers.
     # - Input: Question ID (URL parameter), form submission with selected answer.
-    # - Output: If answer is correct, 10 points are added to the user's score; 
+    # - Output: If answer is correct, 10 points are added to the user's score;
     # otherwise, no points are added.
     #           Redirects to the next question or the score page upon completion.
     # ############################
@@ -622,7 +623,7 @@ def history():
     target_weight = mongo.db.user.find({'email': email})[0]['target_weight']
     current_weight = mongo.db.user.find({'email': email})[0]['weight']
 
-    # Find out the actual calories which user needed 
+    # Find out the actual calories which user needed
     # to burn/gain to achieve goal from the start day
     target_calories_to_burn = history_service.total_calories_to_burn(
         target_weight=int(target_weight), current_weight=int(current_weight))
@@ -635,7 +636,7 @@ def history():
     current_calories = 0
     for calorie in calories_till_today:
         current_calories += calorie['SUM']
-    # current_calories = [x for x in calories_till_today][0]['SUM'] 
+    # current_calories = [x for x in calories_till_today][0]['SUM']
     # if len(list(calories_till_today)) != 0 else 0
 
     # Find out no of calories user has to burn/gain in future per day
@@ -1219,7 +1220,7 @@ def verify_2fa():
 #     # ############################
 #     # login() function displays the Login form (login.html) template
 #     # route "/login" will redirect to login() function.
-#     # LoginForm() called and if the form is submitted 
+#     # LoginForm() called and if the form is submitted
     # then various values are fetched and verified from the database entries
 #     # Input: Email, Password, Login Type
 #     # Output: Account Authentication and redirecting to Dashboard
@@ -1231,7 +1232,7 @@ def verify_2fa():
 #             result = mongo.db.user.find_one(
 #                 {'email': email}, {'email', 'Status'})
 #             if result:
-#                 return json.dumps({'email': result['email'], 
+#                 return json.dumps({'email': result['email'],
 #    'Status': result['result']}), 200, {
 #                     'ContentType': 'application/json'}
 #             else:
