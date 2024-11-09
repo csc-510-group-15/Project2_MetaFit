@@ -126,15 +126,13 @@ class WorkoutForm(FlaskForm):
 
     date = DateField(DataRequired())
     burnout = FloatField('Burn Out',
-                         validators=[DataRequired()]
-                        )
+                         validators=[DataRequired()])
     # def validate_burnout(self, field):
     #     # Custom validation to check if input contains only number
     #     if not field.data.isdigit():
     #         raise ValidationError('Burn Out 
     # field should only contain number.')
     submit = SubmitField('Save')
-
 
 class CalorieForm(FlaskForm):
     app = App()
