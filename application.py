@@ -1498,7 +1498,8 @@ def recommend_meal_plan_endpoint():
 def add_header(response):
     # Disable caching
     response.headers[
-        "Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+        "Cache-Control"] = "no-store, no-cache, "
+        "must-revalidate, public, max-age=0"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
