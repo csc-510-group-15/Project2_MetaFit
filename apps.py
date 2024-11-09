@@ -16,10 +16,10 @@ class App:
         self.mongo = PyMongo(self.app)
         self.app.config[
             'RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwW"
-                                        "dLcyqUvKOy6hJ_zFDTE_"
+        "dLcyqUvKOy6hJ_zFDTE_"
         self.app.config[
             'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC"
-                                        "1zgCAf7V66_wBV0gaaLFv"
+        "1zgCAf7V66_wBV0gaaLFv"
         self.app.config['MAIL_SERVER'] = 'smtp.gmail.com'
         self.app.config['MAIL_PORT'] = 465
         self.app.config['MAIL_USE_SSL'] = True
