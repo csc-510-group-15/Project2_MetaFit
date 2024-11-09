@@ -70,7 +70,8 @@ def find_subset(weight: list, req_sum: int):
 
         # Bottom-Right most ele
         if (dp_array[row][col] != dp_array[row - 1][col]):
-            # print(req_sum,' : ',dp_array[row][col],dp_array[row-1][col],' : ',weight[row])
+            # print(req_sum,' : ',
+            # dp_array[row][col],dp_array[row-1][col],' : ',weight[row])
             sum_subset.append(weight[row])
             req_sum -= weight[row]
             col -= weight[row]
@@ -102,7 +103,8 @@ r = round((cur_wt - goal_wt) / 30, 2)
 for i in range(30):
     cur_wt = round(cur_wt - r, 2)
     cur_wt_track.append(cur_wt)
-# print(cur_wt_track)                # shows weight trend if diet is followed for 30 days
+# print(cur_wt_track)                
+# shows weight trend if diet is followed for 30 days
 
 # calories.sort(reverse = True)
 food_sort = [x for _, x in sorted(zip(calories, food))]
@@ -142,7 +144,9 @@ for i in range(len(u_cal)):
 # print(u_cal_food)
 '''
 for i in range(len(u_cal)):
-    print('Consume one of these items', u_cal_food[i],'*',list_occ[i][1], 'times')
+    print('Consume one of these items', 
+    u_cal_food[i],'*',list_occ[i][1], 'times'
+    )
 '''
 
 diet_report = open('model/diet_guide.txt', "wt")  # path
