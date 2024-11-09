@@ -103,7 +103,7 @@ r = round((cur_wt - goal_wt) / 30, 2)
 for i in range(30):
     cur_wt = round(cur_wt - r, 2)
     cur_wt_track.append(cur_wt)
-# print(cur_wt_track)                
+# print(cur_wt_track)
 # shows weight trend if diet is followed for 30 days
 
 # calories.sort(reverse = True)
@@ -144,7 +144,7 @@ for i in range(len(u_cal)):
 # print(u_cal_food)
 '''
 for i in range(len(u_cal)):
-    print('Consume one of these items', 
+    print('Consume one of these items',
     u_cal_food[i],'*',list_occ[i][1], 'times'
     )
 '''
