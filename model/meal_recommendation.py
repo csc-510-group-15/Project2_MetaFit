@@ -88,7 +88,7 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
         )
 
     # Validate inputs
-    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \  
+    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
        not isinstance(carbs, (int, float)) or not isinstance(fat, (int, float)):  #noqa: E501
         raise ValueError("Caloric and macronutrient values must be numeric.")
 
