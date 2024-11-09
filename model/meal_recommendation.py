@@ -83,12 +83,13 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat):
     # Validate the goal input
     if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
         raise ValueError(
-            "Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'."
+            "Invalid dietary goal. Choose from "
+            "'Weight Loss', 'Muscle Gain', or 'Maintenance'."
         )
 
     # Validate inputs
-    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
-       not isinstance(carbs, (int, float)) or not isinstance(fat, (int, float)):
+    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \  #noqa: E501
+       not isinstance(carbs, (int, float)) or not isinstance(fat, (int, float)):  #noqa: E501
         raise ValueError("Caloric and macronutrient values must be numeric.")
 
     if calories < 0 or protein < 0 or carbs < 0 or fat < 0:
