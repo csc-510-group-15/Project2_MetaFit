@@ -94,9 +94,7 @@ def login():
     """"
     login() function displays the Login form (login.html) template
     route "/login" will redirect to login() function.
-    LoginForm() called and if the form is submitted
-    then various values are fetched
-    and verified from the database entries
+    LoginForm() called and if the form is submitted then various values are fetched and verified from the database entries
     Input: Email, Password, Login Type
     Output: Account Authentication and redirecting to Dashboard
     """
@@ -166,10 +164,8 @@ def register():
     """
     register() function displays the Registration portal (register.html) template
     route "/register" will redirect to register() function.
-    RegistrationForm() called and if the form is submitted
-    then various values are fetched and updated into the database
-    Input: Username, Email, Password, Confirm Password, current height,
-    current weight, target weight, target date
+    RegistrationForm() called and if the form is submitted then various values are fetched and updated into the database
+    Input: Username, Email, Password, Confirm Password, current height, current weight, target weight, target date
     Output: Value update in the database and redirected to the dashboard
     """
     print("here0")
@@ -254,11 +250,9 @@ def send_2fa_email(email, two_factor_secret):
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
     """
-    user_profile() function displays 
-    the UserProfileForm (user_profile.html) template
+    user_profile() function displays the UserProfileForm (user_profile.html) template
     route "/user_profile" will redirect to user_profile() function.
-    user_profile() called and if the form is submitted
-    then various values are fetched and updated into the database entries
+    user_profile() called and if the form is submitted then various values are fetched and updated into the database entries
     Input: Email, height, weight, goal, Target weight
     Output: Value update in database and redirected to home login page
     """
@@ -331,8 +325,7 @@ def calories():
     """
     calorie() function displays the Calorieform (calories.html) template
     route "/calories" will redirect to calories() function.
-    CalorieForm() called and if the form is submitted
-    then various values are fetched and updated into the database entries
+    CalorieForm() called and if the form is submitted then various values are fetched and updated into the database entries
     Input: Email, date, food, burnout
     Output: Value update in database and redirected to home page
     """
@@ -402,8 +395,7 @@ def add_burn_entry_email_notification(email, burn, date):
     receiver = email
 
     subject = 'New burn entry recorded'
-    body = f'You recorded a new entry for'
-    ' a calorie burn of {burn} on the date {date}'
+    body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
 
     try:
 
