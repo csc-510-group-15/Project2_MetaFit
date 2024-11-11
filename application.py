@@ -1448,20 +1448,21 @@ def get_weekly_summary(user_email):
         f"https://twitter.com/intent/tweet?text={encoded_share_message}"
     )
     facebook_url = (
-        f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
+        "https://www.facebook.com/sharer/sharer.php?"
+        f"u=https://calorieapp.com&quote={encoded_share_message}"
     )
     # Include the share message and social sharing buttons in the email body
     message_body += f"""
     <p>{share_message}</p>
     <p>
-        <a href="{twitter_url}" 
+        <a href="{twitter_url}"
            style="display:inline-block; padding:10px 20px; font-size:16px; 
                   color:#fff; background-color:#1DA1F2; text-decoration:none; 
                   border-radius:5px; margin-right:10px;">
             Share on Twitter
         </a>
-        <a href="{facebook_url}" 
-           style="display:inline-block; padding:10px 20px; font-size:16px; 
+        <a href="{facebook_url}"
+           style="display:inline-block; padding:10px 20px; font-size:16px;
                   color:#fff; background-color:#3b5998; text-decoration:none; 
                   border-radius:5px; margin-right:10px;">
             Share on Facebook
