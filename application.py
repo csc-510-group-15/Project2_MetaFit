@@ -822,8 +822,9 @@ def send_email():
     # Logging in with sender details
     server.login(sender_email, sender_password)
     message = (
-        'Subject: Calorie History\n\n Your Friend wants to share their calorie '
-        'history with you!\n {}'.format(tabulate(table))
+        'Subject: Calorie History\n\n'
+        'Your Friend wants to share their calorie history with you!\n'
+        '{}'.format(tabulate(table))
     )
     for e in friend_email:
         print(e)
