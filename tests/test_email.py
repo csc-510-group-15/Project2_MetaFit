@@ -53,7 +53,8 @@ def test_send_2fa_email(mock_smtp):
 
     # Assertions
     mock_smtp.assert_called_once_with('smtp.gmail.com', 465, context=mock.ANY)
-    mock_smtp.return_value.__enter__.return_value.login.assert_called_once_with(
+    smtp_mock = mock_smtp.return_value.__enter__().return_value
+    smtp_mock.login.assert_called_once_with(
         'burnoutapp123@gmail.com',
         'xszyjpklynmwqsgh'
     )
