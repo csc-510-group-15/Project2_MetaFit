@@ -1182,7 +1182,7 @@ def dance():
     # dance() function displays the dance.html template
     # route "/dance" will redirect to dance() function.
     # A page showing details about dance plan is shown and
-    # if clicked on enroll then DB updation done 
+    # if clicked on enroll then DB updation done
     # and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
