@@ -989,7 +989,8 @@ def yoga():
     # yoga() function displays the yoga.html template
     # route "/yoga" will redirect to yoga() function.
     # A page showing details about yoga is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
