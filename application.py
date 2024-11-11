@@ -537,7 +537,7 @@ def quiz():
     # - Input: None (form is initialized but not directly used here).
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
-    #form = getDate()
+    # form = getDate()
     return render_template('layout.html')
 
 
