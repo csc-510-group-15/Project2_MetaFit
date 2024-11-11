@@ -1,10 +1,9 @@
 import pytest
 from unittest.mock import patch
 from application import add_food_entry_email_notification
-from application import add_burn_entry_email_notification, send_2fa_email, app
+from application import add_burn_entry_email_notification, app
 import sys
 import os
-import mock
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 
