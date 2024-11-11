@@ -1459,7 +1459,8 @@ def get_weekly_summary(user_email):
 
 def send_weekly_email(user_email):
     """
-    Sends the weekly progress summary email to the user with social sharing buttons.
+    Sends the weekly progress summary email
+    to the user with social sharing buttons.
     """
     # Generate the email body
     email_body = get_weekly_summary(user_email)
@@ -1542,8 +1543,10 @@ def recommend_meal_plan_endpoint():
 @app.after_request
 def add_header(response):
     # Disable caching
-    response.headers[
-        "Cache-Control"] = "no-store, no-cache, must-revalidate, public, max-age=0"
+    response.headers["Cache-Control"] = (
+        "no-store, no-cache, must-revalidate, public, max-age=0"
+    )
+
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
