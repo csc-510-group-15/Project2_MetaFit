@@ -720,15 +720,7 @@ def ajaxhistory():
 
 @app.route("/friends", methods=['GET'])
 def friends():
-    # ############################
-    # friends() function displays the list of friends corrsponding to given email
-    # route "/friends" will redirect to friends() function which redirects to friends.html page.
-    # friends() function will show a list of "My friends", "Add Friends" functionality,
-    # "send Request" and Pending Approvals" functionality
-    # Details corresponding to given email address are fetched from the database entries
-    # Input: Email
-    # Output: My friends, Pending Approvals, Sent Requests and Add new friends
-    # ##########################
+    
     email = session.get('email')
 
     myFriends = list(
