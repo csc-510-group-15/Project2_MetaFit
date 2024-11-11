@@ -462,8 +462,7 @@ def workout():
                         })
                 if float(burn) > 100:
                     flash(
-                        f'YaY! You are part of the bronze list: {selected_date}',
-                        'success')
+                        f'YaY!You are in bronze list: {selected_date}','success')
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
                         selected_date,
@@ -536,7 +535,7 @@ def quiz():
     # - Input: None (form is initialized but not directly used here).
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
-    form = getDate()
+    #form = getDate()
     return render_template('layout.html')
 
 
@@ -548,12 +547,12 @@ def question(id):
     # The route "/question/<int:id>" triggers this function,
     # which retrieves the question and handles user answers.
     # - Input: Question ID (URL parameter),
-    #form submission with selected answer.
+    # form submission with selected answer.
     # - Output: If answer is correct, 10 points
-    #are added to the user's score;
+    # are added to the user's score;
     # otherwise, no points are added.
     #           Redirects to the next question or
-    #the score page upon completion.
+    # the score page upon completion.
     # ############################
 
     form = QuestionForm()
@@ -599,12 +598,12 @@ def question(id):
 def score():
     # ############################
     # score() function displays the user's
-    #final score at the end of the quiz.
+    # final score at the end of the quiz.
     # The route "/score" triggers this function,
-    #rendering a final score summary page.
+    # rendering a final score summary page.
     # - Input: None.
     # - Output: Renders 'score.html' with the
-    #total score accumulated in the session.
+    # total score accumulated in the session.
     # ############################
 
     return render_template('score.html',
@@ -720,9 +719,7 @@ def ajaxhistory():
 
 @app.route("/friends", methods=['GET'])
 def friends():
-    
     email = session.get('email')
-
     myFriends = list(
         mongo.db.friends.find({
             'sender': email,
