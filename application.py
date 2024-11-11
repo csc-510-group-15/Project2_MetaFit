@@ -1456,14 +1456,14 @@ def get_weekly_summary(user_email):
     <p>{share_message}</p>
     <p>
         <a href="{twitter_url}"
-           style="display:inline-block; padding:10px 20px; font-size:16px; 
-                  color:#fff; background-color:#1DA1F2; text-decoration:none; 
+           style="display:inline-block; padding:10px 20px; font-size:16px;
+                  color:#fff; background-color:#1DA1F2; text-decoration:none;
                   border-radius:5px; margin-right:10px;">
             Share on Twitter
         </a>
         <a href="{facebook_url}"
            style="display:inline-block; padding:10px 20px; font-size:16px;
-                  color:#fff; background-color:#3b5998; text-decoration:none; 
+                  color:#fff; background-color:#3b5998; text-decoration:none;
                   border-radius:5px; margin-right:10px;">
             Share on Facebook
         </a>
