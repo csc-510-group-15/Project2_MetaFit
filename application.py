@@ -905,8 +905,10 @@ def ajaxsendrequest():
 @app.route("/ajaxcancelrequest", methods=['POST'])
 def ajaxcancelrequest():
     # ############################
-    # ajaxcancelrequest() is a function that updates friend request information into database
-    # route "/ajaxcancelrequest" will redirect to ajaxcancelrequest() function.
+    # ajaxcancelrequest() is a function that updates
+    # friend request information into database
+    # route "/ajaxcancelrequest" will redirect
+    # to ajaxcancelrequest() function.
     # Details corresponding to given email address are fetched
     # from the database entries and cancel request details updated
     # Input: Email, receiver
@@ -932,8 +934,10 @@ def ajaxcancelrequest():
 @app.route("/ajaxapproverequest", methods=['POST'])
 def ajaxapproverequest():
     # ############################
-    # ajaxapproverequest() is a function that updates friend request information into database
-    # route "/ajaxapproverequest" will redirect to ajaxapproverequest() function.
+    # ajaxapproverequest() is a function that
+    # updates friend request information into database
+    # route "/ajaxapproverequest" will redirect
+    # to ajaxapproverequest() function.
     # Details corresponding to given email address are fetched
     # from the database entries and approve request details updated
     # Input: Email, receiver
