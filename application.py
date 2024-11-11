@@ -1016,7 +1016,8 @@ def swim():
     # swim() function displays the swim.html template
     # route "/swim" will redirect to swim() function.
     # A page showing details about swimming is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1041,10 +1042,13 @@ def abbs():
     # ############################
     # abbs() function displays the abbs.html template
     # route "/abbs" will redirect to abbs() function.
-    # A page showing details about abbs workout is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # A page showing details about abbs
+    # workout is shown and
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
+    # Output: DB entry about enrollment and
+    # redirected to new dashboard
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
