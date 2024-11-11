@@ -874,8 +874,10 @@ def send_email():
 @app.route("/ajaxsendrequest", methods=['POST'])
 def ajaxsendrequest():
     # ############################
-    # ajaxsendrequest() is a function that updates friend request information into database
-    # route "/ajaxsendrequest" will redirect to ajaxsendrequest() function.
+    # ajaxsendrequest() is a function that updates friend 
+    # request information into database
+    # route "/ajaxsendrequest" will redirect to 
+    # ajaxsendrequest() function.
     # Details corresponding to given email address are fetched
     # from the database entries and send request details updated
     # Input: Email, receiver
