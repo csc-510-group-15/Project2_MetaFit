@@ -1383,10 +1383,10 @@ def daily_challenge():
     # Define the shareable message if all challenges are completed
     shareable_message = ""
     if all_completed:
-    shareable_message = (
-        "I completed all my daily challenges today! "
-        "Feeling great and staying on track with #CalorieApp."
-    )
+        shareable_message = (
+            "I completed all my daily challenges today! "
+            "Feeling great and staying on track with #CalorieApp."
+        )
     return render_template('daily_challenge.html',
                            daily_challenges=daily_challenges,
                            challenges_status=challenges_status,
