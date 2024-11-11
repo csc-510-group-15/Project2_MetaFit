@@ -1209,7 +1209,8 @@ def hrx():
     # hrx() function displays the hrx.html template
     # route "/hrx" will redirect to hrx() function.
     # A page showing details about hrx plan is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1332,10 +1333,6 @@ def log_share():
 
     # Log share action (can be stored in DB if needed)
     print(f"User {user_id} shared on {platform}.")
-
-    # Optional: Store in a collection for tracking shares (uncomment if desired)
-    # mongo.db.shares.insert_one({"user_id": user_id, "platform": platform, "timestamp": datetime.now()})
-
     return jsonify({"status": "success"})
 
 
