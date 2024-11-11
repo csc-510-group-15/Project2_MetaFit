@@ -264,7 +264,7 @@ def user_profile():
     route "/user_profile" will redirect
     to user_profile() function.
     user_profile() called and if the form is
-    submitted then various values are fetched 
+    submitted then various values are fetched
     and updated into the database entries
     Input: Email, height, weight, goal, Target weight
     Output: Value update in database and redirected to home login page
@@ -410,7 +410,7 @@ def add_burn_entry_email_notification(email, burn, date):
     receiver = email
 
     subject = 'New burn entry recorded'
-    body = f'You recorded a new entry for a calorie burn of {burn} on the date {date}'
+    body = f'You recorded a new entry of {burn} on  {date}'
 
     try:
 
@@ -462,7 +462,7 @@ def workout():
                         })
                 if float(burn) > 100:
                     flash(
-                        f'Hurray! You are a part of the bronze list for the day : {selected_date}',
+                        f'YaY! You are part of the bronze list: {selected_date}',
                         'success')
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -547,10 +547,13 @@ def question(id):
     # quiz question based on the provided question ID.
     # The route "/question/<int:id>" triggers this function,
     # which retrieves the question and handles user answers.
-    # - Input: Question ID (URL parameter), form submission with selected answer.
-    # - Output: If answer is correct, 10 points are added to the user's score;
+    # - Input: Question ID (URL parameter),
+    #form submission with selected answer.
+    # - Output: If answer is correct, 10 points
+    #are added to the user's score;
     # otherwise, no points are added.
-    #           Redirects to the next question or the score page upon completion.
+    #           Redirects to the next question or
+    #the score page upon completion.
     # ############################
 
     form = QuestionForm()
@@ -595,10 +598,13 @@ def question(id):
 @app.route('/score')
 def score():
     # ############################
-    # score() function displays the user's final score at the end of the quiz.
-    # The route "/score" triggers this function, rendering a final score summary page.
+    # score() function displays the user's
+    #final score at the end of the quiz.
+    # The route "/score" triggers this function,
+    #rendering a final score summary page.
     # - Input: None.
-    # - Output: Renders 'score.html' with the total score accumulated in the session.
+    # - Output: Renders 'score.html' with the
+    #total score accumulated in the session.
     # ############################
 
     return render_template('score.html',
@@ -673,9 +679,13 @@ def history():
 def ajaxhistory():
     # ############################
     # ajaxhistory() is a POST function displays
-    # the fetches the various information from database
-    # route "/ajaxhistory" will redirect to ajaxhistory() function.
-    # Details corresponding to given email address are fetched from the database entries
+    # the fetches the various
+    #information from database
+    # route "/ajaxhistory" will redirect
+    #to ajaxhistory() function.
+    # Details corresponding to given
+    #email address are fetched
+    #from the database entries
     # Input: Email, date
     # Output: date, email, calories, burnout
     # ##########################
