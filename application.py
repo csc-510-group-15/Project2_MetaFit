@@ -821,8 +821,10 @@ def send_email():
 
     # Logging in with sender details
     server.login(sender_email, sender_password)
-    message = 'Subject: Calorie History\n\n Your Friend wants to share their calorie history with you!\n {}'.format(
-        tabulate(table))
+    message = (
+    'Subject: Calorie History\n\n Your Friend wants to share their calorie '
+    'history with you!\n {}'.format(tabulate(table))
+    )
     for e in friend_email:
         print(e)
         server.sendmail(sender_email, e, message)
@@ -1492,7 +1494,8 @@ scheduler.add_job(
 @app.route("/meal_plan")
 def meal_plan():
     """
-    Renders the meal_plan.html template, where users can view their recommended meal plan.
+    Renders the meal_plan.html template,
+    where users can view their recommended meal plan.
     """
     return render_template("meal_plan.html", title="Meal Plan")
 
@@ -1501,7 +1504,8 @@ def meal_plan():
 def recommend_meal_plan_endpoint():
     """
     Endpoint to recommend a meal plan based on user preferences.
-    Receives JSON data with goal, calories, protein, carbs, and fat values, then generates a recommendation.
+    Receives JSON data with goal, calories, protein,
+    carbs, and fat values, then generates a recommendation.
     """
     # Parse user data from the request
     user_data = request.json
