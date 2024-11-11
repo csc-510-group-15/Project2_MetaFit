@@ -679,14 +679,13 @@ def history():
 @app.route("/ajaxhistory", methods=['POST'])
 def ajaxhistory():
     # ############################
-    # ajaxhistory() is a POST function displays
-    # the fetches the various
-    #information from database
-    # route "/ajaxhistory" will redirect
-    #to ajaxhistory() function.
-    # Details corresponding to given
-    #email address are fetched
-    #from the database entries
+    # ajaxhistory() is a POST function that displays
+    # and fetches various information from the database.
+    # Route "/ajaxhistory" will redirect
+    # to ajaxhistory() function.
+    # Details corresponding to the given
+    # email address are fetched
+    # from the database entries.
     # Input: Email, date
     # Output: date, email, calories, burnout
     # ##########################
