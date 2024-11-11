@@ -1396,7 +1396,7 @@ def daily_challenge():
 
 def get_weekly_summary(user_email):
     """
-    Fetch weekly progress data for a user and 
+    Fetch weekly progress data for a user and
     prepare a summary with social sharing buttons.
     """
     today = datetime.now()
@@ -1434,7 +1434,7 @@ def get_weekly_summary(user_email):
         <li>Challenges completed: {len(weekly_challenges)}</li>
     </ul>
 
-    <p>Keep up the great work and stay 
+    <p>Keep up the great work and stay
     motivated for the next week!</p>
     """
     # Social sharing message
@@ -1444,14 +1444,28 @@ def get_weekly_summary(user_email):
     )
     encoded_share_message = quote(share_message)
     # Social sharing buttons with inline CSS for styling
-    twitter_url = f"https://twitter.com/intent/tweet?text={encoded_share_message}"
-    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
+    twitter_url = (
+        f"https://twitter.com/intent/tweet?text={encoded_share_message}"
+    )
+    facebook_url = (
+        f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
+    )
     # Include the share message and social sharing buttons in the email body
     message_body += f"""
     <p>{share_message}</p>
     <p>
-        <a href="{twitter_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#1DA1F2; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Twitter</a>
-        <a href="{facebook_url}" style="display:inline-block; padding:10px 20px; font-size:16px; color:#fff; background-color:#3b5998; text-decoration:none; border-radius:5px; margin-right:10px;">Share on Facebook</a>
+        <a href="{twitter_url}" 
+           style="display:inline-block; padding:10px 20px; font-size:16px; 
+                  color:#fff; background-color:#1DA1F2; text-decoration:none; 
+                  border-radius:5px; margin-right:10px;">
+            Share on Twitter
+        </a>
+        <a href="{facebook_url}" 
+           style="display:inline-block; padding:10px 20px; font-size:16px; 
+                  color:#fff; background-color:#3b5998; text-decoration:none; 
+                  border-radius:5px; margin-right:10px;">
+            Share on Facebook
+        </a>
     </p>
     <p>Best,<br>The CalorieApp Team</p>
     </body>
