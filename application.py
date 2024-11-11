@@ -94,7 +94,9 @@ def login():
     """"
     login() function displays the Login form (login.html) template
     route "/login" will redirect to login() function.
-    LoginForm() called and if the form is submitted then various values are fetched and verified from the database entries
+    LoginForm() called and if the form is submitted 
+    then various values are fetched and verified 
+    from the database entries
     Input: Email, Password, Login Type
     Output: Account Authentication and redirecting to Dashboard
     """
@@ -162,11 +164,18 @@ def logout():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     """
-    register() function displays the Registration portal (register.html) template
-    route "/register" will redirect to register() function.
-    RegistrationForm() called and if the form is submitted then various values are fetched and updated into the database
-    Input: Username, Email, Password, Confirm Password, current height, current weight, target weight, target date
-    Output: Value update in the database and redirected to the dashboard
+    register() function displays the 
+    Registration portal (register.html) template
+    route "/register" will redirect to 
+    register() function.
+    RegistrationForm() called and if the form is 
+    submitted then various values are 
+    fetched and updated into the database
+    Input: Username, Email, Password, 
+    Confirm Password, current height, 
+    current weight, target weight, target date
+    Output: Value update in the 
+    database and redirected to the dashboard
     """
     print("here0")
     if not session.get('email'):
