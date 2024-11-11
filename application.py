@@ -1383,8 +1383,10 @@ def daily_challenge():
     # Define the shareable message if all challenges are completed
     shareable_message = ""
     if all_completed:
-        shareable_message = "I completed all my daily challenges today! Feeling great and staying on track with #CalorieApp."
-
+    shareable_message = (
+        "I completed all my daily challenges today! "
+        "Feeling great and staying on track with #CalorieApp."
+    )
     return render_template('daily_challenge.html',
                            daily_challenges=daily_challenges,
                            challenges_status=challenges_status,
@@ -1394,7 +1396,8 @@ def daily_challenge():
 
 def get_weekly_summary(user_email):
     """
-    Fetch weekly progress data for a user and prepare a summary with social sharing buttons.
+    Fetch weekly progress data for a user and 
+    prepare a summary with social sharing buttons.
     """
     today = datetime.now()
     one_week_ago = today - timedelta(days=7)
@@ -1431,17 +1434,18 @@ def get_weekly_summary(user_email):
         <li>Challenges completed: {len(weekly_challenges)}</li>
     </ul>
 
-    <p>Keep up the great work and stay motivated for the next week!</p>
+    <p>Keep up the great work and stay 
+    motivated for the next week!</p>
     """
-
     # Social sharing message
-    share_message = f"I’ve burned {total_calories} calories and completed {len(weekly_challenges)} challenges this week! #CalorieApp"
+    share_message = (
+        f"I’ve burned {total_calories} calories and completed "
+        f"{len(weekly_challenges)} challenges this week! #CalorieApp"
+    )
     encoded_share_message = quote(share_message)
-
     # Social sharing buttons with inline CSS for styling
     twitter_url = f"https://twitter.com/intent/tweet?text={encoded_share_message}"
     facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://calorieapp.com&quote={encoded_share_message}"
-
     # Include the share message and social sharing buttons in the email body
     message_body += f"""
     <p>{share_message}</p>
