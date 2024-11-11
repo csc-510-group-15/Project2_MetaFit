@@ -7,12 +7,14 @@ import mongomock
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
     with mongomock.patch():
         with app.test_client() as client:
             yield client
+
 
 def test_get_user(client):
     db = mongomock.MongoClient().db
@@ -30,6 +32,7 @@ def test_get_user(client):
     response = client.get("/register")
     assert response.status_code == 200
 
+
 def test_insert_user(client):
     response = client.post(
         "/register",
@@ -45,11 +48,13 @@ def test_insert_user(client):
     )
     assert response.status_code == 200
 
+
 @pytest.fixture
 def test_client():
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
+
 
 def test_register_redirect_to_verify_2fa(test_client, mocker):
     # Mock the send_2fa_email function
@@ -71,6 +76,7 @@ def test_register_redirect_to_verify_2fa(test_client, mocker):
         follow_redirects=True
     )
     assert response.status_code == 200
+
 
 def test_register_redirect_to_home_when_logged_in(test_client):
     with app.test_request_context('/register'):
