@@ -1071,9 +1071,11 @@ def belly():
     # belly() function displays the belly.html template
     # route "/belly" will redirect to belly() function.
     # A page showing details about belly workout is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
+    # Output: DB entry about enrollment and
+    # redirected to new dashboard
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -1095,9 +1097,11 @@ def belly():
 def core():
     # ############################
     # core() function displays the belly.html template
-    # route "/core" will redirect to core() function.
+    # route "/core" will redirect to
+    # core() function.
     # A page showing details about core workout is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
@@ -1122,9 +1126,11 @@ def gym():
     # gym() function displays the gym.html template
     # route "/gym" will redirect to gym() function.
     # A page showing details about gym plan is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation done
+    # and redirected to new_dashboard
     # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
+    # Output: DB entry about enrollment and
+    # redirected to new dashboard
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -1148,9 +1154,11 @@ def walk():
     # walk() function displays the walk.html template
     # route "/walk" will redirect to walk() function.
     # A page showing details about walk plan is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation
+    # done and redirected to new_dashboard
     # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
+    # Output: DB entry about enrollment
+    # and redirected to new dashboard
     # ##########################
     email = get_session = session.get('email')
     if get_session is not None:
@@ -1174,7 +1182,8 @@ def dance():
     # dance() function displays the dance.html template
     # route "/dance" will redirect to dance() function.
     # A page showing details about dance plan is shown and
-    # if clicked on enroll then DB updation done and redirected to new_dashboard
+    # if clicked on enroll then DB updation done 
+    # and redirected to new_dashboard
     # Input: Email
     # Output: DB entry about enrollment and redirected to new dashboard
     # ##########################
