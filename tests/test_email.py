@@ -59,7 +59,6 @@ def test_send_2fa_email(mock_smtp):
     )
     mock_smtp.return_value.__enter__.return_value.sendmail.assert_called_once()
 
-
 # def test_send_email_route(client: FlaskClient, mock_smtp):
 #     # Simulate an active session
 #     with client.session_transaction() as sess:
