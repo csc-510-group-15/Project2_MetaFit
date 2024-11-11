@@ -52,7 +52,10 @@ def test_client():
         yield client
 
 def test_register_redirect_to_verify_2fa(test_client, mocker):
-    mocker.patch('application.send_2fa_email')  # Mock the send_2fa_email function
+    # Mock the send_2fa_email function
+    mocker.patch(
+        'application.send_2fa_email'
+    )
 
     response = test_client.post(
         '/register',
