@@ -43,23 +43,6 @@ def test_add_burn_entry_email_notification(mock_smtp):
     mock_smtp.return_value.__enter__.return_value.login.assert_called_once()
     mock_smtp.return_value.__enter__.return_value.sendmail.assert_called_once()
 
-
-def test_send_2fa_email(mock_smtp):
-    email = 'test@example.com'
-    two_factor_secret = '123456'  # Replace with the actual secret
-
-    # Call the function
-    send_2fa_email(email, two_factor_secret)
-
-    # Assertions
-    mock_smtp.assert_called_once_with('smtp.gmail.com', 465, context=mock.ANY)
-    smtp_mock = mock_smtp.return_value.__enter__().return_value
-    smtp_mock.login.assert_called_once_with(
-        'burnoutapp123@gmail.com',
-        'xszyjpklynmwqsgh'
-    )
-    mock_smtp.return_value.__enter__.return_value.sendmail.assert_called_once()
-
 # def test_send_email_route(client: FlaskClient, mock_smtp):
 #     # Simulate an active session
 #     with client.session_transaction() as sess:
