@@ -462,7 +462,9 @@ def workout():
                         })
                 if float(burn) > 100:
                     flash(
-                        f'YaY!You are in bronze list: {selected_date}','success')
+                        f'YaY!You are in bronze list: {selected_date}',
+                        'success'
+                    )
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
                         selected_date,
@@ -768,10 +770,15 @@ def friends():
 
     # Create the shareable message
     if burn_rate > 0:
-        shareable_message = f"I’m working hard to gain {abs(burn_rate)} calories daily to reach my goal by {target_date}! #CalorieApp"
+    shareable_message = (
+        f"I’m working hard to gain {abs(burn_rate)} calories daily "
+        f"to reach my goal by {target_date}! #CalorieApp"
+    )
     else:
-        shareable_message = f"Burning {abs(burn_rate)} calories daily to stay on track for my goal by {target_date}! #CalorieApp"
-
+    shareable_message = (
+        f"Burning {abs(burn_rate)} calories daily to stay on track for my "
+        f"goal by {target_date}! #CalorieApp"
+    )
     # print(pendingRequests)
     return render_template('friends.html',
                            allUsers=allUsers,
