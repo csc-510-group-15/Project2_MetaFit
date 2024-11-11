@@ -769,16 +769,18 @@ def friends():
     target_date = user_data.get("target_date", "your goal date")
 
     # Create the shareable message
+    # Ensure this is properly aligned with the preceding block
     if burn_rate > 0:
-    shareable_message = (
-        f"I’m working hard to gain {abs(burn_rate)} calories daily "
-        f"to reach my goal by {target_date}! #CalorieApp"
-    )
+        shareable_message = (
+            f"I’m working hard to gain {abs(burn_rate)} calories daily "
+            f"to reach my goal by {target_date}! #CalorieApp"
+        )
     else:
-    shareable_message = (
-        f"Burning {abs(burn_rate)} calories daily to stay on track for my "
-        f"goal by {target_date}! #CalorieApp"
-    )
+        shareable_message = (
+            f"Burning {abs(burn_rate)} calories daily to stay on track for my "
+            f"goal by {target_date}! #CalorieApp"
+        )
+
     # print(pendingRequests)
     return render_template('friends.html',
                            allUsers=allUsers,
