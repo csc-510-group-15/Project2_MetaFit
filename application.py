@@ -117,7 +117,7 @@ def login():
                 print(temp)
                 last_login = temp.get('last_login')
                 if datetime.now().date() - last_login.date() == timedelta(
-                        days=0):
+                        days=1):
                     mongo.db.user.update_one(
                         {'email': form.email.data},
                         {
