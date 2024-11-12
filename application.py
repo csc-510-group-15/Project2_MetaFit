@@ -106,13 +106,14 @@ def login():
         if form.validate_on_submit():
             temp = mongo.db.user.find_one(
                 {'email': form.email.data},
-                {'email', 'password', 'last_login', 'streak'})
+                {'email', 'username', 'password', 'last_login', 'streak'})
             if temp is not None and temp['email'] == form.email.data and (
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
+                session['username'] = temp['username']
                 print(temp)
                 last_login = temp.get('last_login')
                 if datetime.now().date() - last_login.date() == timedelta(
