@@ -1,3 +1,5 @@
+# New name of this project is MetaFit
+
 import os
 from datetime import datetime, timedelta
 import ssl
