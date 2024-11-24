@@ -3,61 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Recommendation System</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Exercise Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Gym Recommendation System</h1>
-    
-    <!-- User input form -->
-    <form id="recommendationForm">
-        <label for="body_part">Select Body Part:</label>
-        <select name="body_part" id="body_part" required>
-            {% for body_part in body_parts %}
-                <option value="{{ body_part }}">{{ body_part }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="level">Select Level:</label>
-        <select name="level" id="level" required>
-            {% for level in levels %}
-                <option value="{{ level }}">{{ level }}</option>
-            {% endfor %}
-        </select>
-
-        <button type="submit">Get Recommendations</button>
-    </form>
-
-    <!-- Section to display recommendations -->
-    <h2>Recommended Exercises:</h2>
-    <ul id="recommendations"></ul>
-
-    <script>
-        $(document).ready(function () {
-            $("#recommendationForm").on("submit", function (e) {
-                e.preventDefault();  // Prevent the form from submitting normally
-                const formData = $(this).serialize();  // Serialize form data
-
-                $.post("/recommend", formData, function (data) {
-                    const recommendationsList = $("#recommendations");
-                    recommendationsList.empty();  // Clear previous recommendations
-
-                    // If there is an error, display it
-                    if (data.error) {
-                        recommendationsList.append(`<li><strong>Error:</strong> ${data.error}</li>`);
-                        return;
-                    }
-
-                    // Display each recommendation
-                    data.forEach(function (exercise) {
-                        recommendationsList.append(`<li><strong>${exercise.Title}</strong>: ${exercise.Desc}</li>`);
-                    });
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    // Handle any AJAX errors
-                    alert("Error: " + errorThrown);
-                });
-            });
-        });
-    </script>
+    <div class="container mt-5">
+        <h1 class="text-center">Exercise Finder</h1>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="muscle" class="form-label">Muscle/Body Part:</label>
+                <input type="text" id="muscle" name="muscle" class="form-control" placeholder="e.g., biceps, triceps" required>
+            </div>
+            <div class="mb-3">
+                <label for="difficulty" class="form-label">Difficulty Level:</label>
+                <select id="difficulty" name="difficulty" class="form-select" required>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Get Exercises</button>
+        </form>
+        {% if error_message %}
+        <div class="alert alert-danger mt-4">{{ error_message }}</div>
+        {% endif %}
+        {% if exercises %}
+        <div class="mt-5">
+            <h2>Exercises:</h2>
+            <ul class="list-group">
+                {% for exercise in exercises %}
+                <li class="list-group-item">
+                    <h5>{{ exercise.name }}</h5>
+                    <p><strong>Type:</strong> {{ exercise.type }}</p>
+                    <p><strong>Muscle:</strong> {{ exercise.muscle }}</p>
+                    <p><strong>Equipment:</strong> {{ exercise.equipment }}</p>
+                    <p><strong>Difficulty:</strong> {{ exercise.difficulty }}</p>
+                    <p><strong>Instructions:</strong> {{ exercise.instructions }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
