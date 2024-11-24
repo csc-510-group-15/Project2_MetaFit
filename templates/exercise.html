@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Recommendation System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Gym Recommendation System</h1>
+    
+    <!-- User input form -->
+    <form id="recommendationForm">
+        <label for="body_part">Select Body Part:</label>
+        <select name="body_part" id="body_part" required>
+            {% for body_part in body_parts %}
+                <option value="{{ body_part }}">{{ body_part }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="level">Select Level:</label>
+        <select name="level" id="level" required>
+            {% for level in levels %}
+                <option value="{{ level }}">{{ level }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <!-- Section to display recommendations -->
+    <h2>Recommended Exercises:</h2>
+    <ul id="recommendations"></ul>
+
+    <script>
+        $(document).ready(function () {
+            $("#recommendationForm").on("submit", function (e) {
+                e.preventDefault();  // Prevent the form from submitting normally
+                const formData = $(this).serialize();  // Serialize form data
+
+                $.post("/recommend", formData, function (data) {
+                    const recommendationsList = $("#recommendations");
+                    recommendationsList.empty();  // Clear previous recommendations
+
+                    // If there is an error, display it
+                    if (data.error) {
+                        recommendationsList.append(`<li><strong>Error:</strong> ${data.error}</li>`);
+                        return;
+                    }
+
+                    // Display each recommendation
+                    data.forEach(function (exercise) {
+                        recommendationsList.append(`<li><strong>${exercise.Title}</strong>: ${exercise.Desc}</li>`);
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    // Handle any AJAX errors
+                    alert("Error: " + errorThrown);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
