@@ -541,6 +541,10 @@ def quiz():
     # form = getDate()
     return render_template('layout.html')
 
+@app.route("/water", methods=['GET', 'POST'])
+def water():
+    return render_template('water.html')
+
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
