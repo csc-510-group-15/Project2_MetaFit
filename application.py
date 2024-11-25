@@ -1288,7 +1288,7 @@ def verify_2fa():
 #                     'ContentType': 'application/json'}
 
 # put your API key here
-openai.api_key = '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'
+openai.api_key = ''
 
 
 def get_completion(prompt):
