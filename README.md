@@ -267,7 +267,7 @@ This is the page where the user can see their history in the form of a bar graph
   # Source Code
   
   Link to the repository:
-  https://github.com/deekay2310/calorieApp_server
+  https://github.com/RAV-Organization/SE_Project3_calorieApp_server/tree/meta_2.0_final
      
    # Contributers
    
@@ -315,7 +315,7 @@ This is the page where the user can see their history in the form of a bar graph
 
   # Contribution
   
-  Please refer the [CONTRIBUTING.md](https://github.com/deekay2310/calorieApp_server/blob/main/CONTRIBUTING.md) file for instructions on how to contribute to our repository.
+  Please refer the [CONTRIBUTING.md](https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/CONTRIBUTING.md) file for instructions on how to contribute to our repository.
 
   <p align="center">
     <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues/new/choose">Report Bug</a>
