@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 from datetime import datetime
+=======
+# New name of this project is MetaFit
+
+>>>>>>> c1c1878640bd9c62d168d1c548973b451dc0d01f
 import os
 from datetime import datetime, timedelta
 import ssl
@@ -7,6 +12,7 @@ import bcrypt
 import secrets
 import smtplib
 import re
+import requests
 from pyotp import TOTP
 # from apps import App
 from flask import json
@@ -1289,7 +1295,11 @@ def verify_2fa():
 #                     'ContentType': 'application/json'}
 
 # put your API key here
+<<<<<<< HEAD
 # openai.api_key = ''
+=======
+openai.api_key = "YOUR_API_KEY"
+>>>>>>> c1c1878640bd9c62d168d1c548973b451dc0d01f
 
 
 def get_completion(prompt):
@@ -1571,6 +1581,32 @@ def add_header(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
+
+@app.route("/exercise", methods=["GET", "POST"])
+def exercise():
+    exercises = []  # To store exercises
+    error_message = None
+
+    if request.method == "POST":
+        # Get user input
+        muscle = request.form.get("muscle").lower()
+        difficulty = request.form.get("difficulty").lower()
+
+        # API call
+        api_url = f"https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}"
+        headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
+        response = requests.get(api_url, headers=headers)
+
+        if response.status_code == 200:
+            exercises = response.json()[:5]  # Get only 5 exercises
+            if not exercises:
+                error_message = f"No exercises found for {muscle} at {difficulty} level."
+        else:
+            error_message = f"Error {response.status_code}: Unable to fetch exercises."
+
+    return render_template("exercise.html", exercises=exercises, error_message=error_message)
+
 
 
 if __name__ == "__main__":
