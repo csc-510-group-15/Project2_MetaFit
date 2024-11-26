@@ -78,6 +78,7 @@
             <li class="nav-item"><a class="nav-link" href="/workout">Burnout</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('friends') }}">Friends</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a></li>
             <li class="nav-item"><a class="nav-link" href="/chat">Chat Help</a></li>
           </ul>
@@ -90,27 +91,11 @@
             </div>
           </div>
           {% else %}
-<<<<<<< HEAD
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
             <li class="nav-item"><a class="nav-link btn btn-primary btn-sm text-white" href="{{ url_for('register') }}">Register</a></li>
           </ul>
           {% endif %}
-=======
-          <div class="navbar-nav mr-4">
-            <a class="nav-item nav-link" href="{{ url_for('calories') }}">Enter Calories</a>
-            <a class="nav-item nav-link" href="/history">Your plan</a>
-            <a class="nav-item nav-link" href="/workout">Burnout</a>
-            <a class="nav-item nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a>
-            <a class="nav-item nav-link" href="{{url_for('friends')}}">Friends</a>
-            <a class="nav-item nav-link btn btn-link" href="{{ url_for('user_profile') }}">Profile</button>
-            <a class="nav-item nav-link btn btn-link" href="{{ url_for('bronze_list_page') }}">Bronze</button>
-            <a class="nav-item nav-link btn btn-link" href="{{ url_for('question', id=1)}}">Quiz</button>
-            <a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a>
-            <a class="nav-item nav-link btn btn-link" href="/chat">Chat Help</button>
-            <a class="nav-item nav-link btn btn-link" href="{{ url_for('exercise') }}">Exercise</button>
-          </div>
->>>>>>> c1c1878640bd9c62d168d1c548973b451dc0d01f
         </div>
       </div>
     </nav>
