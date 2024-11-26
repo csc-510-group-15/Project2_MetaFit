@@ -47,7 +47,7 @@ h3 {
     border-radius: 0 0 15px 15px;
     background-color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -96,9 +96,35 @@ h3 {
         font-size: 30px;
         height: 0;
         transition: 0.3s ease;
+        
     }
 
     .text {
         text-align: center;
         margin: 0 0 5px;
     }
+
+    .btn {
+        display: inline-block;
+        background-color: var(--fill-color); /* Matches the fill color */
+        color: #fff; /* White text */
+        text-decoration: none; /* Remove underline */
+        padding: 10px 20px; /* Add padding for button-like appearance */
+        font-size: 16px; /* Increase font size */
+        font-weight: bold; /* Make text bold */
+        border-radius: 5px; /* Rounded corners */
+        border: 2px solid var(--border-color); /* Optional border */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+        text-align: center;
+    }
+    
+    .btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: scale(1.05); /* Slight zoom effect */
+    }
+    
+    .btn:active {
+        transform: scale(1); /* Reset zoom effect when clicked */
+        background-color: #003c82; /* Even darker blue */
+    }
+    
