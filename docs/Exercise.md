@@ -1,7 +1,7 @@
 # Meal Plan Route
 
 The `/exercise` route in the application is used for recommending the users some exercises based on the difficulty level. 
-
+The Excercise API of API Ninjas is being used
 ## Route Details
 
 - **Route Path:** `/exercise`
