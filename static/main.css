@@ -1,4 +1,11 @@
 /* Navbar Styling */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .navbar {
   padding: 0.8rem 1.5rem; /* Adjusts spacing */
   background: linear-gradient(90deg, #007bff, #0056b3); /* Gradient background */

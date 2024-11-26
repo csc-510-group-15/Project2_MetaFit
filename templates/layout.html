@@ -62,45 +62,68 @@
   <!-- Header with Navigation -->
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
+      <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('dashboard') if session.get('email') else url_for('login') }}">
           MetaFit
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarToggle"
+          aria-controls="navbarToggle"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
-  
         <div class="collapse navbar-collapse" id="navbarToggle">
           {% if session.get("email") %}
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('calories') }}">Enter Calories</a></li>
-            <li class="nav-item"><a class="nav-link" href="/history">Your Plan</a></li>
-            <li class="nav-item"><a class="nav-link" href="/workout">Burnout</a></li>
-            <li class="nav-item"><a class="nav-link" href="/water">Water Intake</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('friends') }}">Friends</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a></li>
-            <li class="nav-item"><a class="nav-link" href="/chat">Chat Help</a></li>
+            <!-- Navigation Links -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('calories') }}">Enter Calories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/history">Your Plan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/workout">Burnout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/water">Water Intake</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('friends') }}">Friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/chat">Chat Help</a>
+            </li>
           </ul>
+          <!-- Right Side (Welcome and Log Out) -->
           <div class="d-flex align-items-center">
             <span class="navbar-text me-3">Welcome, {{ session.get("username") }}</span>
             <button class="btn btn-outline-danger btn-sm" onclick="logout()">Log Out</button>
-            <div class="streak-badge">
+            <div class="streak-badge ms-3">
               <span class="fire-emoji">🔥</span>
               <span id="streak-count">{{ session.get("streak") }}-Day Streak</span>
             </div>
           </div>
-          {% else %}
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
-            <li class="nav-item"><a class="nav-link btn btn-primary btn-sm text-white" href="{{ url_for('register') }}">Register</a></li>
-          </ul>
           {% endif %}
         </div>
       </div>
     </nav>
   </header>
+  
   
   
 
