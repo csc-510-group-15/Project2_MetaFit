@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 from datetime import datetime
-=======
-# New name of this project is MetaFit
-
->>>>>>> c1c1878640bd9c62d168d1c548973b451dc0d01f
 import os
 from datetime import datetime, timedelta
 import ssl
@@ -1294,13 +1289,6 @@ def verify_2fa():
 #                 return json.dumps({'email': "", 'Status': ""}), 200, {
 #                     'ContentType': 'application/json'}
 
-# put your API key here
-<<<<<<< HEAD
-# openai.api_key = ''
-=======
-openai.api_key = "YOUR_API_KEY"
->>>>>>> c1c1878640bd9c62d168d1c548973b451dc0d01f
-
 
 def get_completion(prompt):
     print(prompt)
@@ -1606,7 +1594,6 @@ def exercise():
             error_message = f"Error {response.status_code}: Unable to fetch exercises."
 
     return render_template("exercise.html", exercises=exercises, error_message=error_message)
-
 
 
 if __name__ == "__main__":
