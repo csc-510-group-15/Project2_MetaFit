@@ -1,6 +1,6 @@
 # walkthrough video: METAFIT2.0
 
-[![Watch the video](https://img.youtube.com/vi/eSvL_QRlxeU/0.jpg)](https://www.youtube.com/watch?v=<VIDEO_ID>)
+[![Watch the video](https://img.youtube.com/vi/eSvL_QRlxeU/0.jpg)](https://www.youtube.com/watch?v=eSvL_QRlxeU)
 
 
 ## Why chose Metafit?
