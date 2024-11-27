@@ -1,13 +1,10 @@
-# walkthrough video: METAFIT
+# walkthrough video: METAFIT2.0
 
-https://youtu.be/4UmnU2iFulc
+[![Watch the video](https://img.youtube.com/vi/eSvL_QRlxeU/0.jpg)](https://www.youtube.com/watch?v=<VIDEO_ID>)
+
 
 ## Why chose Metafit?
 https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
-
-
-
-# walkthrough video: Phase 3
 
 
 
