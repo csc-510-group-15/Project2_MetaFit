@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
 
 [![MIT license](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211870.svg)](https://doi.org/10.5281/zenodo.10211870)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14226770.svg)](https://doi.org/10.5281/zenodo.14226770)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![Test and Formatting](https://github.com/anuj672/calorieApp_server/actions/workflows/code_cov.yml/badge.svg)](https://github.com/anuj672/calorieApp_server/actions/workflows/code_cov.yml)
 [![contributors](https://img.shields.io/github/contributors/RAV-Organization/SE_Project3_calorieApp_server)](https://github.com/anuj672/calorieApp_server/graphs/contributors)
