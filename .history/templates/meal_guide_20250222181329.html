@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+  .guide-img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+  }
+</style>
+
+<div class="mt-5">
+  <h1>{{ food_name }}</h1>
+  <img src="{{ image_url }}" alt="{{ food_name }}" class="guide-img mb-3">
+  
+  <p><strong>Calories:</strong> {{ calories }}</p>
+  <p><strong>Protein:</strong> {{ protein }}g</p>
+  <p><strong>Carbs:</strong> {{ carbs }}g</p>
+  <p><strong>Fat:</strong> {{ fat }}g</p>
+  
+  <hr>
+  
+  <h3>Cooking Instructions</h3>
+  <ol>
+    {% for step in steps %}
+      <li>{{ step }}</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}

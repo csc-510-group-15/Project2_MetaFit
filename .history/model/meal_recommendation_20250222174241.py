@@ -1,6 +1,5 @@
 import pandas as pd
 import random
-import re
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 
@@ -42,17 +41,18 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
     if calories < 0 or protein < 0 or carbs < 0 or fat < 0:
         raise ValueError("Caloric and macronutrient values must be non-negative.")
 
+    # Prepare input vector as a list with proper feature order.
     input_data = scaler.transform([[calories, protein, carbs, fat]])
     prediction = model.predict(input_data)
 
-    # Filter meals based on predicted goal
+    # Filter meals based on predicted goal.
     recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(orient='records')
-    # Slice to top_n meals
+    # Take only top_n meals (slice)
     recommended_meals = recommended_meals[:top_n]
     # Assign unique random scores (all above 90)
-    scores = random.sample(range(70, 100), top_n)
+    scores = random.sample(range(91, 101), top_n)
     for i, meal in enumerate(recommended_meals):
         meal['score'] = scores[i]
-    # Sort meals by score (highest first)
+    # Now sort by score descending.
     recommended_meals = sorted(recommended_meals, key=lambda x: x['score'], reverse=True)
     return recommended_meals

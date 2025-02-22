@@ -1646,16 +1646,12 @@ def bmi_advice():
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
-    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
-    steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
-    cleaned_steps = []
-    for step in steps:
-        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
-        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
-        cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
-        cleaned_steps.append(cleaned)
-    return cleaned_steps
-
+    # Insert a newline before any occurrence of a number and dot that is not at the start
+    # This uses a negative lookbehind to ensure that if the number is at the beginning (i.e., "1."), it remains unchanged.
+    processed = re.sub(r'(?<!^)\s*(\d+\.)', r'\n\1', guide_text)
+    # Split into lines and remove any extra whitespace or empty lines.
+    steps = [step.strip() for step in processed.splitlines() if step.strip()]
+    return steps
 
 @app.route("/meal_guide")
 def meal_guide():
@@ -1667,18 +1663,18 @@ def meal_guide():
     cook_guide = request.args.get("cook_guide", "No guide available")
     image_url = request.args.get("image_url", "https://via.placeholder.com/300")
 
-    # Process the guide text into a list of steps.
+    # Process the cook guide into a list of steps.
     steps = process_guide_text(cook_guide)
-    render = render_template("meal_guide.html",
+    
+    return render_template("meal_guide.html",
                            food_name=food_name,
                            calories=calories,
                            protein=protein,
                            carbs=carbs,
                            fat=fat,
+                           cook_guide=cook_guide,
                            steps=steps,
                            image_url=image_url)
-    
-    return render
 
 
 @app.after_request

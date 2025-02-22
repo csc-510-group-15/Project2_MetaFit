@@ -51,17 +51,4 @@
         </div>  
     </form>
 </div>
-
-<!-- Script to show a success message popup if the profile is updated -->
-{% if get_flashed_messages(with_categories=true) %}
-  <script>
-    $(document).ready(function(){
-      {% for category, message in get_flashed_messages(with_categories=true) %}
-        {% if category == 'success' %}
-          alert("{{ message }}");
-        {% endif %}
-      {% endfor %}
-    });
-  </script>
-{% endif %}
 {% endblock content %}

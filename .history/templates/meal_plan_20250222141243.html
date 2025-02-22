@@ -37,8 +37,9 @@
     <!-- Right Column: Suggestions and BMI Advice -->
     <div class="col-md-6">
       <div class="p-4 border rounded shadow-sm bg-light">
+        <h4>Input Suggestions</h4>
         <ul>
-          <li><strong>Goal:</strong> Choose "Weight Loss", "Muscle Gain", or "Maintenance" based on your goal.</li>
+          <li><strong>Goal:</strong> Choose "Weight Loss", "Muscle Gain", or "Maintenance" based on your objective.</li>
           <li><strong>Calorie Goal:</strong> Enter a realistic calorie target reflecting your daily needs.</li>
           <li><strong>Protein, Carbs &amp; Fat:</strong> Provide these values in grams using whole numbers.</li>
           <li>If you’re unsure, consider referring to general dietary guidelines or consult a nutrition expert.</li>
@@ -58,26 +59,14 @@
 <!-- Include jQuery if not already included -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- JavaScript to Fetch and Display BMI Advice with Computation Details -->
+<!-- JavaScript to Fetch and Display BMI Advice -->
 <script>
 $(document).ready(function(){
     $.ajax({
         url: '/bmi_advice',
         method: 'GET',
         success: function(data){
-            // Compute height in meters from the returned height (assumed in cm)
-            var heightMeters = (data.height && !isNaN(data.height)) ? (parseFloat(data.height) / 100).toFixed(2) : "unknown";
-            
-            var bmiComputation = "";
-            if (data.weight && data.height) {
-              bmiComputation = "<p>BMI is calculated as: <br>" +
-                               "BMI = weight (kg) / [height (m)]² <br>" +
-                               "     = " + data.weight + " kg / (" + heightMeters + " m)² <br>" +
-                               "     = " + data.bmi + "</p>";
-            }
-            
             var adviceHtml = '<p><strong>Your BMI:</strong> ' + data.bmi + '</p>';
-            adviceHtml += bmiComputation;
             adviceHtml += '<p>' + data.advice + '</p>';
             adviceHtml += '<p><em>' + data.calorie_suggestion + '</em></p>';
             adviceHtml += '<p><strong>Recommended Goal:</strong> ' + data.goal_suggestion + '</p>';

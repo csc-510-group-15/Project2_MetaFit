@@ -1646,16 +1646,13 @@ def bmi_advice():
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
-    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
+    # Use regex to extract segments starting with a number followed by a dot.
+    # This regex finds all occurrences of a group starting with digits and a dot,
+    # lazily matching until the next occurrence or end of string.
     steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
-    cleaned_steps = []
-    for step in steps:
-        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
-        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
-        cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
-        cleaned_steps.append(cleaned)
-    return cleaned_steps
-
+    # Clean up each step and append a newline character at the end.
+    steps = [step.strip() + "\n" for step in steps]
+    return steps
 
 @app.route("/meal_guide")
 def meal_guide():
@@ -1667,18 +1664,20 @@ def meal_guide():
     cook_guide = request.args.get("cook_guide", "No guide available")
     image_url = request.args.get("image_url", "https://via.placeholder.com/300")
 
-    # Process the guide text into a list of steps.
+    # Process the cooking guide text into a list of steps.
     steps = process_guide_text(cook_guide)
-    render = render_template("meal_guide.html",
-                           food_name=food_name,
-                           calories=calories,
-                           protein=protein,
-                           carbs=carbs,
-                           fat=fat,
-                           steps=steps,
-                           image_url=image_url)
-    
-    return render
+    print(steps)
+    rendered_html = render_template("meal_guide.html",
+                                      food_name=food_name,
+                                      calories=calories,
+                                      protein=protein,
+                                      carbs=carbs,
+                                      fat=fat,
+                                      cook_guide=cook_guide,
+                                      steps=steps,
+                                      image_url=image_url)
+    print("Rendered HTML:\n", rendered_html)
+    return rendered_html
 
 
 @app.after_request

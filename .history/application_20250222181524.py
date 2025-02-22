@@ -1667,9 +1667,14 @@ def meal_guide():
     cook_guide = request.args.get("cook_guide", "No guide available")
     image_url = request.args.get("image_url", "https://via.placeholder.com/300")
 
+    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
+    print("Image URL passed to template:", image_url)
+
+
     # Process the guide text into a list of steps.
     steps = process_guide_text(cook_guide)
-    render = render_template("meal_guide.html",
+    
+    return render_template("meal_guide.html",
                            food_name=food_name,
                            calories=calories,
                            protein=protein,
@@ -1677,8 +1682,6 @@ def meal_guide():
                            fat=fat,
                            steps=steps,
                            image_url=image_url)
-    
-    return render
 
 
 @app.after_request

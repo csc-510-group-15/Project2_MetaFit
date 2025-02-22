@@ -267,14 +267,16 @@ def send_2fa_email(email, two_factor_secret):
 def user_profile():
     """
     Displays and updates the UserProfileForm.
-    The user only needs to input:
+    For this version, the user only needs to input:
       - Height (in cms)
       - Weight (in kgs)
       - Target Weight (in kgs)
+    The user's email is obtained from the session.
     """
     if not session.get('email'):
         return redirect(url_for('login'))
-    
+
+    form = UserProfileForm()
     email = session.get('email')
     print("User email:", email)
     
@@ -286,55 +288,54 @@ def user_profile():
     })
     print("Existing profile:", existing_profile)
     
-    # Initialize the form, binding POST data if present.
-    form = UserProfileForm(request.form)
-    
-    # On GET requests, pre-fill the form with existing values (if any)
-    if request.method == 'GET' and existing_profile:
-        form.height.data = existing_profile.get('height')
-        form.weight.data = existing_profile.get('weight')
-        form.target_weight.data = existing_profile.get('target_weight')
-    
-    # Only process when the method is POST
-    if request.method == 'POST':
-        print("POST data:", request.form)
-        if form.validate():
-            # Get form values
-            height = form.height.data
-            weight = form.weight.data
-            target_weight = form.target_weight.data
-            
-            try:
-                if existing_profile:
-                    result = mongo.db.user.update_one(
-                        {'email': email},
-                        {'$set': {
-                            'height': height,
-                            'weight': weight,
-                            'target_weight': target_weight
-                        }}
-                    )
-                    if result.modified_count > 0:
-                        flash('User Profile Updated Successfully', 'success')
-                    else:
-                        flash('No changes were made', 'info')
-                else:
-                    result = mongo.db.user.insert_one({
-                        'email': email,
+    # Populate form with submitted data (if any)
+    form.populate_obj(request.form)
+    if existing_profile:
+        # Pre-fill form fields using existing data if available
+        form.height.data = request.form.get('height') or existing_profile.get('height')
+        form.weight.data = request.form.get('weight') or existing_profile.get('weight')
+        form.target_weight.data = request.form.get('target_weight') or existing_profile.get('target_weight')
+
+    print("Form errors:", form.errors)
+
+    if form.validate_on_submit():
+        print("val")
+        # Get form values
+        height = form.height.data
+        weight = form.weight.data
+        target_weight = form.target_weight.data       
+        try:
+            if existing_profile is not None:
+                # Update the existing profile
+                result = mongo.db.user.update_one(
+                    {'email': email},
+                    {'$set': {
                         'height': height,
                         'weight': weight,
                         'target_weight': target_weight
-                    })
-                    if result.inserted_id:
-                        flash('User Profile Created Successfully', 'success')
-                    else:
-                        flash('Failed to create user profile', 'danger')
-            except Exception as e:
-                flash(f'An error occurred: {str(e)}', 'danger')
-            
+                    }}
+                )
+                if result.modified_count > 0:
+                    print('User Profile Updated Successfully', 'success')
+                else:
+                    print('No changes made to the profile', 'info')
+            else:
+                # Insert a new profile document
+                result = mongo.db.user.insert_one({
+                    'email': email,
+                    'height': height,
+                    'weight': weight,
+                    'target_weight': target_weight
+                })
+                if result.inserted_id:
+                    print('User Profile Created Successfully', 'success')
+                else:
+                    print('Failed to create user profile', 'danger')
+        except Exception as e:
+            print(f'An error occurred: {str(e)}', 'danger')
             return redirect(url_for('user_profile'))
-        else:
-            print("Form validation errors:", form.errors)
+        
+        return redirect(url_for('user_profile'))
     
     return render_template('user_profile.html',
                            status=True,
@@ -1642,43 +1643,6 @@ def bmi_advice():
         "goal_suggestion": goal_suggestion,
         "reference_values": reference_values
     })
-
-def process_guide_text(guide_text):
-    # Remove any surrounding double quotes
-    guide_text = guide_text.strip('"')
-    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
-    steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
-    cleaned_steps = []
-    for step in steps:
-        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
-        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
-        cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
-        cleaned_steps.append(cleaned)
-    return cleaned_steps
-
-
-@app.route("/meal_guide")
-def meal_guide():
-    food_name = request.args.get("food_name", "Unknown Meal")
-    calories = request.args.get("calories", "N/A")
-    protein = request.args.get("protein", "N/A")
-    carbs = request.args.get("carbs", "N/A")
-    fat = request.args.get("fat", "N/A")
-    cook_guide = request.args.get("cook_guide", "No guide available")
-    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
-
-    # Process the guide text into a list of steps.
-    steps = process_guide_text(cook_guide)
-    render = render_template("meal_guide.html",
-                           food_name=food_name,
-                           calories=calories,
-                           protein=protein,
-                           carbs=carbs,
-                           fat=fat,
-                           steps=steps,
-                           image_url=image_url)
-    
-    return render
 
 
 @app.after_request

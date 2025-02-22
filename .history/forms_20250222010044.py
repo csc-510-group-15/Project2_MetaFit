@@ -166,6 +166,9 @@ class UserProfileForm(FlaskForm):
     height = StringField('Height',
                          validators=[DataRequired(),
                                      Length(min=2, max=20)])
+    goal = StringField('Goal',
+                       validators=[DataRequired(),
+                                   Length(min=2, max=20)])
     target_weight = StringField(
         'Target Weight', validators=[DataRequired(),
                                      Length(min=2, max=20)])

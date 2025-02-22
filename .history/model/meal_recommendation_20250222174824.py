@@ -50,7 +50,7 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
     # Slice to top_n meals
     recommended_meals = recommended_meals[:top_n]
     # Assign unique random scores (all above 90)
-    scores = random.sample(range(70, 100), top_n)
+    scores = random.sample(range(70, 101), top_n)
     for i, meal in enumerate(recommended_meals):
         meal['score'] = scores[i]
     # Sort meals by score (highest first)

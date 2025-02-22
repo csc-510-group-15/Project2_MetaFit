@@ -1678,6 +1678,7 @@ def meal_guide():
                            steps=steps,
                            image_url=image_url)
     
+    print(render)
     return render
 
 

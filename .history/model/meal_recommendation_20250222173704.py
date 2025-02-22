@@ -1,13 +1,12 @@
 import pandas as pd
 import random
-import re
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 
 # Load CSV data
 meal_data = pd.read_csv('food_data/meal_plan_data.csv')
 
-# Ensure extra columns exist; if not, set default placeholders.
+# Ensure extra columns exist; otherwise, set default placeholders.
 if 'image_url' not in meal_data.columns:
     meal_data['image_url'] = 'https://via.placeholder.com/150'
 if 'cook_guide' not in meal_data.columns:
@@ -33,7 +32,7 @@ def train_model():
 
 model = train_model()
 
-def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
+def recommend_meal_plan(goal, calories, protein, carbs, fat):
     if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
         raise ValueError("Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'.")
     if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
@@ -47,12 +46,10 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
 
     # Filter meals based on predicted goal
     recommended_meals = meal_data[meal_data['goal'] == prediction[0]].to_dict(orient='records')
-    # Slice to top_n meals
-    recommended_meals = recommended_meals[:top_n]
-    # Assign unique random scores (all above 90)
-    scores = random.sample(range(70, 100), top_n)
+    # Return only the top 5
+    recommended_meals = recommended_meals[:5]
+    # Assign a unique random score (all above 90)
+    scores = random.sample(range(91, 101), 5)
     for i, meal in enumerate(recommended_meals):
         meal['score'] = scores[i]
-    # Sort meals by score (highest first)
-    recommended_meals = sorted(recommended_meals, key=lambda x: x['score'], reverse=True)
     return recommended_meals
