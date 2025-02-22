@@ -50,6 +50,7 @@ from src.password_reset import password_reset_bp
 
 app = Flask(__name__)
 
+
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
     # Use Docker-specific MongoDB URI
@@ -59,7 +60,6 @@ else:
     app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
-app.mongo = mongo 
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
 app.config[
     'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
