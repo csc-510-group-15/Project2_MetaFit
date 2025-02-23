@@ -48,7 +48,6 @@ function displayMealPlan(meals) {
     mealContainer.empty();
 
     if (meals && meals.length > 0) {
-        // Create a flex container for the cards.
         let rowHTML = `<div class="d-flex flex-wrap justify-content-between">`;
         meals.forEach((meal, index) => {
             // Use a fallback value if meal.image_url is missing or empty.
@@ -63,7 +62,7 @@ function displayMealPlan(meals) {
                         <p class="card-text mb-1"><strong>Protein:</strong> ${meal.protein}g</p>
                         <p class="card-text mb-1"><strong>Carbs:</strong> ${meal.carbs}g</p>
                         <p class="card-text mb-1"><strong>Fat:</strong> ${meal.fat}g</p>
-                        <a class="btn btn-primary btn-sm mt-2 guide-link" 
+                        <a class="btn btn-primary btn-sm mt-2" 
                            href="/meal_guide?food_name=${encodeURIComponent(meal.food_name || '')}&calories=${meal.calories}&protein=${meal.protein}&carbs=${meal.carbs}&fat=${meal.fat}&cook_guide=${encodeURIComponent(meal.cook_guide)}&image_url=${encodeURIComponent(image_url)}" 
                            target="_blank">Guide</a>
                     </div>
@@ -78,12 +77,8 @@ function displayMealPlan(meals) {
     }
 }
 
+
 $(document).ready(function() {
-    // Debug: Log the guide URL when a Guide button is clicked.
-    $(document).on("click", ".guide-link", function(e) {
-        console.log("Guide button clicked. Href:", $(this).attr("href"));
-    });
-    
     // Auto-fetch on page load if desired.
     // if (window.location.pathname === "/meal_plan") getMealPlan(new Event('load'));
 });
