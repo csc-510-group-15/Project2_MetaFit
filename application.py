@@ -8,6 +8,7 @@ import secrets
 import smtplib
 import re
 import requests
+from src.water_intake import UserProfile, WaterIntakeTracker
 from pyotp import TOTP
 # from apps import App
 from flask import json
