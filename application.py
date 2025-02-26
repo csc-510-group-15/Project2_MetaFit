@@ -48,7 +48,6 @@ from forms import (
 from service import history as history_service
 
 
-
 from model.meal_recommendation import recommend_meal_plan
 
 # Import and register the password reset blueprint
@@ -83,7 +82,7 @@ badge_milestones = {"highest_streak": [0, 7, 14, 21],
                     "calories_burned": [0, 2000, 4000, 6000]}
 
 
-def update_statistic(stat_name, value, is_increment = False):
+def update_statistic(stat_name, value, is_increment=False):
     """
     Update the value associated with the given named statistic.
     Additionally, update the current user's badge levels to match the new value.
@@ -93,13 +92,13 @@ def update_statistic(stat_name, value, is_increment = False):
         return
 
     # If no entry exists for this user account, create it.
-    if mongo.db.stats.find_one( { 'email': email } ) is None:
-        mongo.db.stats.insert_one( { 'email': email } )
+    if mongo.db.stats.find_one({'email': email}) is None:
+        mongo.db.stats.insert_one({'email': email})
 
     # Record the new statistic value in a database.
     db_operation = "$inc" if is_increment else "$set"
-    mongo.db.stats.update_one( { 'email': email }, { db_operation: { stat_name: value } } )
-    updated_entry = mongo.db.stats.find_one( { 'email': email } )
+    mongo.db.stats.update_one({'email': email }, {db_operation: {stat_name: value}})
+    updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
     if stat_name not in badge_milestones:
@@ -115,7 +114,7 @@ def update_statistic(stat_name, value, is_increment = False):
     lvl = min(len(milestone_values), lvl - 1)
 
     print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
-    mongo.db.badges.update_one({'email': email }, {"$set": {stat_name: lvl}})
+    mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
 @app.context_processor
@@ -384,8 +383,6 @@ def user_profile():
                            existing_profile=existing_profile)
 
 
-
-
 @app.route("/badges", methods=['GET', 'POST'])
 def badges():
     email = session.get('email')
@@ -400,7 +397,7 @@ def badges():
     badgeData = mongo.db.badges.find_one({'email': email})
     if badgeData is None:
         mongo.db.badges.insert_one({'email': email})
-        badgeData = mongo.db.badges.find_one({ 'email': email})
+        badgeData = mongo.db.badges.find_one({'email': email})
 
     # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
@@ -624,6 +621,7 @@ def quiz():
     # form = getDate()
     return render_template('layout.html')
 
+
 @app.route("/water", methods=['GET', 'POST'])
 def water():
     return render_template('water.html')
@@ -631,19 +629,19 @@ def water():
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
-    # ############################
-    # question() function displays and processes each
-    # quiz question based on the provided question ID.
-    # The route "/question/<int:id>" triggers this function,
-    # which retrieves the question and handles user answers.
-    # - Input: Question ID (URL parameter),
-    # form submission with selected answer.
-    # - Output: If answer is correct, 10 points
-    # are added to the user's score;
-    # otherwise, no points are added.
-    #           Redirects to the next question or
-    # the score page upon completion.
-    # ############################
+    """
+    question() function displays and processes each
+    quiz question based on the provided question ID.
+    The route "/question/<int:id>" triggers this function,
+    which retrieves the question and handles user answers.
+    - Input: Question ID (URL parameter),
+    form submission with selected answer.
+    - Output: If answer is correct, 10 points
+    are added to the user's score;
+    otherwise, no points are added.
+              Redirects to the next question or
+    the score page upon completion.
+    """
 
     form = QuestionForm()
     q = mongo.db.questions.find_one({"q_id": id})
@@ -683,15 +681,15 @@ def question(id):
 
 @app.route('/score')
 def score():
-    # ############################
-    # score() function displays the user's
-    # final score at the end of the quiz.
-    # The route "/score" triggers this function,
-    # rendering a final score summary page.
-    # - Input: None.
-    # - Output: Renders 'score.html' with the
-    # total score accumulated in the session.
-    # ############################
+    """
+    score() function displays the user's
+    final score at the end of the quiz.
+    The route "/score" triggers this function,
+    rendering a final score summary page.
+    - Input: None.
+    - Output: Renders 'score.html' with the
+    total score accumulated in the session.
+    """
 
     return render_template('score.html',
                            title='Final Score',
@@ -700,14 +698,14 @@ def score():
 
 @app.route("/history", methods=['GET'])
 def history():
-    # ############################
-    # history() function displays the Historyform (history.html) template
-    # route "/history" will redirect to history() function.
-    # HistoryForm() called and if the form is submitted
-    # then various values are fetched and update into the database entries
-    # Input: Email, date
-    # Output: Value fetched and displayed
-    # ##########################
+    """
+    history() function displays the Historyform (history.html) template
+    route "/history" will redirect to history() function.
+    HistoryForm() called and if the form is submitted
+    then various values are fetched and update into the database entries
+    Input: Email, date
+    Output: Value fetched and displayed
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = HistoryForm()
@@ -762,17 +760,17 @@ def history():
 
 @app.route("/ajaxhistory", methods=['POST'])
 def ajaxhistory():
-    # ############################
-    # ajaxhistory() is a POST function that displays
-    # and fetches various information from the database.
-    # Route "/ajaxhistory" will redirect
-    # to ajaxhistory() function.
-    # Details corresponding to the given
-    # email address are fetched
-    # from the database entries.
-    # Input: Email, date
-    # Output: date, email, calories, burnout
-    # ##########################
+    """
+    ajaxhistory() is a POST function that displays
+    and fetches various information from the database.
+    Route "/ajaxhistory" will redirect
+    to ajaxhistory() function.
+    Details corresponding to the given
+    email address are fetched
+    from the database entries.
+    Input: Email, date
+    Output: date, email, calories, burnout
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         if request.method == "POST":
@@ -803,11 +801,19 @@ def ajaxhistory():
 
 @app.route("/feed", methods=['GET'])
 def feed():
+    """
+    Open a webpage full of examples courses and classes for the
+    user to peruse.
+    """
     return render_template('feed.html')
 
 
 @app.route("/friends", methods=['GET'])
 def friends():
+    """
+    Open a webpage where users can send and receive friend requests from
+    other active users.
+    """
     email = session.get('email')
     myFriends = list(
         mongo.db.friends.find({
@@ -880,13 +886,13 @@ def friends():
 
 @app.route("/send_email", methods=['GET', 'POST'])
 def send_email():
-    # ############################
-    # send_email() function shares Calorie History with friend's email
-    # route "/send_email" will redirect to send_email()
-    # function which redirects to friends.html page.
-    # Input: Email
-    # Output: Calorie History Received on specified email
-    # ##########################
+    """
+    send_email() function shares Calorie History with friend's email
+    route "/send_email" will redirect to send_email()
+    function which redirects to friends.html page.
+    Input: Email
+    Output: Calorie History Received on specified email
+    """
     email = session.get('email')
     data = list(
         mongo.db.calories.find({'email': email},
