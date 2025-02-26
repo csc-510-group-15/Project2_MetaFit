@@ -69,6 +69,41 @@ mail = Mail(app)
 
 scheduler = APScheduler()
 
+badge_milestones = { "highest_streak": [ 0, 7, 14, 21 ], 
+                    "calories_eaten": [ 0, 20, 40, 80 ], 
+                    "calories_burned": [ 0, 2000, 4000, 6000 ] }
+
+
+def update_statistic(stat_name, value, is_increment = False):
+    email = session.get('email')
+    if email is None:
+        return
+    
+    # If no entry exists for this user account, create it.
+    if mongo.db.stats.find_one( { 'email': email } ) is None:
+        mongo.db.stats.insert_one( { 'email': email } )
+
+    # Record the new statistic value in a database.
+    db_operation = "$inc" if is_increment else "$set"
+    mongo.db.stats.update_one( { 'email': email }, { db_operation: { stat_name: value } } )
+    updated_entry = mongo.db.stats.find_one( { 'email': email } )
+
+    # The following should really be a database, or a csv spreadsheet.
+    if stat_name not in badge_milestones:
+        print("error in updating stat!!")
+        return
+    
+    milestone_values = badge_milestones[stat_name]
+    
+    # Determine the highest level that the new value matches or exceeds.
+    lvl = 1
+    while lvl < len(milestone_values) and milestone_values[lvl] <= updated_entry[stat_name]:
+        lvl += 1
+    lvl = min(len(milestone_values), lvl - 1)
+
+    print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
+    mongo.db.badges.update_one( { 'email': email }, { "$set": { stat_name: lvl } } )
+
 
 @app.context_processor
 def inject_cache_buster():
@@ -84,7 +119,6 @@ def home():
     input: The function takes session as the input
     Output: Out function will redirect to the login page
     """
-    print("Start")
     if session.get('email'):
         return redirect(url_for('dashboard'))
     else:
@@ -116,7 +150,6 @@ def login():
                 flash('You have been logged in!', 'success')
                 session['email'] = temp['email']
                 session['username'] = temp['username']
-                print(temp)
                 last_login = temp.get('last_login')
                 if datetime.now().date() - last_login.date() == timedelta(
                         days=1):
@@ -127,6 +160,7 @@ def login():
                             "$set": {"last_login": datetime.now()},
                         }
                     )
+                    update_statistic("highest_streak", 1, True)
                 else:
                     mongo.db.user.update_one(
                         {'email': form.email.data},
@@ -137,6 +171,7 @@ def login():
                             }
                         }
                     )
+                    update_statistic("highest_streak", 0)
                 temp1 = mongo.db.user.find_one({'email': form.email.data},
                                                {'streak'})
                 print(f"temp1={temp1}\nsession={session}")
@@ -180,19 +215,15 @@ def register():
     Output: Value update in the
     database and redirected to the dashboard
     """
-    print("here0")
     if not session.get('email'):
         form = RegistrationForm()
         if form.validate_on_submit():
-            print("here1")
             email = request.form.get('email')
             password = request.form.get('password')
 
             # Generate and save 2FA secret to the session
             secret_key = secrets.token_urlsafe(20).replace('=', '')
-            print("here2")
             totp = TOTP(secret_key)
-            print("here3")
             two_factor_secret = totp.secret
             session['two_factor_secret'] = two_factor_secret
             session['registration_data'] = {
@@ -215,13 +246,10 @@ def register():
                 'completed_challenges':
                 {}  # Initialize with an empty dictionary
             }
-            print("here4")
             send_2fa_email(email, two_factor_secret)
-            print("here5")
             # Redirect to 2FA verification page
             return redirect(url_for('verify_2fa'))
         else:
-            print("here6")
             return render_template('register.html',
                                    title='Register',
                                    form=form)
@@ -288,7 +316,6 @@ def user_profile():
             'weight': 1,
             'target_weight': 1
         })
-        print(existing_profile)
         # Populate the form with existing values
         form.populate_obj(request.form)
         if existing_profile:
@@ -338,8 +365,32 @@ def user_profile():
 
 @app.route("/badges", methods=['GET', 'POST'])
 def badges():
-    # return redirect(url_for('home'))
-    return render_template('badges.html', title='Badge Collection')
+    email = session.get('email')
+    if email is None:
+        return redirect(url_for('login'))
+    
+    statsData = mongo.db.stats.find_one( { 'email': email } )
+    if statsData is None:
+        mongo.db.stats.insert_one( { 'email': email } )
+        statsData = mongo.db.stats.find_one( { 'email': email } )
+
+    badgeData = mongo.db.badges.find_one( { 'email': email } )
+    if badgeData is None:
+        mongo.db.badges.insert_one( { 'email': email } )
+        badgeData = mongo.db.badges.find_one( { 'email': email } )
+
+    # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
+    for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
+        if stat not in statsData:
+            update_statistic(stat, 0)
+        else:
+            update_statistic(stat, int(float(statsData[stat])))
+
+    # if badgeData is None:
+    #     print("error!")
+    #     render_template('badges.html', title='Badge Collection')
+
+    return render_template('badges.html', title='Badge Collection', milestoneData=badge_milestones, badgeData=badgeData)
 
 
 @app.route("/calories", methods=['GET', 'POST'])
@@ -365,7 +416,6 @@ def calories():
                 food = request.form.get('food')
                 selected_date = request.form.get('target_date')
                 # cals = food.split(" ")
-                # print('cals is ',cals)
                 match = re.search(r'\((\d+)\)', food)
                 if match:
                     cals = int(match.group(1))
@@ -377,6 +427,7 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
+                update_statistic("calories_eaten", int(float(cals)), True)
                 flash('Successfully sent email and updated the data!',
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
@@ -457,6 +508,7 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
+                update_statistic("calories_burned", int(float(burn)), True)
                 if float(burn) < 100:
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -590,11 +642,8 @@ def question(id):
         option = request.form['options']
         option = answer_mapping.get(option)
 
-        print(option)
-        print(q['ans'])
         if option == q['ans']:
             session['marks'] += 10
-            print(f"Current Marks: {session['marks']}")
         return redirect(url_for('question', id=(id + 1)))
 
     form.options.choices = [(q['options']['a'], q['options']['a']),
@@ -662,7 +711,6 @@ def history():
     # to burn/gain to achieve goal from the start day
     target_calories_to_burn = history_service.total_calories_to_burn(
         target_weight=int(target_weight), current_weight=int(current_weight))
-    print(f'########## {target_calories_to_burn}')
 
     # Find out how many calories user has gained or burnt uptill now
     calories_till_today = mongo.db.calories.aggregate(
@@ -703,7 +751,6 @@ def ajaxhistory():
     # Output: date, email, calories, burnout
     # ##########################
     email = get_session = session.get('email')
-    print(email)
     if get_session is not None:
         if request.method == "POST":
             date = request.form.get('date')
@@ -749,7 +796,6 @@ def friends():
     for f in myFriends:
         myFriendsList.append(f['receiver'])
 
-    print(myFriends)
     allUsers = list(mongo.db.user.find({}, {'name', 'email'}))
 
     pendingRequests = list(
@@ -777,8 +823,6 @@ def friends():
     for p in pendingApprovals:
         pendingApproves.append(p['sender'])
 
-    # print(pendingApproves)
-
     # Retrieve burn_rate and target_date from the user's data
     user_data = mongo.db.user.find_one({"email": email})
     burn_rate = user_data.get("burn_rate",
@@ -798,7 +842,6 @@ def friends():
             f"goal by {target_date}! #CalorieApp"
         )
 
-    # print(pendingRequests)
     return render_template('friends.html',
                            allUsers=allUsers,
                            pendingRequests=pendingRequests,
@@ -845,7 +888,6 @@ def send_email():
         '{}'.format(tabulate(table))
     )
     for e in friend_email:
-        print(e)
         server.sendmail(sender_email, e, message)
 
     server.quit()
@@ -965,7 +1007,6 @@ def ajaxapproverequest():
     email = get_session = session.get('email')
     if get_session is not None:
         receiver = request.form.get('receiver')
-        print(email, receiver)
         res = mongo.db.friends.update_one(
             {
                 'sender': receiver,
@@ -1260,7 +1301,6 @@ def verify_2fa():
         if stored_code and entered_code == stored_code:
             # 2FA code is correct, proceed with registration
             user_data = session.get('registration_data')
-            print(f"user_data={user_data}")
             session['email'] = user_data['email']
             user_data['last_login'] = datetime.now()
             user_data['streak'] = 1
@@ -1291,7 +1331,6 @@ def verify_2fa():
 #     # Output: Account Authentication and redirecting to Dashboard
 #     # ##########################
 #     email = get_session = session.get('email')
-#     print(email)
 #     if get_session is not None:
 #         if request.method == "POST":
 #             result = mongo.db.user.find_one(
@@ -1306,7 +1345,6 @@ def verify_2fa():
 
 
 def get_completion(prompt):
-    print(prompt)
     query = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -1323,10 +1361,8 @@ def get_completion(prompt):
 @app.route("/chat", methods=['POST', 'GET'])
 def query_view():
     if request.method == 'POST':
-        print('step1')
         prompt = request.form['prompt']
         response = get_completion(prompt)
-        print(response)
 
         return jsonify({'response': response})
     return render_template('chat.html')
