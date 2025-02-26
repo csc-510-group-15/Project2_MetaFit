@@ -97,7 +97,8 @@ def update_statistic(stat_name, value, is_increment=False):
 
     # Record the new statistic value in a database.
     db_operation = "$inc" if is_increment else "$set"
-    mongo.db.stats.update_one({'email': email }, {db_operation: {stat_name: value}})
+    mongo.db.stats.update_one(
+        {'email': email }, {db_operation: {stat_name: value}})
     updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
@@ -391,7 +392,7 @@ def badges():
 
     statsData = mongo.db.stats.find_one({'email': email})
     if statsData is None:
-        mongo.db.stats.insert_one( {'email': email})
+        mongo.db.stats.insert_one({'email': email})
         statsData = mongo.db.stats.find_one({'email': email})
 
     badgeData = mongo.db.badges.find_one({'email': email})
@@ -1626,6 +1627,8 @@ def recommend_meal_plan_endpoint():
                                             fat)
     return jsonify(recommended_meals)
 
+
+
 # Example /bmi_advice endpoint update:
 @app.route('/bmi_advice', methods=['GET'])
 def bmi_advice():
@@ -1703,6 +1706,7 @@ def bmi_advice():
         "reference_values": reference_values
     })
 
+
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
@@ -1725,18 +1729,19 @@ def meal_guide():
     carbs = request.args.get("carbs", "N/A")
     fat = request.args.get("fat", "N/A")
     cook_guide = request.args.get("cook_guide", "No guide available")
-    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
+    image_url = request.args.get(
+        "image_url", "https://via.placeholder.com/300")
     print(request.args)
     # Process the guide text into a list of steps.
     steps = process_guide_text(cook_guide)
     render = render_template("meal_guide.html",
-                           food_name=food_name,
-                           calories=calories,
-                           protein=protein,
-                           carbs=carbs,
-                           fat=fat,
-                           steps=steps,
-                           image_url=image_url)
+                            food_name=food_name,
+                            calories=calories,
+                            protein=protein,
+                            carbs=carbs,
+                            fat=fat,
+                            steps=steps,
+                            image_url=image_url)
     return render
 
 

@@ -13,6 +13,7 @@ password_reset_bp = Blueprint('password_reset', __name__, template_folder='templ
 INFO_SENDER = 'burnoutapp123@gmail.com'
 INFO_PASSWORD = 'xszyjpklynmwqsgh'
 
+
 def send_reset_email(email, reset_code):
     subject = 'Your Password Reset Code'
     body = f'Your password reset code is: {reset_code}'
@@ -29,6 +30,7 @@ def send_reset_email(email, reset_code):
     except Exception as e:
         print(f"Error sending reset email: {e}")
         flash('Failed to send reset code. Please try again.', 'danger')
+
 
 @password_reset_bp.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
@@ -53,13 +55,14 @@ def forgot_password():
             flash('Email not found. Please check your email address.', 'danger')
     return render_template('forgot_password.html')
 
+
 @password_reset_bp.route("/reset_password", methods=['GET', 'POST'])
 def reset_password():
     email = request.args.get('email')
     if not email:
         flash('No email provided for password reset.', 'danger')
         return redirect(url_for('password_reset.forgot_password'))
-    
+
     if request.method == 'POST':
         reset_code = request.form.get('reset_code')
         new_password = request.form.get('new_password')
@@ -68,7 +71,7 @@ def reset_password():
         if new_password != confirm_password:
             flash("Passwords do not match.", "danger")
             return redirect(url_for('password_reset.reset_password', email=email))
-        
+
         mongo = current_app.mongo
         reset_entry = mongo.db.password_resets.find_one({"email": email, "reset_code": reset_code})
         if reset_entry:
@@ -84,5 +87,5 @@ def reset_password():
             return redirect(url_for('login'))
         else:
             flash('Invalid reset code. Please try again.', 'danger')
-    
+
     return render_template('reset_password.html', email=email)
