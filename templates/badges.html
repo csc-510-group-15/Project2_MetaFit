@@ -1,0 +1,119 @@
+<head>
+    <style>
+        .group-container {
+            display: grid;
+            align-items: left;
+            background-color: #aaaacc;
+            padding: 8px 8px 8px 8px;
+            margin: 16px 0px 16px 0px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .group-header {
+            color: #1d3442;
+            font-size: 32px;
+            margin: 0px 0px 8px 8px
+        }
+
+        .block-group {
+            display: flex;
+        }
+
+        .group-item {
+            display: grid;
+            align-items: center;
+        }
+
+        .block {
+            display: block;
+            align-items: center;
+            background-color: #ffffff;
+            text-decoration: none !important;
+            min-width: 128px;
+            min-height: 128px;
+            padding: 0px 0px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            display: grid;
+            align-items: center;
+            align-content: center;
+            margin-left: 4px;
+            margin-right: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .block:hover {
+            background-color: #e7f0fb;
+        }
+
+        .block-icon {
+            background-color: transparent;
+            max-width: 128px;
+            max-height: 128px;
+            width: 95%;
+            height: 95%;
+            padding: 0px 0px 0px 0px;
+            object-fit: fill;
+            transition: width 0.3s ease;
+            transition: height 0.3s ease;
+        }
+
+        .block-icon:hover {
+            width: 100%;
+            height: 100%;
+        }
+
+        .block-label {
+            align-self: center;
+            text-align: center;
+            text-decoration: none !important;
+        }
+
+        .parchment-deco-bg {
+            background-image: url('../static/img/ui/parchment_bg.jpg');
+        }
+
+        .parchment-deco-text {
+            color: #222222;
+            text-decoration: none !important;
+        }
+
+        .blackboard-deco-bg {
+            background-image: url('../static/img/ui/blackboard_bg.jpg');
+        }
+
+        .blackboard-deco-text {
+            color: #aaaacc;
+            text-decoration: none !important;
+        }
+
+        .canvas-deco-bg {
+            background-image: url('../static/img/ui/canvas_bg.jpg');
+        }
+
+        .canvas-deco-text {
+            color: #222222;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    {% extends "layout.html" %}
+    {% block content %}
+    <p style="font-size: 48px;">{{ session.get("username") }}'s Badges</p>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    {% endblock %}
+</body>
+
+
+
+<!-- done -->

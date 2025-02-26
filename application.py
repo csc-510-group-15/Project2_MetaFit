@@ -336,6 +336,12 @@ def user_profile():
                            existing_user=existing_user)
 
 
+@app.route("/badges", methods=['GET', 'POST'])
+def badges():
+    # return redirect(url_for('home'))
+    return render_template('badges.html', title='Badge Collection')
+
+
 @app.route("/calories", methods=['GET', 'POST'])
 def calories():
     """
@@ -723,6 +729,11 @@ def ajaxhistory():
                 }), 200, {
                     'ContentType': 'application/json'
                 }
+
+
+@app.route("/feed", methods=['GET'])
+def feed():
+    return render_template('feed.html')
 
 
 @app.route("/friends", methods=['GET'])
