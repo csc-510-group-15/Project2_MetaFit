@@ -113,8 +113,8 @@ def inject_cache_buster():
     return {'cache_buster': time()}
 
 
-@app.route("/")
-@app.route("/home")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home():
     """
     home() function displays the homepage of our website.
@@ -666,7 +666,7 @@ def question(id):
                            score=session.get('marks'))
 
 
-@app.route('/score')
+@app.route('/score', methods=['GET', 'POST'])
 def score():
     # ############################
     # score() function displays the user's
@@ -683,7 +683,7 @@ def score():
                            score=session.get('marks', 0))
 
 
-@app.route("/history", methods=['GET'])
+@app.route("/history", methods=['GET', 'POST'])
 def history():
     # ############################
     # history() function displays the Historyform (history.html) template
@@ -745,7 +745,7 @@ def history():
                            target_date=user_target_date)
 
 
-@app.route("/ajaxhistory", methods=['POST'])
+@app.route("/ajaxhistory", methods=['GET', 'POST'])
 def ajaxhistory():
     # ############################
     # ajaxhistory() is a POST function that displays
@@ -786,12 +786,12 @@ def ajaxhistory():
                 }
 
 
-@app.route("/feed", methods=['GET'])
+@app.route("/feed", methods=['GET', 'POST'])
 def feed():
     return render_template('feed.html')
 
 
-@app.route("/friends", methods=['GET'])
+@app.route("/friends", methods=['GET', 'POST'])
 def friends():
     email = session.get('email')
     myFriends = list(
@@ -940,7 +940,7 @@ def send_email():
                            myFriendsList=myFriendsList)
 
 
-@app.route("/ajaxsendrequest", methods=['POST'])
+@app.route("/ajaxsendrequest", methods=['GET', 'POST'])
 def ajaxsendrequest():
     # ############################
     # ajaxsendrequest() is a function that updates friend
@@ -970,7 +970,7 @@ def ajaxsendrequest():
     }
 
 
-@app.route("/ajaxcancelrequest", methods=['POST'])
+@app.route("/ajaxcancelrequest", methods=['GET', 'POST'])
 def ajaxcancelrequest():
     # ############################
     # ajaxcancelrequest() is a function that updates
@@ -999,7 +999,7 @@ def ajaxcancelrequest():
     }
 
 
-@app.route("/ajaxapproverequest", methods=['POST'])
+@app.route("/ajaxapproverequest", methods=['GET', 'POST'])
 def ajaxapproverequest():
     # ############################
     # ajaxapproverequest() is a function that
@@ -1376,7 +1376,7 @@ def query_view():
     return render_template('chat.html')
 
 
-@app.route("/api/share", methods=['POST'])
+@app.route("/api/share", methods=['GET', 'POST'])
 def log_share():
     """
     Logs each social share action to the backend.
@@ -1588,7 +1588,7 @@ scheduler.add_job(
     minute=0)
 
 
-@app.route("/meal_plan")
+@app.route("/meal_plan", methods=['GET', 'POST'])
 def meal_plan():
     """
     Renders the meal_plan.html template,
@@ -1618,7 +1618,7 @@ def recommend_meal_plan_endpoint():
     return jsonify(recommended_meals)
 
 # Example /bmi_advice endpoint update:
-@app.route('/bmi_advice', methods=['GET'])
+@app.route('/bmi_advice', methods=['GET', 'POST'])
 def bmi_advice():
     if 'email' not in session:
         return jsonify({"error": "User not logged in"}), 401
@@ -1705,7 +1705,7 @@ def process_guide_text(guide_text):
     return cleaned_steps
 
 
-@app.route("/meal_guide")
+@app.route("/meal_guide", methods=['GET', 'POST'])
 def meal_guide():
     food_name = request.args.get("food_name", "Unknown Meal")
     calories = request.args.get("calories", "N/A")

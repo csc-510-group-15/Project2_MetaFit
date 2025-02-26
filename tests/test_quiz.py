@@ -18,7 +18,7 @@ def client():
 def test_quiz_route_get(client):
     response = client.get('/quiz')
     assert response.status_code == 200
-    assert b'<html>' in response.data
+    assert b'<html' in response.data
 
 
 def test_quiz_route_post(client):
