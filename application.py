@@ -78,9 +78,9 @@ mail = Mail(app)
 
 scheduler = APScheduler()
 
-badge_milestones = { "highest_streak": [ 0, 7, 14, 21 ],
-                    "calories_eaten": [ 0, 20, 40, 80 ],
-                    "calories_burned": [ 0, 2000, 4000, 6000 ] }
+badge_milestones = {"highest_streak": [0, 7, 14, 21],
+                    "calories_eaten": [0, 20, 40, 80],
+                    "calories_burned": [0, 2000, 4000, 6000]}
 
 
 def update_statistic(stat_name, value, is_increment = False):
@@ -115,7 +115,7 @@ def update_statistic(stat_name, value, is_increment = False):
     lvl = min(len(milestone_values), lvl - 1)
 
     print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
-    mongo.db.badges.update_one( { 'email': email }, { "$set": { stat_name: lvl } } )
+    mongo.db.badges.update_one({'email': email }, {"$set": {stat_name: lvl}})
 
 
 @app.context_processor
@@ -273,7 +273,9 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
+
 app.register_blueprint(password_reset_bp)
+
 
 def send_2fa_email(email, two_factor_secret):
     sender = 'burnoutapp123@gmail.com'
@@ -383,21 +385,22 @@ def user_profile():
 
 
 
+
 @app.route("/badges", methods=['GET', 'POST'])
 def badges():
     email = session.get('email')
     if email is None:
         return redirect(url_for('login'))
 
-    statsData = mongo.db.stats.find_one( { 'email': email } )
+    statsData = mongo.db.stats.find_one({'email': email})
     if statsData is None:
-        mongo.db.stats.insert_one( { 'email': email } )
-        statsData = mongo.db.stats.find_one( { 'email': email } )
+        mongo.db.stats.insert_one( {'email': email})
+        statsData = mongo.db.stats.find_one({'email': email})
 
-    badgeData = mongo.db.badges.find_one( { 'email': email } )
+    badgeData = mongo.db.badges.find_one({'email': email})
     if badgeData is None:
-        mongo.db.badges.insert_one( { 'email': email } )
-        badgeData = mongo.db.badges.find_one( { 'email': email } )
+        mongo.db.badges.insert_one({'email': email})
+        badgeData = mongo.db.badges.find_one({ 'email': email})
 
     # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
