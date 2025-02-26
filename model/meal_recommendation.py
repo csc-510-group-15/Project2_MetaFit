@@ -54,7 +54,7 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
 
     # Filter meals based on predicted goal
     recommended_meals = meal_data[meal_data['goal']
-                                   == prediction[0]].to_dict(orient='records')
+                                  == prediction[0]].to_dict(orient='records')
     # Slice to top_n meals
     recommended_meals = recommended_meals[:top_n]
     # Assign unique random scores (all above 90)

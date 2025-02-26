@@ -78,7 +78,8 @@ def reset_password():
             {"email": email, "reset_code": reset_code})
         if reset_entry:
             # Optionally: Check if the code has expired (e.g. older than 1 hour)
-            hashed_password = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+            hashed_password = bcrypt.hashpw(
+                new_password.encode("utf-8"), bcrypt.gensalt())
             mongo.db.user.update_one(
                 {"email": email},
                 {"$set": {"password": hashed_password}}
@@ -92,4 +93,3 @@ def reset_password():
             flash('Invalid reset code. Please try again.', 'danger')
 
     return render_template('reset_password.html', email=email)
-s
