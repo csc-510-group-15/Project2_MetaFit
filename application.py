@@ -1783,9 +1783,11 @@ def exercise():
         if response.status_code == 200:
             exercises = response.json()[:5]  # Get only 5 exercises
             if not exercises:
-                error_message = f"No exercises found for {muscle} at {difficulty} level."
+                error_message = f"No exercises found for \
+                    {muscle} at {difficulty} level."
         else:
-            error_message = f"Error {response.status_code}: Unable to fetch exercises."
+            error_message = f"Error {response.status_code}: \
+                Unable to fetch exercises."
 
     return render_template("exercise.html", exercises=exercises,
                            error_message=error_message)
