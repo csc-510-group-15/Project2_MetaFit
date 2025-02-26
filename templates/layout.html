@@ -48,6 +48,17 @@
       display: flex;
       align-items: center;
       margin-left: 30px;
+      margin-right: 20px;
+    }
+
+    /* Styling for the user's profile picture icon */
+    .profile-icon {
+      background-color: transparent;
+      color: transparent;
+      height: 50px;
+      width: 50px;
+      padding: 0px 0px 0px 0px;
+      object-fit: fill;
     }
 
     /* Fire emoji styling for the streak symbol */
@@ -80,43 +91,19 @@
         <div class="collapse navbar-collapse" id="navbarToggle">
           {% if session.get("email") %}
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <!-- Navigation Links -->
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('calories') }}">Enter Calories</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/history">Your Plan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/workout">Burnout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/water">Water Intake</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('meal_plan') }}">Meal Plan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('friends') }}">Friends</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('exercise') }}">Exercise</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('daily_challenge') }}">Daily Challenge</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/chat">Chat Help</a>
-            </li>
           </ul>
           <!-- Right Side (Welcome and Log Out) -->
           <div class="d-flex align-items-center">
             <span class="navbar-text me-3">Welcome, {{ session.get("username") }}</span>
-            <button class="btn btn-outline-danger btn-sm" onclick="logout()">Log Out</button>
+            <span class="navbar-text me-3">   </span>
+            <a href="{{ url_for('user_profile') }}">
+              <img class="profile-icon" src="../static/img/ui/profile_icon.png" alt="Profile Icon"></img>
+            </a>
             <div class="streak-badge ms-3">
               <span class="fire-emoji">🔥</span>
-              <span id="streak-count">{{ session.get("streak") }}-Day Streak</span>
+              <span id="streak-count">{{ session.get("streak") }}</span>
             </div>
+            <button class="btn btn-outline-danger btn-sm" onclick="logout()">Log Out</button>
           </div>
           {% endif %}
         </div>
@@ -178,7 +165,7 @@
           <h5 class="text-white mb-3">Quick Links</h5>
           <ul class="list-unstyled">
             <li><a class="text-light text-decoration-none" href="{{ url_for('calories') }}">Enter Calories</a></li>
-            <li><a class="text-light text-decoration-none" href="/history">Your Plan</a></li>
+            <li><a class="text-light text-decoration-none" href="{{ url_for('history') }}">Your Plan</a></li>
             <li><a class="text-light text-decoration-none" href="{{ url_for('friends') }}">Friends</a></li>
             <li><a class="text-light text-decoration-none" href="{{ url_for('user_profile') }}">Profile</a></li>
           </ul>

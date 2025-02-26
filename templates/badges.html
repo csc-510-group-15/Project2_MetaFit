@@ -1,0 +1,156 @@
+<head>
+    <style>
+        .group-container {
+            display: grid;
+            align-items: left;
+            background-color: #aaaacc;
+            padding: 8px 8px 8px 8px;
+            margin: 16px 0px 16px 0px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .group-header {
+            color: #1d3442;
+            font-size: 32px;
+            margin: 0px 0px 8px 8px
+        }
+
+        .block-group {
+            display: flex;
+        }
+
+        .group-item {
+            display: grid;
+            align-items: center;
+        }
+
+        .block {
+            display: block;
+            align-items: center;
+            background-color: #ffffff;
+            text-decoration: none !important;
+            min-width: 128px;
+            min-height: 128px;
+            padding: 0px 0px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            display: grid;
+            align-items: center;
+            align-content: center;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        .block:hover {
+            background-color: #e7f0fb;
+        }
+
+        .block-icon {
+            background-color: transparent;
+            max-width: 128px;
+            max-height: 128px;
+            width: 100%;
+            height: 100%;
+            padding: 0px 0px 0px 0px;
+            object-fit: fill;
+        }
+
+        .block-label {
+            align-self: center;
+            text-align: center;
+            text-decoration: none !important;
+        }
+
+        .parchment-deco-bg {
+            background-image: url('../static/img/ui/parchment_bg.jpg');
+        }
+
+        .parchment-deco-text {
+            color: #222222;
+            text-decoration: none !important;
+        }
+
+        .blackboard-deco-bg {
+            background-image: url('../static/img/ui/blackboard_bg.jpg');
+        }
+
+        .blackboard-deco-text {
+            color: #aaaacc;
+            text-decoration: none !important;
+        }
+
+        .canvas-deco-bg {
+            background-image: url('../static/img/ui/canvas_bg.jpg');
+        }
+
+        .canvas-deco-text {
+            color: #222222;
+            text-decoration: none !important;
+        }
+
+        .description-target {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .description-target .description-tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .description-target:hover .description-tooltip {
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body onload="LoadBadges()">
+    {% extends "layout.html" %}
+    {% block content %}
+    <p style="font-size: 48px;">{{ session.get("username") }}'s Badges</p>
+    
+    <div class="description-target">
+        <span class="description-tooltip">Awarded for burning {{ milestoneData['calories_burned']
+            [badgeData['calories_burned']] }} total calories!</span>
+        <img id="caloriesBurned" class="block-icon" alt="Calories Burned"></img>
+    </div>
+    <div class="description-target">
+        <span class="description-tooltip">Awarded for eating {{ milestoneData['calories_eaten']
+            [badgeData['calories_eaten']] }} total calories!</span>
+        <img id="caloriesEaten" class="block-icon" alt="Calories Eaten"></img>
+    </div>
+    <div class="description-target">
+        <span class="description-tooltip">Awarded for obtaining a peak streak of {{ milestoneData['highest_streak']
+            [badgeData['highest_streak']] }}!</span>
+        <img id="highestStreak" class="block-icon" alt="Highest Streak"></img>
+    </div>
+    <script>
+        function LoadBadges() {
+            document.getElementById("caloriesBurned").src = "../static/img/badges/firepit_{{ badgeData['calories_burned'] }}.png"
+            document.getElementById("caloriesEaten").src = "../static/img/badges/cornucopia_{{ badgeData['calories_eaten'] }}.png"
+            document.getElementById("highestStreak").src = "../static/img/badges/sundial_{{ badgeData['highest_streak'] }}.png"
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    {% endblock %}
+</body>
+
+
+
+<!-- done -->
