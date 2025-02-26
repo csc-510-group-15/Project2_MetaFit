@@ -66,27 +66,30 @@ https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
 ![WhatsApp Image 2024-11-01 at 5 06 00 PM](https://github.com/user-attachments/assets/2fe3d7e7-a387-4eaf-a16e-3fb3c8221738)
 
-METAFIT is an easy to use application that keeps track of a user's daily calories gained and burnt. It can help the user to set goals such as weight loss/gain. Users can edit their profile by entering their height, weight, goal and target-weight. Users can enroll into numerous programs involving fitness such as yoga classes and workout sessions. Users can now get customized Ai planned Meal suggestions based on their lifestyle and calorie intake.The application can now track and reward daily login streaks, fostering consistent engagement, and offers interactive quizzes on health topics, allowing users to earn points and track their progress over time.Users can now broadcast their fitness milestones directly to social media platforms.This document provides a major perspective for the users to understand and take up the project as an Open source software and add on multiple features before releasing to the market. Also, the document aids the developers in understanding the code and acts as a reference point for continuing the project. 
+METAFIT is an easy-to-use application that tracks daily calories consumed and burned, helping users set goals like weight loss or gain. Users can edit their profile (height, weight, goal, target weight), enroll in fitness programs (yoga, workouts), and receive AI-powered meal suggestions tailored to their lifestyle and calorie intake. The app rewards daily login streaks, offers health quizzes to earn points, and allows users to share fitness milestones on social media.This document provides a major perspective for the users to understand and take up the project as an Open source software and add on multiple features before releasing to the market. Also, the document aids the developers in understanding the code and acts as a reference point for continuing the project. 
 
 # Table of Contents  
 
-- [Why use METAFIT?](#why-use-METAFIT)
-- [Implementation](#implementation)
+- [Why use METAFIT?](#why-use-metafit)
+- [Additions to METAFIT](#additions-to-metafit)
 - [TechStack Used for the Development of Project:](#techstack-used-for-the-development-of-project)
 - [Help by using our Software:](#help-by-using-our-software)
-- [Core Functionalities of the Application:](#core-functionalities)
+- [Core Functionalities of the Application:](#core-functionalities-of-the-application)
   - [Register](#register)
   - [Login](#login)
   - [Set User Profile](#set-user-profile)
-  - [Enter Calories in and burnt](#enter-calories-in-and-burnt)
-  - [Check History](#check-history)
+  - [Enter Calories in](#enter-calories-in)
+  - [Check Your Plan](#check-your-plan)
   - [Adding Friends](#adding-friends)
-  - [Enrolling into several programs](#enrolling-into-several-programs)
-  - 
+  - [Enter burnout](#enter-burnout)
+  - [Meal Plan](#meal-plan)
+  - [Water Intake](#water-intake)
+  - [Exercise Recommendation](#exercise-recommendation)
+  - [Daily Challenges](#daily-challenges)
 - [Steps for Execution:](#steps-for-execution)
+- [Kubernetes](#kubernetes)
 - [Source Code](#source-code)
-- [Future Scope](#future-scope)
-- [Team Members](#team-members)
+- [Contributors](#contributors)
 - [Contribution](#contribution)
 - [License](#license)
 
@@ -94,25 +97,27 @@ METAFIT is an easy to use application that keeps track of a user's daily calorie
 # Why use METAFIT?
  - User can keep a track of their calorie intake.
  - User just needs to input the food they've had, calories get calculated automatically.
- - Displays a record of calories in and calories burnt out day wise in History tab.
- - Helps user to figure out how much to eat/exercise according to their desired goal(weight loss/gain).
- - Users can connect with their friends and keep track of each other's progress
+ - Displays a record of calories in and calories burnt out day wise in the history tab.
+ - Helps user to figure out how much to eat/exercise according to their desired goal (weight loss/gain).
+ - Users can connect with their friends and keep track of each other's progress.
  - Enrollment into numerous yoga and workout sessions.
  - Accessible to everyone and easy to use.
  - Get your customized food plan using sophisticated AI.
- - Take a Quiz to test your knowledge about fitness
+ - Take a quiz to test your knowledge about fitness.
  - Share your achievements on social media platforms to build a strong community.
 
-# What's new? (From Burnout to METAFIT)
+# Additions to METAFIT
 
-- Added a customized Meal Plan and recommendation based on user needs.
-- No need to guess calories rather enter your calorie intake and other details to get your meal plan ready.
-- Utilized KNN model for meal_recommendation.
-- Quiz Feature povides an interactive experience where users can test their knowledge on topics like diet, calories, and fitness.
-- Users can now maintain thier strek of fitness on the application itself.
+- Added a customized meal plan and recommendations based on user needs.
+- No need to guess calories—simply enter your calorie intake and other details to get your meal plan ready.
+- Utilized a KNN model for meal recommendations.
+- The quiz feature provides an interactive experience where users can test their knowledge on topics like diet, calories, and fitness.
+- Users can now maintain their fitness streak on the application itself.
 - Users can now share their achievements on social media platforms.
-- Users can now see daily tasks which are 3 major fitness tasks that they have to do on that particular day.
-- Test cases: We have increased the code coverage from 38% to 75% and fixed all failing test cases.
+- Users can now see daily tasks, which include 3 major fitness tasks to complete each day.
+- Test cases: Increased code coverage from 38% to 75% and fixed all failing test cases.
+
+
 
 
 # TechStack Used for the Development of Project
@@ -133,14 +138,14 @@ METAFIT is an easy to use application that keeps track of a user's daily calorie
  
 ![image](https://github.com/user-attachments/assets/180ee5a9-9302-49b8-afd0-e4c899bea12e)
 
-This is the page where a new user can register to use our application. It contains fields like username, email, password, current weight, current height, target weight which the user wants to achieve and the target date. All these fields, once entered, will store in the MongoDB database. 
+This is the page where a new user can register to use our application. It contains fields like username, email, password, current weight, current height, and target weight which the user wants to achieve and the target date. All these fields, once entered, will be stored in the MongoDB database. 
 
 
  ## Login
 
 ![image](https://github.com/user-attachments/assets/a804baf0-09d4-4a94-9197-9eb9eae42699)
 
-This is the login page wherein the user can access the functionalities of our application. 
+This is the login page where the user can access the functionalities of our application. 
 
 
  ## Set User Profile
@@ -167,17 +172,17 @@ This is the page where the user can see their history in the form of a bar graph
 
 ![image](https://github.com/user-attachments/assets/76090c53-8ddd-40f8-9384-8d5ba999c426)
 
-- This page contains the list of "My Friends" and "Add friends". Add friends contains all the users who have registered to our application. By selecting the users, they will showup in "My friends" section. The main purpose of this is to share the calories data via email.
+- This page contains the list of "My Friends" and "Add friends". Add friends contains all the users who have registered to our application. By selecting the users, they will show up in "My friends" section. The main purpose of this is to share the calories data via email.
 
  ## Enter burnout
 ![image](https://github.com/user-attachments/assets/3a04c813-4c71-4a29-be8d-bc74536d6d74)
 
-- This is the page where a user can enter the calories burnt. The value will be updated to the database.
+- This is the page where the user can enter the calories burnt. The value will be updated to the database.
 
 ## Meal Plan
 ![image](https://github.com/user-attachments/assets/6391e084-1a0e-4ffb-8c6b-fbc39b92e072)
 
-- This is the page where a user can enter the details to get an ai enhanced list of meals that suits their purpose.
+- This is the page where a user can enter the details to get an AI enhanced list of meals that suits their purpose.
 
 ## Water Intake
 ![image](https://github.com/user-attachments/assets/cce1fa97-d3ac-4129-a538-4dfcb90a9880)
@@ -187,12 +192,12 @@ This is the page where the user can see their history in the form of a bar graph
 ## Exercise Recommendation
 ![image](https://github.com/user-attachments/assets/32b2044a-0972-4c94-919e-bd2a64a635b8)
 
--- Get recommendation for teh exercises you want to do
+-- Get recommendation for the exercises you want to do
 
-## Daily Challenge
+## Daily Challenges
 ![image](https://github.com/user-attachments/assets/b846847d-c2cf-4536-8928-fcc3e68423b2)
 
-- This is the page where you can find Daily Challenges and share your achievements once completed.
+- This is the page where you can find daily challenges and share your achievements once they are completed.
 
  # Steps for execution
  
@@ -202,25 +207,25 @@ This is the page where the user can see their history in the form of a bar graph
  https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows
  
  Step 2: 
-  Git Clone the Repository 
+  Git Clone the Repository.
   
     git clone https://github.com/RAV-Organization/SE_Project3_calorieApp_server.git
     
-  (OR) Download the .zip file on your local machine
+  (OR) Download the .zip file on your local machine.
   
     https://github.com/RAV-Organization/SE_Project3_calorieApp_server.git
   
  Step 3:
-   Install the required packages by running the following command in the terminal 
+   Install the required packages by running the following command in the terminal.
    
     pip install -r requirements.txt
     pip install openai==0.28.0
     
  Step 4: 
-    Go to https://platform.openai.com/ and create an API key for openai and paste it in application.py(in -> openai.api_key = '').
+    Go to https://platform.openai.com/ and create an API key for openai and paste it in application.py (in -> openai.api_key = '').
 
  Step 5:
-    If it's for the first time you're running the application you need to run this script once to populate data for food select field
+    If it's for the first time you're running the application you need to run this script once to populate data for food select field.
 
     `python insert_food_data.py`
     (Just once)
@@ -266,7 +271,7 @@ This is the page where the user can see their history in the form of a bar graph
   Link to the repository:
   https://github.com/RAV-Organization/SE_Project3_calorieApp_server/tree/meta_2.0_final
      
-   # Contributers
+   # Contributors
    
 <center>
   <table>
