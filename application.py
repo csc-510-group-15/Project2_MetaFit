@@ -85,7 +85,8 @@ badge_milestones = {"highest_streak": [0, 7, 14, 21],
 def update_statistic(stat_name, value, is_increment=False):
     """
     Update the value associated with the given named statistic.
-    Additionally, update the current user's badge levels to match the new value.
+    Additionally, update the current user's
+    badge levels to match the new value.
     """
     email = session.get('email')
     if email is None:
@@ -107,10 +108,12 @@ def update_statistic(stat_name, value, is_increment=False):
         return
 
     milestone_values = badge_milestones[stat_name]
+    tiers = len(milestone_values)
 
     # Determine the highest level that the new value matches or exceeds.
     lvl = 1
-    while lvl < len(milestone_values) and milestone_values[lvl] <= updated_entry[stat_name]:
+
+    while lvl < tiers and milestone_values[lvl] <= updated_entry[stat_name]:
         lvl += 1
     lvl = min(len(milestone_values), lvl - 1)
 
@@ -400,7 +403,6 @@ def badges():
         mongo.db.badges.insert_one({'email': email})
         badgeData = mongo.db.badges.find_one({'email': email})
 
-    # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
         if stat not in statsData:
             update_statistic(stat, 0)
@@ -1654,17 +1656,20 @@ def bmi_advice():
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
         advice = "Your BMI suggests you are underweight. \
-            Consider increasing your calorie and protein intake to help gain weight."
+            Consider increasing your calorie and \
+            protein intake to help gain weight."
         calorie_suggestion = "Consider setting a higher calorie goal."
         goal_suggestion = "Gain Weight"
     elif bmi < 25:
         advice = "Your BMI is in the normal range. \
-            Maintain your current balanced diet and exercise routine."
+            Maintain your current balanced diet and \
+                exercise routine."
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
-        advice = "Your BMI indicates you are overweight. A moderate calorie \
-            deficit with balanced macros might help you achieve your weight loss goals."
+        advice = "Your BMI indicates you are overweight. \
+            A moderate calorie deficit with balanced \
+            macros might help you achieve your weight loss goals."
         calorie_suggestion = "Consider lowering your calorie goal moderately."
         goal_suggestion = "Weight Loss"
 
@@ -1709,12 +1714,15 @@ def bmi_advice():
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
-    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
+    # Find all segments that start with a digit+dot
+    # (e.g. "1.") until next digit+dot or end.
     steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
     cleaned_steps = []
     for step in steps:
-        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
-        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
+        # Remove the leading digits, dot,
+        # and optional spaces: e.g. "1. " -> ""
+        # so you get just "Cook Pasta – Boil pasta
+        # according to package instructions..."
         cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
         cleaned_steps.append(cleaned)
     return cleaned_steps
@@ -1767,7 +1775,8 @@ def exercise():
         difficulty = request.form.get("difficulty").lower()
 
         # API call
-        api_url = f"https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}"
+        api_url = f"https://api.api-ninjas.com/v1/exercises? \
+            muscle={muscle}&difficulty={difficulty}"
         headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
         response = requests.get(api_url, headers=headers)
 
@@ -1778,7 +1787,8 @@ def exercise():
         else:
             error_message = f"Error {response.status_code}: Unable to fetch exercises."
 
-    return render_template("exercise.html", exercises=exercises, error_message=error_message)
+    return render_template("exercise.html", exercises=exercises,
+                           error_message=error_message)
 
 
 if __name__ == "__main__":
