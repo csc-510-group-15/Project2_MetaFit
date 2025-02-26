@@ -98,7 +98,7 @@ def update_statistic(stat_name, value, is_increment=False):
     # Record the new statistic value in a database.
     db_operation = "$inc" if is_increment else "$set"
     mongo.db.stats.update_one(
-        {'email': email }, {db_operation: {stat_name: value}})
+        {'email': email}, {db_operation: {stat_name: value}})
     updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
@@ -1628,7 +1628,6 @@ def recommend_meal_plan_endpoint():
     return jsonify(recommended_meals)
 
 
-
 # Example /bmi_advice endpoint update:
 @app.route('/bmi_advice', methods=['GET'])
 def bmi_advice():
@@ -1735,13 +1734,13 @@ def meal_guide():
     # Process the guide text into a list of steps.
     steps = process_guide_text(cook_guide)
     render = render_template("meal_guide.html",
-                            food_name=food_name,
-                            calories=calories,
-                            protein=protein,
-                            carbs=carbs,
-                            fat=fat,
-                            steps=steps,
-                            image_url=image_url)
+                             food_name=food_name,
+                             calories=calories,
+                             protein=protein,
+                             carbs=carbs,
+                             fat=fat,
+                             steps=steps,
+                             image_url=image_url)
     return render
 
 

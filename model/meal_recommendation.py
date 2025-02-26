@@ -19,7 +19,8 @@ scaler = StandardScaler()
 
 def preprocess_data():
     meal_data['goal'] = meal_data['calories'].apply(
-        lambda x: 'Weight Loss' if x <= 300 else ('Muscle Gain' if x >= 400 else 'Maintenance')
+        lambda x: 'Weight Loss' if x <= 300 else (
+            'Muscle Gain' if x >= 400 else 'Maintenance')
     )
     features = meal_data[['calories', 'protein', 'carbs', 'fat']]
     global scaler
@@ -65,4 +66,3 @@ def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
     recommended_meals = sorted(
         recommended_meals, key=lambda x: x['score'], reverse=True)
     return recommended_meals
-

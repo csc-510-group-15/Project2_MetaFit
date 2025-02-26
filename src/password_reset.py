@@ -7,7 +7,8 @@ import smtplib
 import bcrypt
 from email.message import EmailMessage
 
-password_reset_bp = Blueprint('password_reset', __name__, template_folder='templates')
+password_reset_bp = Blueprint(
+    'password_reset', __name__, template_folder='templates')
 
 # Email sender credentials
 INFO_SENDER = 'burnoutapp123@gmail.com'
@@ -47,7 +48,7 @@ def forgot_password():
                 "reset_code": reset_code,
                 "created_at": datetime.now()
             })
-            send_reset_email(email, reset_code)
+            send_reet_email(email, reset_code)
             flash('A reset code has been sent to your email.', 'info')
             # Redirect to the reset page with email as a query parameter
             return redirect(url_for('password_reset.reset_password', email=email))
@@ -67,13 +68,14 @@ def reset_password():
         reset_code = request.form.get('reset_code')
         new_password = request.form.get('new_password')
         confirm_password = request.form.get('confirm_password')
-        
+
         if new_password != confirm_password:
             flash("Passwords do not match.", "danger")
             return redirect(url_for('password_reset.reset_password', email=email))
 
         mongo = current_app.mongo
-        reset_entry = mongo.db.password_resets.find_one({"email": email, "reset_code": reset_code})
+        reset_entry = mongo.db.password_resets.find_one(
+            {"email": email, "reset_code": reset_code})
         if reset_entry:
             # Optionally: Check if the code has expired (e.g. older than 1 hour)
             hashed_password = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
@@ -82,10 +84,12 @@ def reset_password():
                 {"$set": {"password": hashed_password}}
             )
             # Delete the reset record to prevent reuse
-            mongo.db.password_resets.delete_one({"email": email, "reset_code": reset_code})
+            mongo.db.password_resets.delete_one(
+                {"email": email, "reset_code": reset_code})
             flash('Your password has been reset successfully.', 'success')
             return redirect(url_for('login'))
         else:
             flash('Invalid reset code. Please try again.', 'danger')
 
     return render_template('reset_password.html', email=email)
+s
