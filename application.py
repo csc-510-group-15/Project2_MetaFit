@@ -991,6 +991,25 @@ def dashboard():
     return render_template('dashboard.html', title='Dashboard')
 
 
+
+@app.route("/water", methods=["GET", "POST"])
+def water():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+
+    water_tracker = WaterIntakeTracker(mongo)
+
+    if request.method == "POST":
+        amount = int(request.form.get("amount", 0))
+        if amount > 0:
+            water_tracker.log_water_intake(session['email'], amount)
+            flash(f"Logged {amount} ml of water!", "success")
+        else:
+            flash("Invalid water intake amount.", "danger")
+
+    daily_intake = water_tracker.get_daily_intake(session['email'])
+    return render_template("water.html", daily_intake=daily_intake)
+    
 @app.route("/yoga", methods=['GET', 'POST'])
 def yoga():
     # ############################

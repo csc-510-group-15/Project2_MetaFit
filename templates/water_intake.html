@@ -3,193 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Intake Tracker - MetaFit</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .progress {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
-        }
-        .remaining {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #555;
-        }
-    </style>
+    <title>Water Intake Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Water Intake Tracker</h1>
-
-        <!-- Form to set water goal -->
-        <div>
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" placeholder="Enter your weight">
+    <div class="container mt-5">
+        <h1 class="text-center">Water Intake Tracker</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Daily Water Intake</h5>
+                        <p class="card-text">
+                            You've consumed <strong>{{ daily_intake }} ml</strong> of water today.
+                        </p>
+                        <form method="POST" action="{{ url_for('water') }}">
+                            <div class="form-group">
+                                <label for="amount">Log Water Intake (ml):</label>
+                                <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Log Intake</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="activity">Activity Level:</label>
-            <select id="activity">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
-        </div>
-        <div>
-            <label for="climate">Climate:</label>
-            <select id="climate">
-                <option value="temperate">Temperate</option>
-                <option value="hot">Hot</option>
-                <option value="very hot">Very Hot</option>
-            </select>
-        </div>
-        <button onclick="setGoal()">Set Water Goal</button>
-
-        <!-- Form to log intake -->
-        <div style="margin-top: 20px;">
-            <label for="amount">Amount (liters):</label>
-            <input type="number" id="amount" placeholder="Enter amount">
-        </div>
-        <div>
-            <label for="beverage">Beverage Type:</label>
-            <select id="beverage">
-                <option value="water">Water</option>
-                <option value="tea">Tea</option>
-                <option value="coffee">Coffee</option>
-                <option value="soda">Soda</option>
-                <option value="juice">Juice</option>
-            </select>
-        </div>
-        <button onclick="logIntake()">Log Intake</button>
-
-        <!-- Progress and remaining intake -->
-        <div class="progress" id="progress">Progress: 0%</div>
-        <div class="remaining" id="remaining">Remaining: 0.00 liters</div>
     </div>
-
-    <script>
-        let userProfile = null;
-        let tracker = null;
-
-        function setGoal() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const activity = document.getElementById('activity').value;
-            const climate = document.getElementById('climate').value;
-
-            if (!weight || !activity || !climate) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            userProfile = {
-                weight: weight,
-                activity_level: activity,
-                climate: climate,
-                water_goal: calculateWaterGoal(weight, activity, climate)
-            };
-
-            tracker = {
-                current_intake: 0
-            };
-
-            alert(`Your daily water goal is ${userProfile.water_goal.toFixed(2)} liters.`);
-        }
-
-        function calculateWaterGoal(weight, activity, climate) {
-            let baseWater = weight * 0.033; // Base water intake
-
-            // Adjust for activity level
-            if (activity === 'high') baseWater += 0.5;
-            else if (activity === 'medium') baseWater += 0.25;
-
-            // Adjust for climate
-            if (climate === 'hot') baseWater += 0.5;
-            else if (climate === 'very hot') baseWater += 1.0;
-
-            return baseWater;
-        }
-
-        function logIntake() {
-            if (!userProfile || !tracker) {
-                alert("Please set your water goal first.");
-                return;
-            }
-
-            const amount = parseFloat(document.getElementById('amount').value);
-            const beverage = document.getElementById('beverage').value;
-
-            if (!amount || !beverage) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            // Hydration factors for different beverages
-            const hydrationFactors = {
-                'water': 1.0,
-                'tea': 0.8,
-                'coffee': 0.7,
-                'soda': 0.6,
-                'juice': 0.9
-            };
-
-            tracker.current_intake += amount * (hydrationFactors[beverage] || 0);
-
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const progress = (tracker.current_intake / userProfile.water_goal) * 100;
-            const remaining = Math.max(0, userProfile.water_goal - tracker.current_intake);
-
-            document.getElementById('progress').innerText = `Progress: ${progress.toFixed(0)}%`;
-            document.getElementById('remaining').innerText = `Remaining: ${remaining.toFixed(2)} liters`;
-        }
-    </script>
 </body>
 </html>
