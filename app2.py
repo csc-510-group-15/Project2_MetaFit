@@ -29,7 +29,7 @@ def index():
             error_message = f"Error {response.status_code}: \
                 Unable to fetch exercises."
 
-    return render_template("exercise.html", exercises=exercises, \
+    return render_template("exercise.html", exercises=exercises,
                            error_message=error_message)
 
 

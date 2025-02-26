@@ -1,5 +1,7 @@
 # password_reset.py
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template
+from flask import request, redirect, url_for
+from flask import flash, current_app
 from datetime import datetime
 import secrets
 import ssl
@@ -49,7 +51,7 @@ def forgot_password():
                 "reset_code": reset_code,
                 "created_at": datetime.now()
             })
-            send_reet_email(email, reset_code)
+            send_reset_email(email, reset_code)
             flash('A reset code has been sent to your email.', 'info')
             # Redirect to the reset page with email as a query parameter
             return redirect(url_for('password_reset.reset_password',
