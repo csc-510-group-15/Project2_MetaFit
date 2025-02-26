@@ -1,9 +1,9 @@
-# walkthrough video: METAFIT2.0
+# Walkthrough video: METAFIT 2.0
 
 [![Watch the video](https://img.youtube.com/vi/eSvL_QRlxeU/0.jpg)](https://www.youtube.com/watch?v=eSvL_QRlxeU)
 
 
-## Why chose Metafit?
+## Why chose METAFIT?
 https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
 
