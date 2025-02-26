@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+
+    <!-- Bootstrap CSS for styling -->
+    <!-- Adds Bootstrap for easy styling of form elements and the table -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library for handling AJAX requests -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+    <!-- Main container for the page content -->
+    <div class="container mt-5">
+        
+        <!-- Header for the page title -->
+        <h2 class="text-center mb-4">Get Your Meal Plan Recommendation</h2>
+
+        <!-- Meal Plan Form (centered in the container) -->
+        <!-- The form uses Bootstrap classes for styling and is centered within the page -->
+        <div class="d-flex justify-content-center">
+            <form id="meal-plan-form" onsubmit="getMealPlan(event)" class="p-4 border rounded shadow-sm bg-white" style="width: 100%; max-width: 500px;">
+                
+                <!-- Dropdown for selecting the goal -->
+                <div class="form-group">
+                    <label for="goal">Goal:</label>
+                    <select name="goal" id="goal" class="form-control">
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+
+                <!-- Input field for calorie goal -->
+                <div class="form-group">
+                    <label for="calories">Calorie Goal:</label>
+                    <input type="number" id="calories" name="calories" placeholder="e.g., 500" class="form-control">
+                </div>
+
+                <!-- Input field for protein in grams -->
+                <div class="form-group">
+                    <label for="protein">Protein (g):</label>
+                    <input type="number" id="protein" name="protein" placeholder="e.g., 30" class="form-control">
+                </div>
+
+                <!-- Input field for carbs in grams -->
+                <div class="form-group">
+                    <label for="carbs">Carbs (g):</label>
+                    <input type="number" id="carbs" name="carbs" placeholder="e.g., 50" class="form-control">
+                </div>
+
+                <!-- Input field for fat in grams -->
+                <div class="form-group">
+                    <label for="fat">Fat (g):</label>
+                    <input type="number" id="fat" name="fat" placeholder="e.g., 15" class="form-control">
+                </div>
+
+                <!-- Submit button to fetch the meal plan recommendation -->
+                <button type="submit" class="btn btn-primary btn-block">Get Recommendation</button>
+            </form>
+        </div>
+
+        <!-- Section for displaying the recommended meals -->
+        <!-- This section will display the results from the AJAX request in a table format -->
+        <h3 class="text-center mt-5">Recommended Meals</h3>
+        <div id="meal-plan-result" class="mt-4">
+            <!-- JavaScript will inject the results table here after form submission -->
+        </div>
+    </div>
+
+    <!-- Custom JavaScript file for handling the form submission and displaying results -->
+    <script src="{{ url_for('static', filename='js/meal_plan.js') }}"></script>
+</body>
+</html>
