@@ -17,6 +17,7 @@ build/
 .idea/
 docs/_build/
 .vscode
+.history/
 
 # Coverage reports
 htmlcov/
