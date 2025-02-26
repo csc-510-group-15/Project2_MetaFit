@@ -45,6 +45,8 @@ from flask_apscheduler import APScheduler
 from urllib.parse import quote
 from model.meal_recommendation import recommend_meal_plan
 from time import time
+# Import and register the password reset blueprint
+from src.password_reset import password_reset_bp
 
 app = Flask(__name__)
 
@@ -54,9 +56,10 @@ if os.environ.get('DOCKERIZED'):
     app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
 else:
     # Use localhost MongoDB URI
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test' 
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
+app.mongo = mongo 
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
 app.config[
     'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
@@ -257,6 +260,7 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
+app.register_blueprint(password_reset_bp)
 
 def send_2fa_email(email, two_factor_secret):
 
@@ -290,77 +294,81 @@ def send_2fa_email(email, two_factor_secret):
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
     """
-    user_profile() function displays the
-    UserProfileForm (user_profile.html) template
-    route "/user_profile" will redirect
-    to user_profile() function.
-    user_profile() called and if the form is
-    submitted then various values are fetched
-    and updated into the database entries
-    Input: Email, height, weight, goal, Target weight
-    Output: Value update in database and redirected to home login page
+    Displays and updates the UserProfileForm.
+    The user only needs to input:
+      - Height (in cms)
+      - Weight (in kgs)
+      - Target Weight (in kgs)
     """
-    if session.get('email'):
-        form = UserProfileForm()
-        email = session.get('email')
-
-        # Fetch existing user profile data
-        existing_profile = mongo.db.profile.find_one({'email': email}, {
-            'height': 1,
-            'weight': 1,
-            'target_weight': 1,
-            'goal': 1
-        })
-        existing_user = mongo.db.user.find_one({'email': email}, {
-            'height': 1,
-            'weight': 1,
-            'target_weight': 1
-        })
-        # Populate the form with existing values
-        form.populate_obj(request.form)
-        if existing_profile:
-            form.weight.data = request.form.get('weight')
-            form.height.data = request.form.get('height')
-            form.goal.data = request.form.get('goal')
-            form.target_weight.data = request.form.get('target_weight')
-        if form.validate_on_submit():
-            # Get form values
-            weight = form.weight.data
-            height = form.height.data
-            goal = form.goal.data
-            target_weight = form.target_weight.data
-            if existing_profile is not None:
-                # Update existing profile
-                mongo.db.profile.update_one({'email': email}, {
-                    '$set': {
-                        'weight': form.weight.data,
-                        'height': form.height.data,
-                        'goal': form.goal.data,
-                        'target_weight': form.target_weight.data
-                    }
-                })
-            else:
-                # Insert new profile
-                mongo.db.profile.insert_one({
-                    'email': email,
-                    'height': height,
-                    'weight': weight,
-                    'goal': goal,
-                    'target_weight': target_weight
-                })
-            flash('User Profile Updated', 'success')
-
-            # Redirect to a page where you display the updated profile
-            return redirect(url_for('user_profile'))
-
-    else:
+    if not session.get('email'):
         return redirect(url_for('login'))
-
+    
+    email = session.get('email')
+    print("User email:", email)
+    
+    # Fetch existing profile data from the user collection
+    existing_profile = mongo.db.user.find_one({'email': email}, {
+        'height': 1,
+        'weight': 1,
+        'target_weight': 1
+    })
+    print("Existing profile:", existing_profile)
+    
+    # Initialize the form, binding POST data if present.
+    form = UserProfileForm(request.form)
+    
+    # On GET requests, pre-fill the form with existing values (if any)
+    if request.method == 'GET' and existing_profile:
+        form.height.data = existing_profile.get('height')
+        form.weight.data = existing_profile.get('weight')
+        form.target_weight.data = existing_profile.get('target_weight')
+    
+    # Only process when the method is POST
+    if request.method == 'POST':
+        print("POST data:", request.form)
+        if form.validate():
+            # Get form values
+            height = form.height.data
+            weight = form.weight.data
+            target_weight = form.target_weight.data
+            
+            try:
+                if existing_profile:
+                    result = mongo.db.user.update_one(
+                        {'email': email},
+                        {'$set': {
+                            'height': height,
+                            'weight': weight,
+                            'target_weight': target_weight
+                        }}
+                    )
+                    if result.modified_count > 0:
+                        flash('User Profile Updated Successfully', 'success')
+                    else:
+                        flash('No changes were made', 'info')
+                else:
+                    result = mongo.db.user.insert_one({
+                        'email': email,
+                        'height': height,
+                        'weight': weight,
+                        'target_weight': target_weight
+                    })
+                    if result.inserted_id:
+                        flash('User Profile Created Successfully', 'success')
+                    else:
+                        flash('Failed to create user profile', 'danger')
+            except Exception as e:
+                flash(f'An error occurred: {str(e)}', 'danger')
+            
+            return redirect(url_for('user_profile'))
+        else:
+            print("Form validation errors:", form.errors)
+    
     return render_template('user_profile.html',
                            status=True,
                            form=form,
-                           existing_profile=existing_profile,
-                           existing_user=existing_user)
+                           existing_profile=existing_profile)
+
 
 
 @app.route("/badges", methods=['GET', 'POST'])
@@ -1608,6 +1616,117 @@ def recommend_meal_plan_endpoint():
     recommended_meals = recommend_meal_plan(goal, calories, protein, carbs,
                                             fat)
     return jsonify(recommended_meals)
+
+# Example /bmi_advice endpoint update:
+@app.route('/bmi_advice', methods=['GET'])
+def bmi_advice():
+    if 'email' not in session:
+        return jsonify({"error": "User not logged in"}), 401
+
+    email = session.get('email')
+    # Assuming user profile is in the user collection:
+    profile = mongo.db.user.find_one({"email": email})
+    if not profile:
+        return jsonify({"error": "Profile not found"}), 404
+
+    weight = profile.get("weight")
+    height = profile.get("height")
+    try:
+        weight_val = float(weight)
+        height_val = float(height)
+        height_m = height_val / 100.0  # convert cm to meters
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid weight or height data"}), 400
+
+    bmi = weight_val / (height_m ** 2)
+    
+    # (Your existing advice logic follows here...)
+    if bmi < 18.5:
+        advice = ("Your BMI suggests you are underweight. Consider increasing your calorie and protein intake to help gain weight.")
+        calorie_suggestion = "Consider setting a higher calorie goal."
+        goal_suggestion = "Gain Weight"
+    elif bmi < 25:
+        advice = ("Your BMI is in the normal range. Maintain your current balanced diet and exercise routine.")
+        calorie_suggestion = "Your current calorie goal seems appropriate."
+        goal_suggestion = "Maintenance"
+    else:
+        advice = ("Your BMI indicates you are overweight. A moderate calorie deficit with balanced macros might help you achieve your weight loss goals.")
+        calorie_suggestion = "Consider lowering your calorie goal moderately."
+        goal_suggestion = "Weight Loss"
+
+    # Reference values based on the suggested goal (example for Weight Loss)
+    reference_values = {}
+    if goal_suggestion == "Weight Loss":
+        reference_values = {
+            "goal": "Weight Loss",
+            "calories": 223,
+            "protein": 3424,
+            "carbs": 12,
+            "fat": 15
+        }
+    elif goal_suggestion == "Maintenance":
+        reference_values = {
+            "goal": "Maintenance",
+            "calories": 2000,
+            "protein": 100,
+            "carbs": 250,
+            "fat": 70
+        }
+    elif goal_suggestion == "Gain Weight":
+        reference_values = {
+            "goal": "Gain Weight",
+            "calories": 2500,
+            "protein": 120,
+            "carbs": 300,
+            "fat": 80
+        }
+
+    return jsonify({
+        "bmi": round(bmi, 2),
+        "weight": weight,         # new field
+        "height": height,         # new field
+        "advice": advice,
+        "calorie_suggestion": calorie_suggestion,
+        "goal_suggestion": goal_suggestion,
+        "reference_values": reference_values
+    })
+
+def process_guide_text(guide_text):
+    # Remove any surrounding double quotes
+    guide_text = guide_text.strip('"')
+    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
+    steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
+    cleaned_steps = []
+    for step in steps:
+        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
+        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
+        cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
+        cleaned_steps.append(cleaned)
+    return cleaned_steps
+
+
+@app.route("/meal_guide")
+def meal_guide():
+    food_name = request.args.get("food_name", "Unknown Meal")
+    calories = request.args.get("calories", "N/A")
+    protein = request.args.get("protein", "N/A")
+    carbs = request.args.get("carbs", "N/A")
+    fat = request.args.get("fat", "N/A")
+    cook_guide = request.args.get("cook_guide", "No guide available")
+    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
+    print(request.args)
+    # Process the guide text into a list of steps.
+    steps = process_guide_text(cook_guide)
+    render = render_template("meal_guide.html",
+                           food_name=food_name,
+                           calories=calories,
+                           protein=protein,
+                           carbs=carbs,
+                           fat=fat,
+                           steps=steps,
+                           image_url=image_url)
+    
+    return render
 
 
 @app.after_request
