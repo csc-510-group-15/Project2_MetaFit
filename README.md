@@ -178,21 +178,33 @@ https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
 
 The meal plan page, where users can receive an AI-enhanced, curated list of meals that fulfils their specified criteria. User statistics are now also utilized to calculate users' BMI values, which allow the page to make informed suggestions regarding meal choice.
 
-(1)Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
-(2)Enhanced Scoring Function: Now using a loss-based scoring mechanism to rank and limit options to the top 5 (instead of the previous ~30, which was confusing).
-(3)BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
-(4)Cooking Guide Addition: Each recommended meal now comes with an image and detailed cooking instructions.
+- Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
+- Enhanced Scoring Function: Now using a loss-based scoring mechanism to rank and limit options to the top 5 (instead of the previous ~30, which was confusing).
+- BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
+- Cooking Guide Addition: Each recommended meal now comes with an image and detailed cooking instructions.
 Password Reset Functionality
 ![image](./evidence/new_meal_recommmendation.gif)
 
-### Password Recovery
- Password reset feature. Users can now reset forgotten passwords using a 2FA code sent to their registered email 
- ![image](./evidence/new_passwordforget.gif)
+## Password Recovery
 
-### Visual Dashboard
+The password recovery page, where users can use their registered email address to recover their password through two-factor authentication, ensuring security and accessibility.
+![image](./evidence/new_passwordforget.gif)
 
-### Profile Badges
- 
+## Visual Dashboard
+
+The user dashboard. Originally, users would arrive at this landing page and use the navigation header at the top of the window to navigate. In light of so many new features being present in METAFIT, the dashboard has been given a visual overhaul to declutter the top of the screen and provide a cleaner, more organized means for users to find the features they care about.
+
+- Webpages are organized by functionality.
+
+## Profile Badges
+
+The profile badges page, where users can view their account's lifetime statistics through a gamified achievement system. There are currently three tracked statistics:
+- Highest Lifetime Streak
+- Lifetime Calories Consumed
+- Lifetime Calories Burned
+The system is very flexible; with additional image assets, a multitude of different statistics have the potential to be tracked.
+Profile badges get more expensive (bronze -> silver -> gold) as their related stat grows. Users are incentivized to use the application often in order to collect them all!
+
 # Installation Instructions
  
  Step 1:
@@ -213,7 +225,6 @@ Password Reset Functionality
    Install the required packages by running the following command in the terminal.
    
     pip install -r requirements.txt
-    pip install openai==0.28.0
     
  Step 4: 
     Go to https://platform.openai.com/ and create an API key for OpenAI and paste it in application.py (in -> openai.api_key = '').
