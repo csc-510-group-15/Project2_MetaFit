@@ -172,66 +172,122 @@ def test_string_values(client):
 
 # Adding 10 test cases.
 
-def test_update_statistic_with_zero_value_again(client):
-    # Test updating a statistic with a zero value again
-    update_statistic(TEST_EMAIL, "calories_eaten", 0)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
-    assert isinstance(result, (int, float)) and result == 0
+def test_access_badges_page(client):
+    authenticate(client, TEST_EMAIL)
+    result = client.get('/badges')
+    assert result.status_code == 200
 
 
-def test_update_statistic_with_positive_value(client):
-    # Test updating a statistic with a positive value
-    update_statistic(TEST_EMAIL, "calories_eaten", 100)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
-    assert isinstance(result, (int, float)) and result == 100
+def test_initialize_statistics(client):
+    authenticate(client, TEST_EMAIL)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    result = client.get('/badges')
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is not None
+    for metric in badge_milestones:
+        assert mongo.db.statistics.find_one({"email": TEST_EMAIL})[metric] == 0
+    assert result.status_code == 200
 
 
-def test_update_statistic_with_negative_value_again(client):
-    # Test updating a statistic with a negative value again
-    update_statistic(TEST_EMAIL, "calories_burned", -200)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
-    assert isinstance(result, (int, float)) and result == -200
+def test_initialize_badges(client):
+    authenticate(client, TEST_EMAIL)
+    assert mongo.db.achievements.find_one({"email": TEST_EMAIL}) is None
+    result = client.get('/badges')
+    assert mongo.db.achievements.find_one({"email": TEST_EMAIL}) is not None
+    for metric in badge_milestones:
+        assert mongo.db.achievements.find_one({"email": TEST_EMAIL})[metric] == 0
+    assert "nonexistent_metric" not in mongo.db.achievements.find_one({"email": TEST_EMAIL})
+    assert result.status_code == 200
 
 
-def test_update_statistic_with_large_positive_value(client):
-    # Test updating a statistic with a large positive value
-    update_statistic(TEST_EMAIL, "calories_eaten", 1000000)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
-    assert isinstance(result, (int, float)) and result == 1000000
+def test_update_existing_stat(client):
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    modify_stat(TEST_EMAIL, "longest_streak", 0)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is not None
 
 
-def test_update_statistic_with_large_negative_value(client):
-    # Test updating a statistic with a large negative value
-    update_statistic(TEST_EMAIL, "calories_burned", -500000)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
-    assert isinstance(result, (int, float)) and result == -500000
+def test_assign_initial_stats(client):
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    modify_stat(TEST_EMAIL, "longest_streak", 0)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})['longest_streak'] == 0
+    modify_stat(TEST_EMAIL, "food_intake", 10)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})['food_intake'] == 10
+    modify_stat(TEST_EMAIL, "energy_expended", -500)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})['energy_expended'] == -500
 
 
-def test_update_statistic_with_non_numeric_value(client):
-    # Test updating a statistic with a non-numeric value
-    with pytest.raises(TypeError):
-        update_statistic(TEST_EMAIL, "calories_eaten", "invalid")
+def test_create_new_stat(client):
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    modify_stat(TEST_EMAIL, "undefined_stat", 0)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is not None
 
 
-def test_update_statistic_with_missing_stat_key(client):
-    # Test updating a statistic with a missing stat key
-    with pytest.raises(KeyError):
-        update_statistic(TEST_EMAIL, "invalid_key", 100)
+def test_update_stat_value(client):
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    modify_stat(TEST_EMAIL, "longest_streak", 0)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 0
+    modify_stat(TEST_EMAIL, "longest_streak", 10)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 10
+    modify_stat(TEST_EMAIL, "energy_expended", -500)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["energy_expended"] == -500
 
 
-def test_update_statistic_with_empty_email(client):
-    # Test updating a statistic with an empty email
-    with pytest.raises(ValueError):
-        update_statistic("", "calories_eaten", 100)
+def test_increment_stat_value(client):
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is None
+    modify_stat(TEST_EMAIL, "longest_streak", 0, True)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 0
+    modify_stat(TEST_EMAIL, "longest_streak", 7, True)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 7
+    modify_stat(TEST_EMAIL, "longest_streak", -3, True)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 4
 
 
-def test_update_statistic_with_none_email(client):
-    # Test updating a statistic with None as email
-    with pytest.raises(ValueError):
-        update_statistic(None, "calories_eaten", 100)
+def test_exact_milestone_reach(client):
+    authenticate(client, TEST_EMAIL)
+    client.get('/badges')
+    
+    for metric in badge_milestones:
+        levels = badge_milestones[metric]
+        for index in range(len(levels)):
+            modify_stat(TEST_EMAIL, metric, levels[index])
+            assert mongo.db.achievements.find_one({"email": TEST_EMAIL})[metric] == index
 
 
-def test_update_statistic_with_invalid_email_format(client):
-    # Test updating a statistic with an invalid email format
-    with pytest.raises(ValueError):
-        update_statistic("invalid-email", "calories_eaten", 100)
+def test_milestone_thresholds(client):
+    authenticate(client, TEST_EMAIL)
+    client.get('/badges')
+    
+    for metric in badge_milestones:
+        levels = badge_milestones[metric]
+        for index in range(len(levels)):
+            modify_stat(TEST_EMAIL, metric, levels[index] + 1)
+            assert mongo.db.achievements.find_one({"email": TEST_EMAIL})[metric] == index
+            if index < len(levels) - 1:
+                modify_stat(TEST_EMAIL, metric, levels[index + 1] - 1)
+            assert mongo.db.achievements.find_one({"email": TEST_EMAIL})[metric] == index
+
+
+def test_invalid_stat_inputs(client):
+    authenticate(client, TEST_EMAIL)
+    client.get('/badges')
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is not None
+
+    modify_stat(TEST_EMAIL, "longest_streak", "invalid")
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 0
+
+    modify_stat(TEST_EMAIL, "longest_streak", 8)
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 8
+
+    modify_stat(TEST_EMAIL, "longest_streak", "wrong_value")
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 8
+
+
+def test_string_input_handling(client):
+    authenticate(client, TEST_EMAIL)
+    client.get('/badges')
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL}) is not None
+
+    modify_stat(TEST_EMAIL, "longest_streak", "3")
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 3
+
+    modify_stat(TEST_EMAIL, "longest_streak", "5.0")
+    assert mongo.db.statistics.find_one({"email": TEST_EMAIL})["longest_streak"] == 5
