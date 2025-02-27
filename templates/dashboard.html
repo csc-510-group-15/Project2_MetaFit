@@ -73,8 +73,15 @@
         .block-label {
             align-self: center;
             text-align: center;
+            /* Hyperlinks, being built-in, resist you if you
+               attempt to disable their highlighting.
+               The !important tag overrides that. */
             text-decoration: none !important;
         }
+        
+        /* Background panels, for decoration. Defining text
+        separately allows slightly more freedom with the
+        layout. */
 
         .parchment-deco-bg {
             background-image: url('../static/img/ui/parchment_bg.jpg');
