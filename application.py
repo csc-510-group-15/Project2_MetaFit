@@ -56,10 +56,10 @@ if os.environ.get('DOCKERIZED'):
     app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
 else:
     # Use localhost MongoDB URI
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test' 
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
-app.mongo = mongo 
+app.mongo = mongo
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
 app.config[
     'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
@@ -72,32 +72,33 @@ mail = Mail(app)
 
 scheduler = APScheduler()
 
-badge_milestones = { "highest_streak": [ 0, 7, 14, 21 ], 
-                    "calories_eaten": [ 0, 20, 40, 80 ], 
-                    "calories_burned": [ 0, 2000, 4000, 6000 ] }
+badge_milestones = {"highest_streak": [0, 7, 14, 21],
+                    "calories_eaten": [0, 20, 40, 80],
+                    "calories_burned": [0, 2000, 4000, 6000]}
 
 
-def update_statistic(stat_name, value, is_increment = False):
+def update_statistic(stat_name, value, is_increment=False):
     email = session.get('email')
     if email is None:
         return
-    
+
     # If no entry exists for this user account, create it.
-    if mongo.db.stats.find_one( { 'email': email } ) is None:
-        mongo.db.stats.insert_one( { 'email': email } )
+    if mongo.db.stats.find_one({'email': email}) is None:
+        mongo.db.stats.insert_one({'email': email})
 
     # Record the new statistic value in a database.
     db_operation = "$inc" if is_increment else "$set"
-    mongo.db.stats.update_one( { 'email': email }, { db_operation: { stat_name: value } } )
-    updated_entry = mongo.db.stats.find_one( { 'email': email } )
+    mongo.db.stats.update_one(
+        {'email': email}, {db_operation: {stat_name: value}})
+    updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
     if stat_name not in badge_milestones:
         print("error in updating stat!!")
         return
-    
+
     milestone_values = badge_milestones[stat_name]
-    
+
     # Determine the highest level that the new value matches or exceeds.
     lvl = 1
     while lvl < len(milestone_values) and milestone_values[lvl] <= updated_entry[stat_name]:
@@ -105,7 +106,7 @@ def update_statistic(stat_name, value, is_increment = False):
     lvl = min(len(milestone_values), lvl - 1)
 
     print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
-    mongo.db.badges.update_one( { 'email': email }, { "$set": { stat_name: lvl } } )
+    mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
 @app.context_processor
@@ -260,7 +261,9 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
+
 app.register_blueprint(password_reset_bp)
+
 
 def send_2fa_email(email, two_factor_secret):
 
@@ -302,10 +305,10 @@ def user_profile():
     """
     if not session.get('email'):
         return redirect(url_for('login'))
-    
+
     email = session.get('email')
     print("User email:", email)
-    
+
     # Fetch existing profile data from the user collection
     existing_profile = mongo.db.user.find_one({'email': email}, {
         'height': 1,
@@ -313,16 +316,16 @@ def user_profile():
         'target_weight': 1
     })
     print("Existing profile:", existing_profile)
-    
+
     # Initialize the form, binding POST data if present.
     form = UserProfileForm(request.form)
-    
+
     # On GET requests, pre-fill the form with existing values (if any)
     if request.method == 'GET' and existing_profile:
         form.height.data = existing_profile.get('height')
         form.weight.data = existing_profile.get('weight')
         form.target_weight.data = existing_profile.get('target_weight')
-    
+
     # Only process when the method is POST
     if request.method == 'POST':
         print("POST data:", request.form)
@@ -331,7 +334,7 @@ def user_profile():
             height = form.height.data
             weight = form.weight.data
             target_weight = form.target_weight.data
-            
+
             try:
                 if existing_profile:
                     result = mongo.db.user.update_one(
@@ -359,16 +362,15 @@ def user_profile():
                         flash('Failed to create user profile', 'danger')
             except Exception as e:
                 flash(f'An error occurred: {str(e)}', 'danger')
-            
+
             return redirect(url_for('user_profile'))
         else:
             print("Form validation errors:", form.errors)
-    
+
     return render_template('user_profile.html',
                            status=True,
                            form=form,
                            existing_profile=existing_profile)
-
 
 
 @app.route("/badges", methods=['GET', 'POST'])
@@ -376,16 +378,16 @@ def badges():
     email = session.get('email')
     if email is None:
         return redirect(url_for('login'))
-    
-    statsData = mongo.db.stats.find_one( { 'email': email } )
-    if statsData is None:
-        mongo.db.stats.insert_one( { 'email': email } )
-        statsData = mongo.db.stats.find_one( { 'email': email } )
 
-    badgeData = mongo.db.badges.find_one( { 'email': email } )
+    statsData = mongo.db.stats.find_one({'email': email})
+    if statsData is None:
+        mongo.db.stats.insert_one({'email': email})
+        statsData = mongo.db.stats.find_one({'email': email})
+
+    badgeData = mongo.db.badges.find_one({'email': email})
     if badgeData is None:
-        mongo.db.badges.insert_one( { 'email': email } )
-        badgeData = mongo.db.badges.find_one( { 'email': email } )
+        mongo.db.badges.insert_one({'email': email})
+        badgeData = mongo.db.badges.find_one({'email': email})
 
     # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
@@ -608,6 +610,7 @@ def quiz():
     # ############################
     # form = getDate()
     return render_template('layout.html')
+
 
 @app.route("/water", methods=['GET', 'POST'])
 def water():
@@ -1618,6 +1621,8 @@ def recommend_meal_plan_endpoint():
     return jsonify(recommended_meals)
 
 # Example /bmi_advice endpoint update:
+
+
 @app.route('/bmi_advice', methods=['GET', 'POST'])
 def bmi_advice():
     if 'email' not in session:
@@ -1639,14 +1644,16 @@ def bmi_advice():
         return jsonify({"error": "Invalid weight or height data"}), 400
 
     bmi = weight_val / (height_m ** 2)
-    
+
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
-        advice = ("Your BMI suggests you are underweight. Consider increasing your calorie and protein intake to help gain weight.")
+        advice = (
+            "Your BMI suggests you are underweight. Consider increasing your calorie and protein intake to help gain weight.")
         calorie_suggestion = "Consider setting a higher calorie goal."
         goal_suggestion = "Gain Weight"
     elif bmi < 25:
-        advice = ("Your BMI is in the normal range. Maintain your current balanced diet and exercise routine.")
+        advice = (
+            "Your BMI is in the normal range. Maintain your current balanced diet and exercise routine.")
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
@@ -1691,6 +1698,7 @@ def bmi_advice():
         "reference_values": reference_values
     })
 
+
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
@@ -1713,19 +1721,20 @@ def meal_guide():
     carbs = request.args.get("carbs", "N/A")
     fat = request.args.get("fat", "N/A")
     cook_guide = request.args.get("cook_guide", "No guide available")
-    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
+    image_url = request.args.get(
+        "image_url", "https://via.placeholder.com/300")
     print(request.args)
     # Process the guide text into a list of steps.
     steps = process_guide_text(cook_guide)
     render = render_template("meal_guide.html",
-                           food_name=food_name,
-                           calories=calories,
-                           protein=protein,
-                           carbs=carbs,
-                           fat=fat,
-                           steps=steps,
-                           image_url=image_url)
-    
+                             food_name=food_name,
+                             calories=calories,
+                             protein=protein,
+                             carbs=carbs,
+                             fat=fat,
+                             steps=steps,
+                             image_url=image_url)
+
     return render
 
 

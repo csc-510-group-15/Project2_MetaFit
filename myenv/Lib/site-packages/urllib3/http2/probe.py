@@ -42,7 +42,8 @@ class _HTTP2ProbeCache:
 
         # In case an exception like KeyboardInterrupt is raised here.
         except BaseException as e:  # Defensive:
-            assert not isinstance(e, KeyError)  # KeyError shouldn't be possible.
+            # KeyError shouldn't be possible.
+            assert not isinstance(e, KeyError)
             key_lock.release()
             raise
 

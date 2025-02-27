@@ -47,7 +47,8 @@ def extract_from_urllib3() -> None:
     from ..util import ssl_ as urllib3_util_ssl
 
     HTTPSConnectionPool.ConnectionCls = orig_HTTPSConnection
-    urllib3_connection.HTTPSConnection = orig_HTTPSConnection  # type: ignore[misc]
+    # type: ignore[misc]
+    urllib3_connection.HTTPSConnection = orig_HTTPSConnection
 
     urllib3_util.ALPN_PROTOCOLS = ["http/1.1"]
     urllib3_util_ssl.ALPN_PROTOCOLS = ["http/1.1"]
