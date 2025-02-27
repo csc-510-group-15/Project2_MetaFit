@@ -1,10 +1,6 @@
 name: Flake8 Lint
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -27,4 +23,5 @@ jobs:
 
       - name: Run Flake8
         run: |
-          flake8 .
+          flake8 . --exclude=myenv,.git,__pycache__,*/site-packages/*
+
