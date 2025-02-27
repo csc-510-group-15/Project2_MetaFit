@@ -112,9 +112,6 @@ def update_statistic(email, stat_name, value, is_increment=False):
     mongo.db.stats.update_one(
         {'email': email}, {db_operation: {stat_name: value}})
     updated_entry = mongo.db.stats.find_one({'email': email})
-    mongo.db.stats.update_one(
-        {'email': email}, {db_operation: {stat_name: value}})
-    updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
     if stat_name not in badge_milestones:
@@ -551,8 +548,8 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
-                update_statistic(
-                    session['email'], "calories_burned", int(float(burn)), True)
+                update_statistic(session['email'],
+                                 "calories_burned", int(float(burn)), True)
                 if float(burn) < 100:
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -643,7 +640,6 @@ def quiz():
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
     # form = getDate()
-    print("hello from quiz! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     return render_template('layout.html')
 
 

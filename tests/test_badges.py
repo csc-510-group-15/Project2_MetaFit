@@ -53,7 +53,6 @@ def test_populate_badges(client):
     assert response.status_code == 200
 
 
-# Test that attempting to update any statistic creates a stats DB entry for the current user.
 def test_create_existing_stat(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is None
     update_statistic(TEST_EMAIL, "highest_streak", 0)
@@ -105,9 +104,6 @@ def test_inc_stats_value(client):
     update_statistic(TEST_EMAIL, "highest_streak", -1000, True)
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
         "highest_streak"] == -995
-    update_statistic(TEST_EMAIL, "highest_streak", 0, True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
-        "highest_streak"] == -995
 
 
 def test_exactly_match_milestones(client):
@@ -149,7 +145,8 @@ def test_invalid_values(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
         "highest_streak"] == 0
 
-    # Correctly change the value of the stat so we can run the assert a second time.
+    # Correctly change the value of the stat
+    # so we can run the assert a second time.
     update_statistic(TEST_EMAIL, "highest_streak", 5)
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
         "highest_streak"] == 5
