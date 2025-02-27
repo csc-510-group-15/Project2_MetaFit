@@ -111,6 +111,7 @@ def update_statistic(stat_name, value, is_increment=False):
         return
 
     milestone_values = badge_milestones[stat_name]
+    tiers = len(milestone_values)
 
     # Determine the highest level that the new value matches or exceeds.
     lvl = 1
@@ -671,7 +672,7 @@ def question(id):
 
         if option == q['ans']:
             session['marks'] += 10
-        return redirect(url_for('question', id + 1))
+        return redirect(url_for('question', id=id + 1))
 
     form.options.choices = [(q['options']['a'], q['options']['a']),
                             (q['options']['b'], q['options']['b']),
