@@ -1752,38 +1752,32 @@ def add_header(response):
 
 @app.route("/exercise", methods=["GET", "POST"])
 def exercise():
-    exercises = []  # To store exercises
+    exercises = []  
     error_message = None
 
     if request.method == "POST":
-        # Retrieve and strip inputs
         muscle = request.form.get("muscle", "").strip()
         difficulty = request.form.get("difficulty", "").strip()
 
-        # Validate inputs
         if not muscle or not difficulty:
             error_message = "Both muscle and difficulty are required!"
             return render_template("exercise.html", exercises=[], error_message=error_message)
 
-        # Convert to lowercase and proceed
         muscle = muscle.lower()
         difficulty = difficulty.lower()
 
-        # API call
         api_url = f"https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}"
         headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
-        response = requests.get(api_url, headers=headers)
+        resp = requests.get(api_url, headers=headers)
 
-        if response.status_code == 200:
-            exercises = response.json()[:5]  # Get only 5 exercises
+        if resp.status_code == 200:
+            exercises = resp.json()[:5]  # Limit to 5 exercises
             if not exercises:
-                # Use the exact error message expected by your tests
                 error_message = "No exercises found for the specified muscle and difficulty."
         else:
-            error_message = f"Error {response.status_code}: Unable to fetch exercises."
+            error_message = f"Error {resp.status_code}: Unable to fetch exercises."
 
     return render_template("exercise.html", exercises=exercises, error_message=error_message)
-
 
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
