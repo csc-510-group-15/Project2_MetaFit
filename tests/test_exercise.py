@@ -32,7 +32,8 @@ class ExerciseFinderTests(unittest.TestCase):
         response = self.client.post(
             '/exercise', data={'muscle': 'xyzmuscle', 'difficulty': 'intermediate'})
         self.assertIn(
-            'No exercises found for the specified muscle and difficulty.', response.data.decode())
+            'No exercises found for the \
+                specified muscle and difficulty.', response.data.decode())
 
     def test_exercises_rendered(self):
         response = self.client.post(

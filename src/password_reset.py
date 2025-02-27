@@ -1,5 +1,7 @@
 # password_reset.py
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template
+from flask import request, redirect, url_for
+from flask import flash, current_app
 from datetime import datetime
 import secrets
 import ssl
@@ -9,10 +11,13 @@ from email.message import EmailMessage
 
 password_reset_bp = Blueprint(
     'password_reset', __name__, template_folder='templates')
+password_reset_bp = Blueprint(
+    'password_reset', __name__, template_folder='templates')
 
 # Email sender credentials
 INFO_SENDER = 'burnoutapp123@gmail.com'
 INFO_PASSWORD = 'xszyjpklynmwqsgh'
+
 
 
 def send_reset_email(email, reset_code):
@@ -37,7 +42,8 @@ def send_reset_email(email, reset_code):
 def forgot_password():
     if request.method == 'POST':
         email = request.form.get('email')
-        mongo = current_app.mongo  # Assumes your PyMongo instance is stored as app.mongo
+        # Assumes your PyMongo instance is stored as app.mongo
+        mongo = current_app.mongo
         user = mongo.db.user.find_one({"email": email})
         if user:
             # Generate a random reset code
@@ -51,9 +57,11 @@ def forgot_password():
             send_reset_email(email, reset_code)
             flash('A reset code has been sent to your email.', 'info')
             # Redirect to the reset page with email as a query parameter
-            return redirect(url_for('password_reset.reset_password', email=email))
+            return redirect(url_for('password_reset.reset_password',
+                                    email=email))
         else:
-            flash('Email not found. Please check your email address.', 'danger')
+            flash('Email not found. Please check your email address.',
+                  'danger')
     return render_template('forgot_password.html')
 
 
