@@ -22,8 +22,8 @@
   <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT license" style="vertical-align: middle;">
   </a>
-  <a href="https://doi.org/10.5281/zenodo.14226770">
-    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14226770.svg" alt="DOI" style="vertical-align: middle;">
+  <a href="https://doi.org/10.5281/zenodo.14936235">
+    <img src="https://zenodo.org/badge/933976739.svg" alt="DOI">
   </a>
   <a href="https://github.com/anuj672/calorieApp_server/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/RAV-Organization/SE_Project3_calorieApp_server" alt="contributors" style="vertical-align: middle;">
