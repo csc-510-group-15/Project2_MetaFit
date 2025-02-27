@@ -81,101 +81,97 @@
 - [Contribution](#contribution)
 - [License](#license)
 
-## Why choose METAFIT?
+
+# Why Use Metafit
 https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
-# Why use METAFIT?
- - User can keep a track of their calorie intake.
- - User just needs to input the food they've had, calories get calculated automatically.
- - Displays a record of calories in and calories burnt out day wise in the history tab.
- - Helps user to figure out how much to eat/exercise according to their desired goal (weight loss/gain).
+ - Users can keep track of their daily caloric intake, calculated from food automatically.
+ - Displays a day-by-day record of calories consumed VS calories burnt in the history tab.
+ - Helps users determine how much to eat and exercise according to their desired goals.
  - Users can connect with their friends and keep track of each other's progress.
+ - Share your achievements on social media platforms to build a strong community.
  - Enrollment into numerous yoga and workout sessions.
  - Accessible to everyone and easy to use.
- - Get your customized food plan using sophisticated AI.
- - Take a quiz to test your knowledge about fitness.
- - Share your achievements on social media platforms to build a strong community.
+ - Users can obtain customized food plans using sophisticated AI.
 
-# Additions to METAFIT
+
+# Additions in METAFIT version 3.0
 
 - Users now have access to a beautified navigation panel in their dashboard, with pages organized by function.
 - User profiles now include "badges", achievements with several tiers that track lifetime usage of METAFIT.
 - Integrated fine-tuned model training to get more accurate meal recommendations.
 - Now using a loss-based scoring mechanism to rank and limit meal plan options to the top 5 (instead of the previous ~30, which was confusing).
-- Added functionality to calculate users' BMI and offer tailored meal planning advice.
+- Added functionality to calculate users' BMI and offer tailored meal planning advice accordingly.
 - Each recommended meal now comes with an image and detailed cooking instructions.
 - Users can now reset forgotten passwords using a 2FA code sent to their registered email (replacing the old HTML placeholder).
 
- # Help by using our Software
+ # Practical Applications of METAFIT
  
 - With the help of our application, users will get to know the proper analysis of their diet and workout plan.
-- The registration form contains the target weight and target date. By filling that, the user will get an analysis in the form of a bar graph based on their past meal intake and burnout. In addition, it also shows how many more calories the user has to intake or burn.
+- Detailed trend tracking takes the unknowns out of losing or gaining weight. METAFIT users know exactly how on-track they are whenever they use the application, improving motivation and ultimately raising the likelihood that they will accomplish their goals.
+- Gamified elements -- such as profile achievements and daily challenges -- encourage competition against friends and the software itself, further bolstering engagement and keeping users around to burn more calories.
+- The advanced meal planner functionality is perfect for anyone who likes eating: from picky eaters, to adventurous palates, to hungry mouths with no time to plan ahead for shopping, everyone could use a new recipe suggestion to spice up their dinners!
 
-# Core Functionalities of the Application
+# METAFIT 2.0 (Legacy) Features
  
- ## Register
- 
+## Register
 ![image](https://github.com/user-attachments/assets/180ee5a9-9302-49b8-afd0-e4c899bea12e)
 
-This is the page where a new user can register to use our application. It contains fields like username, email, password, current weight, current height, and target weight which the user wants to achieve and the target date. All these fields, once entered, will be stored in the MongoDB database. 
+The registration page, where new users can register to use the application. In addition to standard account credentials, new users are also prompted for their weight, height, and weight goals. All these fields, once entered, will be stored in the MongoDB database as a new user entry.
 
- ## Login
-
+## Login
 ![image](https://github.com/user-attachments/assets/a804baf0-09d4-4a94-9197-9eb9eae42699)
 
-This is the login page where the user can access the functionalities of our application. 
+The login page, where returning users can enter their credentials to gain access to the rest of the application. Several other pages redirect here if the user is not logged in.
 
- ## Set User Profile
- 
+## Edit User Profile
 ![image](https://github.com/user-attachments/assets/070b7463-3f25-486d-b687-0f3ac63f32d8)
 
-This is the page where the user can update his profile. The updated profile will update in the MongoDB database and display it in the frontend. 
+The user profile page, where users can update their weight, height, or goals. When submitted, the new information is sent to the MongoDB database.
 
- ## Enter Calories in 
+## Log Calories
 ![image](https://github.com/user-attachments/assets/268d72f4-1239-4c8f-a59d-23b343287643)
 
-This is the page where the user can enter the calories taken. The dropdown contains various food items and its calories. Once selected, it will update it in the database. 
+The calorie logging page, where users can log food that they've eaten. Once food is selected, the application will calculate the number of calories gained and store that in the MongoDB database. Additionally, users will receive a reminder message to their email.
 
- ## Check Your Plan
-
+## Check Your Plan
 ![image](https://github.com/user-attachments/assets/66eabdcd-c97b-4dde-8a14-601ad24f4d6d)
 
-This is the page where the user can see their history in the form of a bar graph. This graph contains the data from the last 7 days. The user can see their progress and keep track of how many calories they need to burn or intake to achieve their goal within the target date. The x-axis contains the dates from the last 7 days to the current date and the y-axis contains the calories.
+The user history page, where users can see their caloric intake/output from the past week visualized into a bar graph. Users can use this information to see their progress and keep track of how many calories they need to burn or intake to achieve their goal within the target date. Several other data visualization schemes are offered, as well.
 
- ## Adding Friends
-
+## Friends
 ![image](https://github.com/user-attachments/assets/76090c53-8ddd-40f8-9384-8d5ba999c426)
 
-- This page contains the list of "My Friends" and "Add Friends". The "Add Friends" section contains all the users who have registered to our application. By selecting the users, they will show up in the "My Friends" section. The main purpose of this is to share calorie data via email.
+The friends page, where users can send other users requests to be friends in the application. Friends can share statistics and goal progress with one another to build community and mutually improve motivation.
 
- ## Enter burnout
+## Log Calorie Burn
 ![image](https://github.com/user-attachments/assets/3a04c813-4c71-4a29-be8d-bc74536d6d74)
 
-- This is the page where the user can enter the calories burnt. The value will be updated to the database.
-
-## Meal Plan
-![image](https://github.com/user-attachments/assets/6391e084-1a0e-4ffb-8c6b-fbc39b92e072)
-
-- This is the page where a user can enter details to receive an AI-enhanced list of meals that suit their purpose.
+The calorie burn logging page, where users can log their workouts in terms of calories burned. Once an amount is selected, the application will store it in the MongoDB database. Additionally, users will receive a reminder message to their email. 
 
 ## Water Intake
 ![image](https://github.com/user-attachments/assets/cce1fa97-d3ac-4129-a538-4dfcb90a9880)
 
-- This is the page where the user can record the amount of water they drink.
+The water intake page, where users can record the amount of water they have drunken so far in the day, with the goal of reaching a healthy, full 1 liter.
 
-## Exercise Recommendation
+## Exercise Recommendations
 ![image](https://github.com/user-attachments/assets/32b2044a-0972-4c94-919e-bd2a64a635b8)
 
--- Get recommendations for the exercises you want to do
+The exercise recommendation page, where users can receive exercise recommendations based on specified desired muscle groups.
 
 ## Daily Challenges
 ![image](https://github.com/user-attachments/assets/b846847d-c2cf-4536-8928-fcc3e68423b2)
 
-- This is the page where you can find daily challenges and share your achievements once they are completed.
+The daily challenges page, where users are offered three randomized wellness tasks to complete throughout the day. Users who complete all three in one day are offered the option to share their success with other users through social media.
 
- ## New Feature From Spring 2025 Team
+# METAFIT 3.0 (New and Updated) Features
 
 https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
+
+## Meal Planning
+![image](https://github.com/user-attachments/assets/6391e084-1a0e-4ffb-8c6b-fbc39b92e072)
+
+The meal plan page, where users can receive an AI-enhanced, curated list of meals that fulfils their specified criteria. User statistics are now also utilized to calculate users' BMI values, which allow the page to make informed suggestions regarding meal choice.
 
 ### Meal Recommendation System Rebuild
 (1)Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
