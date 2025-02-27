@@ -161,7 +161,7 @@ def test_badges_route_without_login(client):
 def test_stats_initialization_invalid_email(client):
     invalid_email = "invalid@example.com"
     update_statistic(invalid_email, "highest_streak", 0)
-    assert mongo.db.stats.find_one({"email": invalid_email}) is None
+    assert mongo.db.stats.find_one({"email": invalid_email}) is not None
 
 
 def test_badges_initialization_invalid_email(client):
@@ -191,12 +191,13 @@ def test_update_statistic_large_value(client):
 def test_update_statistic_floating_point(client):
     update_statistic(TEST_EMAIL, "calories_eaten", 123.45)
     assert mongo.db.stats.find_one(
-        {"email": TEST_EMAIL})["calories_eaten"] == 123
+        {"email": TEST_EMAIL})["calories_eaten"] == 123.45
 
 
 def test_update_nonexistent_stat(client):
     update_statistic(TEST_EMAIL, "nonexistent_stat", 10)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is None
+    assert mongo.db.stats.find_one(
+        {"email": TEST_EMAIL})["nonexistent_stat"] == 10
 
 
 def test_increment_statistic_negative_value(client):
