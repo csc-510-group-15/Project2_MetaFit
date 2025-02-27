@@ -1,16 +1,23 @@
-from datetime import datetime
-import os
+"""
+The primary application script. Logic routes through here
+before loading webpages throughout the website.
+"""
 from datetime import datetime, timedelta
+import os
 import ssl
 from email.message import EmailMessage
-import bcrypt
-import secrets
-import smtplib
+from time import time
+from urllib.parse import quote
+import random
 import re
+import smtplib
+import secrets
+import bcrypt
 import requests
 from pyotp import TOTP
 # from apps import App
 from flask import json
+from flask import jsonify
 # from utilities import Utilities
 from flask import (
     render_template,
@@ -21,10 +28,11 @@ from flask import (
     request,
     Flask,
 )
-
 from flask_mail import Mail
 from flask_pymongo import PyMongo
+from flask_apscheduler import APScheduler
 from tabulate import tabulate
+import openai
 from forms import (
     HistoryForm,
     RegistrationForm,
@@ -38,13 +46,10 @@ from forms import (
     QuestionForm,
 )
 from service import history as history_service
-import openai
-from flask import jsonify
-import random
-from flask_apscheduler import APScheduler
-from urllib.parse import quote
+
+
 from model.meal_recommendation import recommend_meal_plan
-from time import time
+
 # Import and register the password reset blueprint
 from src.password_reset import password_reset_bp
 
@@ -56,10 +61,10 @@ if os.environ.get('DOCKERIZED'):
     app.config['MONGO_URI'] = 'mongodb://mongo:27017/test'
 else:
     # Use localhost MongoDB URI
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test' 
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 app.config['MONGO_CONNECT'] = False
 mongo = PyMongo(app)
-app.mongo = mongo 
+app.mongo = mongo
 app.config['RECAPTCHA_PUBLIC_KEY'] = "6LfVuRUpAAAAAI3pyvwWdLcyqUvKOy6hJ_zFDTE_"
 app.config[
     'RECAPTCHA_PRIVATE_KEY'] = "6LfVuRUpAAAAANC8xNC1zgCAf7V66_wBV0gaaLFv"
@@ -72,44 +77,55 @@ mail = Mail(app)
 
 scheduler = APScheduler()
 
-badge_milestones = { "highest_streak": [ 0, 7, 14, 21 ], 
-                    "calories_eaten": [ 0, 20, 40, 80 ], 
-                    "calories_burned": [ 0, 2000, 4000, 6000 ] }
+badge_milestones = {"highest_streak": [0, 7, 14, 21],
+                    "calories_eaten": [0, 20, 40, 80],
+                    "calories_burned": [0, 2000, 4000, 6000]}
 
 
-def update_statistic(stat_name, value, is_increment = False):
+def update_statistic(stat_name, value, is_increment=False):
+    """
+    Update the value associated with the given named statistic.
+    Additionally, update the current user's
+    badge levels to match the new value.
+    """
     email = session.get('email')
     if email is None:
         return
-    
+
     # If no entry exists for this user account, create it.
-    if mongo.db.stats.find_one( { 'email': email } ) is None:
-        mongo.db.stats.insert_one( { 'email': email } )
+    if mongo.db.stats.find_one({'email': email}) is None:
+        mongo.db.stats.insert_one({'email': email})
 
     # Record the new statistic value in a database.
     db_operation = "$inc" if is_increment else "$set"
-    mongo.db.stats.update_one( { 'email': email }, { db_operation: { stat_name: value } } )
-    updated_entry = mongo.db.stats.find_one( { 'email': email } )
+    mongo.db.stats.update_one(
+        {'email': email}, {db_operation: {stat_name: value}})
+    updated_entry = mongo.db.stats.find_one({'email': email})
 
     # The following should really be a database, or a csv spreadsheet.
     if stat_name not in badge_milestones:
         print("error in updating stat!!")
         return
-    
+
     milestone_values = badge_milestones[stat_name]
-    
+    tiers = len(milestone_values)
+
     # Determine the highest level that the new value matches or exceeds.
     lvl = 1
-    while lvl < len(milestone_values) and milestone_values[lvl] <= updated_entry[stat_name]:
+
+    while lvl < tiers and milestone_values[lvl] <= updated_entry[stat_name]:
         lvl += 1
     lvl = min(len(milestone_values), lvl - 1)
 
     print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
-    mongo.db.badges.update_one( { 'email': email }, { "$set": { stat_name: lvl } } )
+    mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
 @app.context_processor
 def inject_cache_buster():
+    """
+    Busts the cache.
+    """
     return {'cache_buster': time()}
 
 
@@ -260,10 +276,11 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
+
 app.register_blueprint(password_reset_bp)
 
-def send_2fa_email(email, two_factor_secret):
 
+def send_2fa_email(email, two_factor_secret):
     sender = 'burnoutapp123@gmail.com'
     password = 'xszyjpklynmwqsgh'
     receiver = email
@@ -302,10 +319,10 @@ def user_profile():
     """
     if not session.get('email'):
         return redirect(url_for('login'))
-    
+
     email = session.get('email')
     print("User email:", email)
-    
+
     # Fetch existing profile data from the user collection
     existing_profile = mongo.db.user.find_one({'email': email}, {
         'height': 1,
@@ -313,16 +330,16 @@ def user_profile():
         'target_weight': 1
     })
     print("Existing profile:", existing_profile)
-    
+
     # Initialize the form, binding POST data if present.
     form = UserProfileForm(request.form)
-    
+
     # On GET requests, pre-fill the form with existing values (if any)
     if request.method == 'GET' and existing_profile:
         form.height.data = existing_profile.get('height')
         form.weight.data = existing_profile.get('weight')
         form.target_weight.data = existing_profile.get('target_weight')
-    
+
     # Only process when the method is POST
     if request.method == 'POST':
         print("POST data:", request.form)
@@ -331,7 +348,7 @@ def user_profile():
             height = form.height.data
             weight = form.weight.data
             target_weight = form.target_weight.data
-            
+
             try:
                 if existing_profile:
                     result = mongo.db.user.update_one(
@@ -359,16 +376,15 @@ def user_profile():
                         flash('Failed to create user profile', 'danger')
             except Exception as e:
                 flash(f'An error occurred: {str(e)}', 'danger')
-            
+
             return redirect(url_for('user_profile'))
         else:
             print("Form validation errors:", form.errors)
-    
+
     return render_template('user_profile.html',
                            status=True,
                            form=form,
                            existing_profile=existing_profile)
-
 
 
 @app.route("/badges", methods=['GET', 'POST'])
@@ -376,18 +392,17 @@ def badges():
     email = session.get('email')
     if email is None:
         return redirect(url_for('login'))
-    
-    statsData = mongo.db.stats.find_one( { 'email': email } )
+
+    statsData = mongo.db.stats.find_one({'email': email})
     if statsData is None:
-        mongo.db.stats.insert_one( { 'email': email } )
-        statsData = mongo.db.stats.find_one( { 'email': email } )
+        mongo.db.stats.insert_one({'email': email})
+        statsData = mongo.db.stats.find_one({'email': email})
 
-    badgeData = mongo.db.badges.find_one( { 'email': email } )
+    badgeData = mongo.db.badges.find_one({'email': email})
     if badgeData is None:
-        mongo.db.badges.insert_one( { 'email': email } )
-        badgeData = mongo.db.badges.find_one( { 'email': email } )
+        mongo.db.badges.insert_one({'email': email})
+        badgeData = mongo.db.badges.find_one({'email': email})
 
-    # for stat in ["calories_burned", "calories_eaten", "highest_streak", "liters_drunken"]:
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
         if stat not in statsData:
             update_statistic(stat, 0)
@@ -398,7 +413,8 @@ def badges():
     #     print("error!")
     #     render_template('badges.html', title='Badge Collection')
 
-    return render_template('badges.html', title='Badge Collection', milestoneData=badge_milestones, badgeData=badgeData)
+    return render_template('badges.html', title='Badge Collection',
+                           milestoneData=badge_milestones, badgeData=badgeData)
 
 
 @app.route("/calories", methods=['GET', 'POST'])
@@ -440,7 +456,6 @@ def calories():
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
                 return redirect(url_for('calories'))
-
     else:
         return redirect(url_for('home'))
     return render_template('calories.html', form=form)
@@ -609,6 +624,7 @@ def quiz():
     # form = getDate()
     return render_template('layout.html')
 
+
 @app.route("/water", methods=['GET', 'POST'])
 def water():
     return render_template('water.html')
@@ -616,19 +632,19 @@ def water():
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
-    # ############################
-    # question() function displays and processes each
-    # quiz question based on the provided question ID.
-    # The route "/question/<int:id>" triggers this function,
-    # which retrieves the question and handles user answers.
-    # - Input: Question ID (URL parameter),
-    # form submission with selected answer.
-    # - Output: If answer is correct, 10 points
-    # are added to the user's score;
-    # otherwise, no points are added.
-    #           Redirects to the next question or
-    # the score page upon completion.
-    # ############################
+    """
+    question() function displays and processes each
+    quiz question based on the provided question ID.
+    The route "/question/<int:id>" triggers this function,
+    which retrieves the question and handles user answers.
+    - Input: Question ID (URL parameter),
+    form submission with selected answer.
+    - Output: If answer is correct, 10 points
+    are added to the user's score;
+    otherwise, no points are added.
+              Redirects to the next question or
+    the score page upon completion.
+    """
 
     form = QuestionForm()
     q = mongo.db.questions.find_one({"q_id": id})
@@ -652,7 +668,7 @@ def question(id):
 
         if option == q['ans']:
             session['marks'] += 10
-        return redirect(url_for('question', id=(id + 1)))
+        return redirect(url_for('question', id + 1))
 
     form.options.choices = [(q['options']['a'], q['options']['a']),
                             (q['options']['b'], q['options']['b']),
@@ -668,15 +684,15 @@ def question(id):
 
 @app.route('/score')
 def score():
-    # ############################
-    # score() function displays the user's
-    # final score at the end of the quiz.
-    # The route "/score" triggers this function,
-    # rendering a final score summary page.
-    # - Input: None.
-    # - Output: Renders 'score.html' with the
-    # total score accumulated in the session.
-    # ############################
+    """
+    score() function displays the user's
+    final score at the end of the quiz.
+    The route "/score" triggers this function,
+    rendering a final score summary page.
+    - Input: None.
+    - Output: Renders 'score.html' with the
+    total score accumulated in the session.
+    """
 
     return render_template('score.html',
                            title='Final Score',
@@ -685,14 +701,14 @@ def score():
 
 @app.route("/history", methods=['GET'])
 def history():
-    # ############################
-    # history() function displays the Historyform (history.html) template
-    # route "/history" will redirect to history() function.
-    # HistoryForm() called and if the form is submitted
-    # then various values are fetched and update into the database entries
-    # Input: Email, date
-    # Output: Value fetched and displayed
-    # ##########################
+    """
+    history() function displays the Historyform (history.html) template
+    route "/history" will redirect to history() function.
+    HistoryForm() called and if the form is submitted
+    then various values are fetched and update into the database entries
+    Input: Email, date
+    Output: Value fetched and displayed
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = HistoryForm()
@@ -747,17 +763,17 @@ def history():
 
 @app.route("/ajaxhistory", methods=['POST'])
 def ajaxhistory():
-    # ############################
-    # ajaxhistory() is a POST function that displays
-    # and fetches various information from the database.
-    # Route "/ajaxhistory" will redirect
-    # to ajaxhistory() function.
-    # Details corresponding to the given
-    # email address are fetched
-    # from the database entries.
-    # Input: Email, date
-    # Output: date, email, calories, burnout
-    # ##########################
+    """
+    ajaxhistory() is a POST function that displays
+    and fetches various information from the database.
+    Route "/ajaxhistory" will redirect
+    to ajaxhistory() function.
+    Details corresponding to the given
+    email address are fetched
+    from the database entries.
+    Input: Email, date
+    Output: date, email, calories, burnout
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         if request.method == "POST":
@@ -788,11 +804,19 @@ def ajaxhistory():
 
 @app.route("/feed", methods=['GET'])
 def feed():
+    """
+    Open a webpage full of examples courses and classes for the
+    user to peruse.
+    """
     return render_template('feed.html')
 
 
 @app.route("/friends", methods=['GET'])
 def friends():
+    """
+    Open a webpage where users can send and receive friend requests from
+    other active users.
+    """
     email = session.get('email')
     myFriends = list(
         mongo.db.friends.find({
@@ -865,13 +889,13 @@ def friends():
 
 @app.route("/send_email", methods=['GET', 'POST'])
 def send_email():
-    # ############################
-    # send_email() function shares Calorie History with friend's email
-    # route "/send_email" will redirect to send_email()
-    # function which redirects to friends.html page.
-    # Input: Email
-    # Output: Calorie History Received on specified email
-    # ##########################
+    """
+    send_email() function shares Calorie History with friend's email
+    route "/send_email" will redirect to send_email()
+    function which redirects to friends.html page.
+    Input: Email
+    Output: Calorie History Received on specified email
+    """
     email = session.get('email')
     data = list(
         mongo.db.calories.find({'email': email},
@@ -942,17 +966,17 @@ def send_email():
 
 @app.route("/ajaxsendrequest", methods=['POST'])
 def ajaxsendrequest():
-    # ############################
-    # ajaxsendrequest() is a function that updates friend
-    # request information into database
-    # route "/ajaxsendrequest" will redirect to
-    # ajaxsendrequest() function.
-    # Details corresponding to given email address are fetched
-    # from the database entries and send request details updated
-    # Input: Email, receiver
-    # Output: DB entry of receiver info into database and
-    # return TRUE if success and FALSE otherwise
-    # ##########################
+    """
+    ajaxsendrequest() is a function that updates friend
+    request information into database
+    route "/ajaxsendrequest" will redirect to
+    ajaxsendrequest() function.
+    Details corresponding to given email address are fetched
+    from the database entries and send request details updated
+    Input: Email, receiver
+    Output: DB entry of receiver info into database and
+    return TRUE if success and FALSE otherwise
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         receiver = request.form.get('receiver')
@@ -972,17 +996,17 @@ def ajaxsendrequest():
 
 @app.route("/ajaxcancelrequest", methods=['POST'])
 def ajaxcancelrequest():
-    # ############################
-    # ajaxcancelrequest() is a function that updates
-    # friend request information into database
-    # route "/ajaxcancelrequest" will redirect
-    # to ajaxcancelrequest() function.
-    # Details corresponding to given email address are fetched
-    # from the database entries and cancel request details updated
-    # Input: Email, receiver
-    # Output: DB deletion of receiver info into database
-    # and return TRUE if success and FALSE otherwise
-    # ##########################
+    """
+    ajaxcancelrequest() is a function that updates
+    friend request information into database
+    route "/ajaxcancelrequest" will redirect
+    to ajaxcancelrequest() function.
+    Details corresponding to given email address are fetched
+    from the database entries and cancel request details updated
+    Input: Email, receiver
+    Output: DB deletion of receiver info into database
+    and return TRUE if success and FALSE otherwise
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         receiver = request.form.get('receiver')
@@ -1001,17 +1025,17 @@ def ajaxcancelrequest():
 
 @app.route("/ajaxapproverequest", methods=['POST'])
 def ajaxapproverequest():
-    # ############################
-    # ajaxapproverequest() is a function that
-    # updates friend request information into database
-    # route "/ajaxapproverequest" will redirect
-    # to ajaxapproverequest() function.
-    # Details corresponding to given email address are fetched
-    # from the database entries and approve request details updated
-    # Input: Email, receiver
-    # Output: DB updation of accept as TRUE info into database
-    # and return TRUE if success and FALSE otherwise
-    # ##########################
+    """
+    ajaxapproverequest() is a function that
+    updates friend request information into database
+    route "/ajaxapproverequest" will redirect
+    to ajaxapproverequest() function.
+    Details corresponding to given email address are fetched
+    from the database entries and approve request details updated
+    Input: Email, receiver
+    Output: DB updation of accept as TRUE info into database
+    and return TRUE if success and FALSE otherwise
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         receiver = request.form.get('receiver')
@@ -1041,26 +1065,26 @@ def ajaxapproverequest():
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
-    # ############################
-    # dashboard() function displays the dashboard.html template
-    # route "/dashboard" will redirect to dashboard() function.
-    # dashboard() called and displays the list of activities
-    # Output: redirected to dashboard.html
-    # ##########################
+    """
+    dashboard() function displays the dashboard.html template
+    route "/dashboard" will redirect to dashboard() function.
+    dashboard() called and displays the list of activities
+    Output: redirected to dashboard.html
+    """
     return render_template('dashboard.html', title='Dashboard')
 
 
 @app.route("/yoga", methods=['GET', 'POST'])
 def yoga():
-    # ############################
-    # yoga() function displays the yoga.html template
-    # route "/yoga" will redirect to yoga() function.
-    # A page showing details about yoga is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
-    # ##########################
+    """
+    yoga() function displays the yoga.html template
+    route "/yoga" will redirect to yoga() function.
+    A page showing details about yoga is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1079,15 +1103,15 @@ def yoga():
 
 @app.route("/swim", methods=['GET', 'POST'])
 def swim():
-    # ############################
-    # swim() function displays the swim.html template
-    # route "/swim" will redirect to swim() function.
-    # A page showing details about swimming is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
-    # ##########################
+    """
+    swim() function displays the swim.html template
+    route "/swim" will redirect to swim() function.
+    A page showing details about swimming is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1106,17 +1130,17 @@ def swim():
 
 @app.route("/abbs", methods=['GET', 'POST'])
 def abbs():
-    # ############################
-    # abbs() function displays the abbs.html template
-    # route "/abbs" will redirect to abbs() function.
-    # A page showing details about abbs
-    # workout is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and
-    # redirected to new dashboard
-    # ##########################
+    """
+    abbs() function displays the abbs.html template
+    route "/abbs" will redirect to abbs() function.
+    A page showing details about abbs
+    workout is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and
+    redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1134,16 +1158,16 @@ def abbs():
 
 @app.route("/belly", methods=['GET', 'POST'])
 def belly():
-    # ############################
-    # belly() function displays the belly.html template
-    # route "/belly" will redirect to belly() function.
-    # A page showing details about belly workout is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and
-    # redirected to new dashboard
-    # ##########################
+    """
+    belly() function displays the belly.html template
+    route "/belly" will redirect to belly() function.
+    A page showing details about belly workout is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and
+    redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1162,16 +1186,16 @@ def belly():
 
 @app.route("/core", methods=['GET', 'POST'])
 def core():
-    # ############################
-    # core() function displays the belly.html template
-    # route "/core" will redirect to
-    # core() function.
-    # A page showing details about core workout is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
-    # ##########################
+    """
+    core() function displays the belly.html template
+    route "/core" will redirect to
+    core() function.
+    A page showing details about core workout is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1189,16 +1213,16 @@ def core():
 
 @app.route("/gym", methods=['GET', 'POST'])
 def gym():
-    # ############################
-    # gym() function displays the gym.html template
-    # route "/gym" will redirect to gym() function.
-    # A page showing details about gym plan is shown and
-    # if clicked on enroll then DB updation done
-    # and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and
-    # redirected to new dashboard
-    # ##########################
+    """
+    gym() function displays the gym.html template
+    route "/gym" will redirect to gym() function.
+    A page showing details about gym plan is shown and
+    if clicked on enroll then DB updation done
+    and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and
+    redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1217,16 +1241,16 @@ def gym():
 
 @app.route("/walk", methods=['GET', 'POST'])
 def walk():
-    # ############################
-    # walk() function displays the walk.html template
-    # route "/walk" will redirect to walk() function.
-    # A page showing details about walk plan is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment
-    # and redirected to new dashboard
-    # ##########################
+    """
+    walk() function displays the walk.html template
+    route "/walk" will redirect to walk() function.
+    A page showing details about walk plan is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment
+    and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1245,15 +1269,15 @@ def walk():
 
 @app.route("/dance", methods=['GET', 'POST'])
 def dance():
-    # ############################
-    # dance() function displays the dance.html template
-    # route "/dance" will redirect to dance() function.
-    # A page showing details about dance plan is shown and
-    # if clicked on enroll then DB updation done
-    # and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
-    # ##########################
+    """
+    dance() function displays the dance.html template
+    route "/dance" will redirect to dance() function.
+    A page showing details about dance plan is shown and
+    if clicked on enroll then DB updation done
+    and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1272,15 +1296,15 @@ def dance():
 
 @app.route("/hrx", methods=['GET', 'POST'])
 def hrx():
-    # ############################
-    # hrx() function displays the hrx.html template
-    # route "/hrx" will redirect to hrx() function.
-    # A page showing details about hrx plan is shown and
-    # if clicked on enroll then DB updation
-    # done and redirected to new_dashboard
-    # Input: Email
-    # Output: DB entry about enrollment and redirected to new dashboard
-    # ##########################
+    """
+    hrx() function displays the hrx.html template
+    route "/hrx" will redirect to hrx() function.
+    A page showing details about hrx plan is shown and
+    if clicked on enroll then DB updation
+    done and redirected to new_dashboard
+    Input: Email
+    Output: DB entry about enrollment and redirected to new dashboard
+    """
     email = get_session = session.get('email')
     if get_session is not None:
         form = EnrollForm()
@@ -1299,6 +1323,9 @@ def hrx():
 
 @app.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_2fa():
+    """
+    Verifies 2-factor authentication.
+    """
     form = TwoFactorForm()  # Create a new form for 2FA verification
 
     if form.validate_on_submit():
@@ -1328,31 +1355,10 @@ def verify_2fa():
     return render_template('verify_2fa.html', title='Verify 2FA', form=form)
 
 
-# @app.route("/ajaxdashboard", methods=['POST'])
-# def ajaxdashboard():
-#     # ############################
-#     # login() function displays the Login form (login.html) template
-#     # route "/login" will redirect to login() function.
-#     # LoginForm() called and if the form is submitted
-    # then various values are fetched and verified from the database entries
-#     # Input: Email, Password, Login Type
-#     # Output: Account Authentication and redirecting to Dashboard
-#     # ##########################
-#     email = get_session = session.get('email')
-#     if get_session is not None:
-#         if request.method == "POST":
-#             result = mongo.db.user.find_one(
-#                 {'email': email}, {'email', 'Status'})
-#             if result:
-#                 return json.dumps({'email': result['email'],
-#    'Status': result['result']}), 200, {
-#                     'ContentType': 'application/json'}
-#             else:
-#                 return json.dumps({'email': "", 'Status': ""}), 200, {
-#                     'ContentType': 'application/json'}
-
-
 def get_completion(prompt):
+    """
+    Obtains OpenAI's completion of the given prompt, then returns it.
+    """
     query = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -1368,6 +1374,9 @@ def get_completion(prompt):
 
 @app.route("/chat", methods=['POST', 'GET'])
 def query_view():
+    """
+    Opens the AI chatbot webpage.
+    """
     if request.method == 'POST':
         prompt = request.form['prompt']
         response = get_completion(prompt)
@@ -1404,6 +1413,9 @@ DAILY_CHALLENGES = [
 
 @app.route('/daily_challenge', methods=['GET', 'POST'])
 def daily_challenge():
+    """
+    Opens the Daily Challenges webpage.
+    """
     user_email = session.get('email')
     if not user_email:
         # Redirect unauthorized users to the login page
@@ -1617,6 +1629,7 @@ def recommend_meal_plan_endpoint():
                                             fat)
     return jsonify(recommended_meals)
 
+
 # Example /bmi_advice endpoint update:
 @app.route('/bmi_advice', methods=['GET'])
 def bmi_advice():
@@ -1639,18 +1652,24 @@ def bmi_advice():
         return jsonify({"error": "Invalid weight or height data"}), 400
 
     bmi = weight_val / (height_m ** 2)
-    
+
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
-        advice = ("Your BMI suggests you are underweight. Consider increasing your calorie and protein intake to help gain weight.")
+        advice = "Your BMI suggests you are underweight. \
+            Consider increasing your calorie and \
+            protein intake to help gain weight."
         calorie_suggestion = "Consider setting a higher calorie goal."
         goal_suggestion = "Gain Weight"
     elif bmi < 25:
-        advice = ("Your BMI is in the normal range. Maintain your current balanced diet and exercise routine.")
+        advice = "Your BMI is in the normal range. \
+            Maintain your current balanced diet and \
+                exercise routine."
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
-        advice = ("Your BMI indicates you are overweight. A moderate calorie deficit with balanced macros might help you achieve your weight loss goals.")
+        advice = "Your BMI indicates you are overweight. \
+            A moderate calorie deficit with balanced \
+            macros might help you achieve your weight loss goals."
         calorie_suggestion = "Consider lowering your calorie goal moderately."
         goal_suggestion = "Weight Loss"
 
@@ -1691,15 +1710,19 @@ def bmi_advice():
         "reference_values": reference_values
     })
 
+
 def process_guide_text(guide_text):
     # Remove any surrounding double quotes
     guide_text = guide_text.strip('"')
-    # Find all segments that start with a digit+dot (e.g. "1.") until next digit+dot or end.
+    # Find all segments that start with a digit+dot
+    # (e.g. "1.") until next digit+dot or end.
     steps = re.findall(r'(\d+\..*?)(?=\s*\d+\.|$)', guide_text.strip())
     cleaned_steps = []
     for step in steps:
-        # Remove the leading digits, dot, and optional spaces: e.g. "1. " -> ""
-        # so you get just "Cook Pasta – Boil pasta according to package instructions..."
+        # Remove the leading digits, dot,
+        # and optional spaces: e.g. "1. " -> ""
+        # so you get just "Cook Pasta – Boil pasta
+        # according to package instructions..."
         cleaned = re.sub(r'^\d+\.\s*', '', step).strip()
         cleaned_steps.append(cleaned)
     return cleaned_steps
@@ -1713,19 +1736,19 @@ def meal_guide():
     carbs = request.args.get("carbs", "N/A")
     fat = request.args.get("fat", "N/A")
     cook_guide = request.args.get("cook_guide", "No guide available")
-    image_url = request.args.get("image_url", "https://via.placeholder.com/300")
+    image_url = request.args.get(
+        "image_url", "https://via.placeholder.com/300")
     print(request.args)
     # Process the guide text into a list of steps.
     steps = process_guide_text(cook_guide)
     render = render_template("meal_guide.html",
-                           food_name=food_name,
-                           calories=calories,
-                           protein=protein,
-                           carbs=carbs,
-                           fat=fat,
-                           steps=steps,
-                           image_url=image_url)
-    
+                             food_name=food_name,
+                             calories=calories,
+                             protein=protein,
+                             carbs=carbs,
+                             fat=fat,
+                             steps=steps,
+                             image_url=image_url)
     return render
 
 
@@ -1752,18 +1775,22 @@ def exercise():
         difficulty = request.form.get("difficulty").lower()
 
         # API call
-        api_url = f"https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}"
+        api_url = f"https://api.api-ninjas.com/v1/exercises? \
+            muscle={muscle}&difficulty={difficulty}"
         headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
         response = requests.get(api_url, headers=headers)
 
         if response.status_code == 200:
             exercises = response.json()[:5]  # Get only 5 exercises
             if not exercises:
-                error_message = f"No exercises found for {muscle} at {difficulty} level."
+                error_message = f"No exercises found for \
+                    {muscle} at {difficulty} level."
         else:
-            error_message = f"Error {response.status_code}: Unable to fetch exercises."
+            error_message = f"Error {response.status_code}: \
+                Unable to fetch exercises."
 
-    return render_template("exercise.html", exercises=exercises, error_message=error_message)
+    return render_template("exercise.html", exercises=exercises,
+                           error_message=error_message)
 
 
 if __name__ == "__main__":
