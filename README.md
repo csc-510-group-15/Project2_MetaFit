@@ -428,9 +428,9 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Evidence that the members of the team are working across multiple places in the code base|Commit history demonstrates contributions across diverse modules.|3|
 |Short release cycles|Frequent commits indicate rapid iterations and short release cycles.|2|
 |The file .gitignore lists what files should not be saved to the repo.|[.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore)|3|
-|The file INSTALL.md lists how to install the code|Installation instructions are provided in the repository.|3|
-|The file LICENSE.md lists rules of usage for this repo|License details are available on GitHub.|3|
-|The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|The CODE-OF-CONDUCT is provided along with the LICENSE. See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE)|3|
+|The file INSTALL.md lists how to install the code|See [INSTALL.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/INSTALL.md).|3|
+|The file LICENSE.md lists rules of usage for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE.md).|3|
+|The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CODE_OF_CONDUCT.md).|3|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|[CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md)|3|
 |The file README.md contains all the following|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Video|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
