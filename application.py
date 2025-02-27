@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 import os
 import ssl
 from email.message import EmailMessage
-from bson.objectid import ObjectId
 from time import time
 from urllib.parse import quote
 import random
@@ -27,13 +26,7 @@ from flask import (
     flash,
     redirect,
     request,
-    Flask
-)
-from flask_login import (
-    LoginManager,
-    login_required,
-    UserMixin,
-    login_user
+    Flask,
 )
 from flask_mail import Mail
 from flask_pymongo import PyMongo
@@ -62,8 +55,6 @@ from src.password_reset import password_reset_bp
 
 app = Flask(__name__)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
     # Use Docker-specific MongoDB URI
@@ -140,26 +131,6 @@ def update_statistic(email, stat_name, value, is_increment=False):
     mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
-# Define a simple User class that extends UserMixin
-class User(UserMixin):
-    def __init__(self, user_data):
-        self.id = str(user_data['_id'])  # Ensure this is a string
-        self.email = user_data.get('email')
-        # Add any additional fields as needed
-
-
-# User loader callback
-@login_manager.user_loader
-def load_user(user_id):
-    try:
-        user_data = mongo.db.user.find_one({"_id": ObjectId(user_id)})
-    except Exception:
-        user_data = None
-    if user_data:
-        return User(user_data)
-    return None
-
-
 @app.context_processor
 def inject_cache_buster():
     """
@@ -205,8 +176,6 @@ def login():
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
-                user = User(temp)
-                login_user(user)
                 flash(
                     'You have been logged in!',
                     'success'
@@ -355,7 +324,6 @@ def send_2fa_email(email, two_factor_secret):
 
 
 @app.route("/user_profile", methods=['GET', 'POST'])
-@login_required
 def user_profile():
     """
     Displays and updates the UserProfileForm.
@@ -466,7 +434,6 @@ def badges():
 
 
 @app.route("/calories", methods=['GET', 'POST'])
-@login_required
 def calories():
     """
     calorie() function displays the Calorieform (calories.html) template
@@ -854,7 +821,6 @@ def ajaxhistory():
 
 
 @app.route("/feed", methods=['GET', 'POST'])
-@login_required
 def feed():
     """
     Open a webpage full of examples courses and classes for the
@@ -864,7 +830,6 @@ def feed():
 
 
 @app.route("/friends", methods=['GET', 'POST'])
-@login_required
 def friends():
     """
     Open a webpage where users can send and receive friend requests from
@@ -1117,7 +1082,6 @@ def ajaxapproverequest():
 
 
 @app.route("/dashboard", methods=['GET', 'POST'])
-@login_required
 def dashboard():
     """
     dashboard() function displays the dashboard.html template
@@ -1125,11 +1089,12 @@ def dashboard():
     dashboard() called and displays the list of activities
     Output: redirected to dashboard.html
     """
+    if 'email' not in session:
+        return redirect(url_for('login'))
     return render_template('dashboard.html', title='Dashboard')
 
 
 @app.route("/yoga", methods=['GET', 'POST'])
-@login_required
 def yoga():
     """
     yoga() function displays the yoga.html template
@@ -1157,7 +1122,6 @@ def yoga():
 
 
 @app.route("/swim", methods=['GET', 'POST'])
-@login_required
 def swim():
     """
     swim() function displays the swim.html template
@@ -1185,7 +1149,6 @@ def swim():
 
 
 @app.route("/abbs", methods=['GET', 'POST'])
-@login_required
 def abbs():
     """
     abbs() function displays the abbs.html template
@@ -1214,7 +1177,6 @@ def abbs():
 
 
 @app.route("/belly", methods=['GET', 'POST'])
-@login_required
 def belly():
     """
     belly() function displays the belly.html template
@@ -1243,7 +1205,6 @@ def belly():
 
 
 @app.route("/core", methods=['GET', 'POST'])
-@login_required
 def core():
     """
     core() function displays the belly.html template
@@ -1271,7 +1232,6 @@ def core():
 
 
 @app.route("/gym", methods=['GET', 'POST'])
-@login_required
 def gym():
     """
     gym() function displays the gym.html template
@@ -1300,7 +1260,6 @@ def gym():
 
 
 @app.route("/walk", methods=['GET', 'POST'])
-@login_required
 def walk():
     """
     walk() function displays the walk.html template
@@ -1329,7 +1288,6 @@ def walk():
 
 
 @app.route("/dance", methods=['GET', 'POST'])
-@login_required
 def dance():
     """
     dance() function displays the dance.html template
@@ -1357,7 +1315,6 @@ def dance():
 
 
 @app.route("/hrx", methods=['GET', 'POST'])
-@login_required
 def hrx():
     """
     hrx() function displays the hrx.html template
@@ -1436,7 +1393,6 @@ def get_completion(prompt):
 
 
 @app.route("/chat", methods=['POST', 'GET'])
-@login_required
 def query_view():
     """
     Opens the AI chatbot webpage.
@@ -1476,7 +1432,6 @@ DAILY_CHALLENGES = [
 
 
 @app.route('/daily_challenge', methods=['GET', 'POST'])
-@login_required
 def daily_challenge():
     """
     Opens the Daily Challenges webpage.
@@ -1666,7 +1621,6 @@ scheduler.add_job(
 
 
 @app.route("/meal_plan", methods=['GET', 'POST'])
-@login_required
 def meal_plan():
     """
     Renders the meal_plan.html template,
@@ -1676,7 +1630,6 @@ def meal_plan():
 
 
 @app.route('/recommend_meal_plan', methods=['POST', 'GET'])
-@login_required
 def recommend_meal_plan_endpoint():
     """
     Endpoint to recommend a meal plan based on user preferences.
@@ -1805,7 +1758,6 @@ def process_guide_text(guide_text):
 
 
 @app.route("/meal_guide", methods=['GET', 'POST'])
-@login_required
 def meal_guide():
     food_name = request.args.get("food_name", "Unknown Meal")
     calories = request.args.get("calories", "N/A")
@@ -1845,7 +1797,6 @@ def add_header(response):
 
 
 @app.route("/exercise", methods=["GET", "POST"])
-@login_required
 def exercise():
     exercises = []
     error_message = None
