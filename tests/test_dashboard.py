@@ -21,6 +21,7 @@ def login(client, email):
 
 
 def test_dashboard_route(client):
+    login(client, TEST_EMAIL)
     # Ensure that the route returns a successful status code
     response = client.get('/dashboard')
     assert response.status_code == 200
