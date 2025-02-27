@@ -407,13 +407,16 @@ Improve the user profile system to provide more personalized fitness recommendat
 
 # Repository Rubric
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/:user/%2Fcsc-510-group-15%2FProject2_MetaFit%2F)
+
+
 |Notes|Evidence|Score|
 |-----|---------|--|
-|Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)|[Commit Records](https://github.com/csc-510-group-15/Project2_MetaFit/commits/main/)|3|
-|Number of commits|[Commit Records](https://github.com/csc-510-group-15/Project2_MetaFit/commits/main/)|3|
-|Number of commits: by different people|[Commit Records](https://github.com/csc-510-group-15/Project2_MetaFit/commits/main/)|3|
-|Issues reports: there are **many**|[Issues Reports](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed)|2|
-|Issues are being closed|[Issues Reports](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed)|3|
+|Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)|See [Recent Contributor Activity](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/contributors?from=1%2F25%2F2025).|3|
+|Number of commits|See [Commit Activity](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/commit-activity).|3|
+|Number of commits: by different people|See also [Recent Contributor Records](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/contributors?from=1%2F25%2F2025).|3|
+|Issues reports: there are **many**|See [Issue Activity](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed).|2|
+|Issues are being closed|See [Issue Activity](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed).|3|
 |Docs: doco generated, format not ugly|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Docs: what: point descriptions of each class/function (in isolation)|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|2|
 |Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
@@ -426,7 +429,7 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Chat channel: exists|[ScreenShot](./evidence/group%20channel.png)|3|
 |Test cases: a large proportion of the issues related to handling failing cases.|Failing test cases are promptly addressed; see [Test Coverage Action](https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml)|2|
 |Evidence that the whole team is using the same tools: everyone can get to all tools and files|All team members use the same dependencies as listed in [requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
-|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
+|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|2|
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)|All collaborators used the same [requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt) document for dependencies. One machine in particular struggled to create the environment properly.|2|
 |Evidence that the members of the team are working across multiple places in the code base|Features implemented this development cycle varied greatly in terms of role in the overall project. See [METAFIT 3.0 (New and Updated) Features](#metafit-30-new-and-updated-features).|3|
 |Short release cycles|Frequent commits indicate rapid iterations and short release cycles. See [Insights](https://github.com/csc-510-group-15/Project2_MetaFit/pulse).|2|
