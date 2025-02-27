@@ -12,8 +12,8 @@ TEST_EMAIL = "testemail@gmail.com"
 def client():
     app.config['TESTING'] = True
     app.config['MONGO_URI'] = (
-            'mongodb://localhost:27017/your_database_test'
-        )
+        'mongodb://localhost:27017/your_database_test'
+    )
     with app.test_client() as client:
         mongo.db.badges.delete_many({})
         mongo.db.stats.delete_many({})
@@ -63,11 +63,14 @@ def test_create_existing_stat(client):
 def test_initialize_stats(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is None
     update_statistic(TEST_EMAIL, "highest_streak", 0)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})['highest_streak'] == 0
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        'highest_streak'] == 0
     update_statistic(TEST_EMAIL, "calories_eaten", 5)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})['calories_eaten'] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        'calories_eaten'] == 5
     update_statistic(TEST_EMAIL, "calories_burned", -1000)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})['calories_burned'] == -1000
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        'calories_burned'] == -1000
 
 
 def test_create_nonexistent_stat(client):

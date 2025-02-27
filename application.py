@@ -183,7 +183,8 @@ def login():
                             "$set": {"last_login": datetime.now()},
                         }
                     )
-                    update_statistic(session['email'], "highest_streak", 1, True)
+                    update_statistic(session['email'],
+                                     "highest_streak", 1, True)
                 else:
                     mongo.db.user.update_one(
                         {'email': form.email.data},
@@ -411,7 +412,8 @@ def badges():
         if stat not in statsData:
             update_statistic(session['email'], stat, 0)
         else:
-            update_statistic(session['email'], stat, int(float(statsData[stat])))
+            update_statistic(session['email'], stat,
+                             int(float(statsData[stat])))
 
     # if badgeData is None:
     #     print("error!")
@@ -455,7 +457,8 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                update_statistic(session['email'], "calories_eaten", int(float(cals)), True)
+                update_statistic(
+                    session['email'], "calories_eaten", int(float(cals)), True)
                 flash('Successfully sent email and updated the data!',
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
@@ -535,7 +538,8 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
-                update_statistic(session['email'], "calories_burned", int(float(burn)), True)
+                update_statistic(
+                    session['email'], "calories_burned", int(float(burn)), True)
                 if float(burn) < 100:
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
