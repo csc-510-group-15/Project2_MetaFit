@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-
+<head id="history">
+</head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js">
 
     </script>
@@ -47,7 +48,7 @@
             createChart(selectedChartType);
         }
         function createChart(chartType){
-            {% if burn_rate > 0 %}
+            {% if burn_rate > 0 %} 
             isBurn = false
             {% else %}
             isBurn = true

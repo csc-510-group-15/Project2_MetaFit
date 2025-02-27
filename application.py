@@ -82,14 +82,20 @@ badge_milestones = {"highest_streak": [0, 7, 14, 21],
                     "calories_burned": [0, 2000, 4000, 6000]}
 
 
-def update_statistic(stat_name, value, is_increment=False):
+def update_statistic(email, stat_name, value, is_increment=False):
     """
     Update the value associated with the given named statistic.
     Additionally, update the current user's
     badge levels to match the new value.
     """
-    email = session.get('email')
+    # email = session.get('email')
     if email is None:
+        return
+
+    try:
+        value = float(value)
+    except ValueError:
+        # The provided value was not a valid Number; return early.
         return
 
     # If no entry exists for this user account, create it.
@@ -104,7 +110,6 @@ def update_statistic(stat_name, value, is_increment=False):
 
     # The following should really be a database, or a csv spreadsheet.
     if stat_name not in badge_milestones:
-        print("error in updating stat!!")
         return
 
     milestone_values = badge_milestones[stat_name]
@@ -117,7 +122,6 @@ def update_statistic(stat_name, value, is_increment=False):
         lvl += 1
     lvl = min(len(milestone_values), lvl - 1)
 
-    print("!!!!!! updating " + str(stat_name) + " to " + str(lvl))
     mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
@@ -179,7 +183,7 @@ def login():
                             "$set": {"last_login": datetime.now()},
                         }
                     )
-                    update_statistic("highest_streak", 1, True)
+                    update_statistic(session['email'], "highest_streak", 1, True)
                 else:
                     mongo.db.user.update_one(
                         {'email': form.email.data},
@@ -190,7 +194,7 @@ def login():
                             }
                         }
                     )
-                    update_statistic("highest_streak", 0)
+                    update_statistic(session['email'], "highest_streak", 0)
                 temp1 = mongo.db.user.find_one({'email': form.email.data},
                                                {'streak'})
                 print(f"temp1={temp1}\nsession={session}")
@@ -405,9 +409,9 @@ def badges():
 
     for stat in ["calories_burned", "calories_eaten", "highest_streak"]:
         if stat not in statsData:
-            update_statistic(stat, 0)
+            update_statistic(session['email'], stat, 0)
         else:
-            update_statistic(stat, int(float(statsData[stat])))
+            update_statistic(session['email'], stat, int(float(statsData[stat])))
 
     # if badgeData is None:
     #     print("error!")
@@ -451,7 +455,7 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                update_statistic("calories_eaten", int(float(cals)), True)
+                update_statistic(session['email'], "calories_eaten", int(float(cals)), True)
                 flash('Successfully sent email and updated the data!',
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
@@ -531,7 +535,7 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
-                update_statistic("calories_burned", int(float(burn)), True)
+                update_statistic(session['email'], "calories_burned", int(float(burn)), True)
                 if float(burn) < 100:
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -622,6 +626,7 @@ def quiz():
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
     # form = getDate()
+    print("hello from quiz! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     return render_template('layout.html')
 
 
