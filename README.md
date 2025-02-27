@@ -404,8 +404,6 @@ Improve the user profile system to provide more personalized fitness recommendat
 
 # Repository Rubric
 
-# Repository Rubric
-
 |Notes|Evidence|Score|
 |-----|---------|--|
 |Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)|[Commit Records](https://github.com/csc-510-group-15/Project2_MetaFit/commits/main/)|3|
@@ -427,16 +425,16 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Evidence that the whole team is using the same tools: everyone can get to all tools and files|All team members use the same dependencies as listed in [requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
 |Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
-|Evidence that the members of the team are working across multiple places in the code base|Commit history demonstrates contributions across diverse modules.| |
-|Short release cycles|Frequent commits indicate rapid iterations and short release cycles.| |
+|Evidence that the members of the team are working across multiple places in the code base|Commit history demonstrates contributions across diverse modules.|3|
+|Short release cycles|Frequent commits indicate rapid iterations and short release cycles.|2|
 |The file .gitignore lists what files should not be saved to the repo.|[.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore)|3|
-|The file INSTALL.md lists how to install the code|Installation instructions are provided in the repository.| |
-|The file LICENSE.md lists rules of usage for this repo|License details are available on GitHub.| |
+|The file INSTALL.md lists how to install the code|Installation instructions are provided in the repository.|3|
+|The file LICENSE.md lists rules of usage for this repo|License details are available on GitHub.|3|
 |The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|The CODE-OF-CONDUCT is provided along with the LICENSE. See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE)|3|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|[CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md)|3|
 |The file README.md contains all the following|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Video|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|The repository includes a DOI badge provided by Zenodo (as seen on GitHub).| |
+|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|The repository includes a DOI badge provided by Zenodo (as seen on GitHub).|3|
 |Badges showing your style checkers|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Badges showing your code formatters.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Badges showing your syntax checkers.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
