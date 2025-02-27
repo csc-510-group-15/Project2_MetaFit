@@ -82,24 +82,32 @@ def test_create_nonexistent_stat(client):
 def test_set_stats_value(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is None
     update_statistic(TEST_EMAIL, "highest_streak", 0)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 0
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 0
     update_statistic(TEST_EMAIL, "highest_streak", 5)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 5
     update_statistic(TEST_EMAIL, "calories_burned", -1000)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"] == -1000
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "calories_burned"] == -1000
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 5
 
 
 def test_inc_stats_value(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is None
     update_statistic(TEST_EMAIL, "highest_streak", 0, True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 0
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 0
     update_statistic(TEST_EMAIL, "highest_streak", 5, True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 5
     update_statistic(TEST_EMAIL, "highest_streak", -1000, True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == -995
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == -995
     update_statistic(TEST_EMAIL, "highest_streak", 0, True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == -995
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == -995
 
 
 def test_exactly_match_milestones(client):
@@ -110,7 +118,8 @@ def test_exactly_match_milestones(client):
         milestones = badge_milestones[stat_name]
         for milestone_idx in range(len(milestones)):
             update_statistic(TEST_EMAIL, stat_name, milestones[milestone_idx])
-            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[stat_name] == milestone_idx
+            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[
+                stat_name] == milestone_idx
 
 
 def test_between_values_milestones(client):
@@ -120,11 +129,15 @@ def test_between_values_milestones(client):
     for stat_name in badge_milestones:
         milestones = badge_milestones[stat_name]
         for milestone_idx in range(len(milestones)):
-            update_statistic(TEST_EMAIL, stat_name, milestones[milestone_idx] + 1)
-            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[stat_name] == milestone_idx
+            update_statistic(TEST_EMAIL, stat_name,
+                             milestones[milestone_idx] + 1)
+            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[
+                stat_name] == milestone_idx
             if milestone_idx < len(milestones) - 1:
-                update_statistic(TEST_EMAIL, stat_name, milestones[milestone_idx + 1] - 1)
-            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[stat_name] == milestone_idx
+                update_statistic(TEST_EMAIL, stat_name,
+                                 milestones[milestone_idx + 1] - 1)
+            assert mongo.db.badges.find_one({"email": TEST_EMAIL})[
+                stat_name] == milestone_idx
 
 
 def test_invalid_values(client):
@@ -133,14 +146,17 @@ def test_invalid_values(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is not None
 
     update_statistic(TEST_EMAIL, "highest_streak", "not a value")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 0
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 0
 
     # Correctly change the value of the stat so we can run the assert a second time.
     update_statistic(TEST_EMAIL, "highest_streak", 5)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 5
 
     update_statistic(TEST_EMAIL, "highest_streak", "not a value")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 5
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 5
 
 
 def test_string_values(client):
@@ -149,7 +165,9 @@ def test_string_values(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL}) is not None
 
     update_statistic(TEST_EMAIL, "highest_streak", "1")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 1
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 1
 
     update_statistic(TEST_EMAIL, "highest_streak", "2.0")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 2
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
+        "highest_streak"] == 2
