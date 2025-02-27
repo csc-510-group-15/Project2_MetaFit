@@ -441,7 +441,7 @@ Improve the user profile system to provide more personalized fitness recommendat
 |The file .gitignore lists what files should not be saved to the repo.|See [.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore).|3|
 |The file INSTALL.md lists how to install the code|See [INSTALL.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/INSTALL.md).|3|
 |The file LICENSE.md lists rules of usage for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE.md).|3|
-|The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CODE_OF_CONDUCT.md).|3|
+|The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|See [CODE_OF_CONDUCT.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CODE_OF_CONDUCT.md).|3|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|See [CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md).|3|
 |The file README.md contains all the following|See [README.md](#table-of-contents).|3|
 |Video|See [Brief Demo Video](#metafit-30-new-and-updated-features).|3|
