@@ -59,9 +59,9 @@
 # Table of Contents  
 
 - [Why use METAFIT?](#why-use-metafit)
-- [Additions to METAFIT 3.0](#additions-in-metafit-version-3.0)
+- [Additions to METAFIT 3.0](#additions-in-metafit-version-30)
 - [Practical Applications of METAFIT](#practical-applications-of-metafit)
-- [METAFIT 2.0 (Legacy) Features](#metafit-2.0-legacy-features)
+- [METAFIT 2.0 (Legacy) Features](#metafit-20-legacy-features)
   - [Register](#register)
   - [Login](#login)
   - [Edit User Profile](#edit-user-profile)
@@ -72,7 +72,7 @@
   - [Water Intake](#water-intake)
   - [Exercise Recommendations](#exercise-recommendations)
   - [Daily Challenges](#daily-challenges)
-- [METAFIT 3.0 (New and Updated) Features](#metafit-3.0-new-and-updated-features)
+- [METAFIT 3.0 (New and Updated) Features](#metafit-30-new-and-updated-features)
   - [Meal Planning](#meal-planning)
   - [Password Recovery](#password-recovery)
   - [Visual Dashboard](#visual-dashboard)
@@ -178,21 +178,33 @@ https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
 
 The meal plan page, where users can receive an AI-enhanced, curated list of meals that fulfils their specified criteria. User statistics are now also utilized to calculate users' BMI values, which allow the page to make informed suggestions regarding meal choice.
 
-(1)Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
-(2)Enhanced Scoring Function: Now using a loss-based scoring mechanism to rank and limit options to the top 5 (instead of the previous ~30, which was confusing).
-(3)BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
-(4)Cooking Guide Addition: Each recommended meal now comes with an image and detailed cooking instructions.
+- Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
+- Enhanced Scoring Function: Now using a loss-based scoring mechanism to rank and limit options to the top 5 (instead of the previous ~30, which was confusing).
+- BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
+- Cooking Guide Addition: Each recommended meal now comes with an image and detailed cooking instructions.
 Password Reset Functionality
 ![image](./evidence/new_meal_recommmendation.gif)
 
-### Password Recovery
- Password reset feature. Users can now reset forgotten passwords using a 2FA code sent to their registered email 
- ![image](./evidence/new_passwordforget.gif)
+## Password Recovery
 
-### Visual Dashboard
+The password recovery page, where users can use their registered email address to recover their password through two-factor authentication, ensuring security and accessibility.
+![image](./evidence/new_passwordforget.gif)
 
-### Profile Badges
- 
+## Visual Dashboard
+
+The user dashboard. Originally, users would arrive at this landing page and use the navigation header at the top of the window to navigate. In light of so many new features being present in METAFIT, the dashboard has been given a visual overhaul to declutter the top of the screen and provide a cleaner, more organized means for users to find the features they care about.
+
+- Webpages are organized by functionality.
+
+## Profile Badges
+
+The profile badges page, where users can view their account's lifetime statistics through a gamified achievement system. There are currently three tracked statistics:
+- Highest Lifetime Streak
+- Lifetime Calories Consumed
+- Lifetime Calories Burned
+The system is very flexible; with additional image assets, a multitude of different statistics have the potential to be tracked.
+Profile badges get more expensive (bronze -> silver -> gold) as their related stat grows. Users are incentivized to use the application often in order to collect them all!
+
 # Installation Instructions
  
  Step 1:
@@ -213,7 +225,6 @@ Password Reset Functionality
    Install the required packages by running the following command in the terminal.
    
     pip install -r requirements.txt
-    pip install openai==0.28.0
     
  Step 4: 
     Go to https://platform.openai.com/ and create an API key for OpenAI and paste it in application.py (in -> openai.api_key = '').
@@ -393,8 +404,6 @@ Improve the user profile system to provide more personalized fitness recommendat
 
 # Repository Rubric
 
-# Repository Rubric
-
 |Notes|Evidence|Score|
 |-----|---------|--|
 |Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)|[Commit Records](https://github.com/csc-510-group-15/Project2_MetaFit/commits/main/)|3|
@@ -416,16 +425,16 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Evidence that the whole team is using the same tools: everyone can get to all tools and files|All team members use the same dependencies as listed in [requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
 |Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)|[requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt)|3|
-|Evidence that the members of the team are working across multiple places in the code base|Commit history demonstrates contributions across diverse modules.| |
-|Short release cycles|Frequent commits indicate rapid iterations and short release cycles.| |
+|Evidence that the members of the team are working across multiple places in the code base|Commit history demonstrates contributions across diverse modules.|3|
+|Short release cycles|Frequent commits indicate rapid iterations and short release cycles.|2|
 |The file .gitignore lists what files should not be saved to the repo.|[.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore)|3|
-|The file INSTALL.md lists how to install the code|Installation instructions are provided in the repository.| |
-|The file LICENSE.md lists rules of usage for this repo|License details are available on GitHub.| |
+|The file INSTALL.md lists how to install the code|Installation instructions are provided in the repository.|3|
+|The file LICENSE.md lists rules of usage for this repo|License details are available on GitHub.|3|
 |The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|The CODE-OF-CONDUCT is provided along with the LICENSE. See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE)|3|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|[CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md)|3|
 |The file README.md contains all the following|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Video|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|The repository includes a DOI badge provided by Zenodo (as seen on GitHub).| |
+|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|The repository includes a DOI badge provided by Zenodo (as seen on GitHub).|3|
 |Badges showing your style checkers|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Badges showing your code formatters.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Badges showing your syntax checkers.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
