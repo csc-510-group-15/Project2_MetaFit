@@ -171,6 +171,7 @@ def test_string_values(client):
 
 # Adding 10 test cases.
 
+
 def test_update_statistic_with_zero_value_again(client):
     # Test updating a statistic with a zero value again
     update_statistic(TEST_EMAIL, "calories_eaten", 0)

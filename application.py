@@ -26,8 +26,9 @@ from flask import (
     flash,
     redirect,
     request,
-    Flask,
+    Flask
 )
+from flask_login import login_required
 from flask_mail import Mail
 from flask_pymongo import PyMongo
 from flask_apscheduler import APScheduler
@@ -324,6 +325,7 @@ def send_2fa_email(email, two_factor_secret):
 
 
 @app.route("/user_profile", methods=['GET', 'POST'])
+@login_required
 def user_profile():
     """
     Displays and updates the UserProfileForm.
@@ -434,6 +436,7 @@ def badges():
 
 
 @app.route("/calories", methods=['GET', 'POST'])
+@login_required
 def calories():
     """
     calorie() function displays the Calorieform (calories.html) template
@@ -821,6 +824,7 @@ def ajaxhistory():
 
 
 @app.route("/feed", methods=['GET', 'POST'])
+@login_required
 def feed():
     """
     Open a webpage full of examples courses and classes for the
@@ -830,6 +834,7 @@ def feed():
 
 
 @app.route("/friends", methods=['GET', 'POST'])
+@login_required
 def friends():
     """
     Open a webpage where users can send and receive friend requests from
@@ -1082,6 +1087,7 @@ def ajaxapproverequest():
 
 
 @app.route("/dashboard", methods=['GET', 'POST'])
+@login_required
 def dashboard():
     """
     dashboard() function displays the dashboard.html template
@@ -1093,6 +1099,7 @@ def dashboard():
 
 
 @app.route("/yoga", methods=['GET', 'POST'])
+@login_required
 def yoga():
     """
     yoga() function displays the yoga.html template
@@ -1120,6 +1127,7 @@ def yoga():
 
 
 @app.route("/swim", methods=['GET', 'POST'])
+@login_required
 def swim():
     """
     swim() function displays the swim.html template
@@ -1147,6 +1155,7 @@ def swim():
 
 
 @app.route("/abbs", methods=['GET', 'POST'])
+@login_required
 def abbs():
     """
     abbs() function displays the abbs.html template
@@ -1175,6 +1184,7 @@ def abbs():
 
 
 @app.route("/belly", methods=['GET', 'POST'])
+@login_required
 def belly():
     """
     belly() function displays the belly.html template
@@ -1203,6 +1213,7 @@ def belly():
 
 
 @app.route("/core", methods=['GET', 'POST'])
+@login_required
 def core():
     """
     core() function displays the belly.html template
@@ -1230,6 +1241,7 @@ def core():
 
 
 @app.route("/gym", methods=['GET', 'POST'])
+@login_required
 def gym():
     """
     gym() function displays the gym.html template
@@ -1258,6 +1270,7 @@ def gym():
 
 
 @app.route("/walk", methods=['GET', 'POST'])
+@login_required
 def walk():
     """
     walk() function displays the walk.html template
@@ -1286,6 +1299,7 @@ def walk():
 
 
 @app.route("/dance", methods=['GET', 'POST'])
+@login_required
 def dance():
     """
     dance() function displays the dance.html template
@@ -1313,6 +1327,7 @@ def dance():
 
 
 @app.route("/hrx", methods=['GET', 'POST'])
+@login_required
 def hrx():
     """
     hrx() function displays the hrx.html template
@@ -1391,6 +1406,7 @@ def get_completion(prompt):
 
 
 @app.route("/chat", methods=['POST', 'GET'])
+@login_required
 def query_view():
     """
     Opens the AI chatbot webpage.
@@ -1430,6 +1446,7 @@ DAILY_CHALLENGES = [
 
 
 @app.route('/daily_challenge', methods=['GET', 'POST'])
+@login_required
 def daily_challenge():
     """
     Opens the Daily Challenges webpage.
@@ -1619,6 +1636,7 @@ scheduler.add_job(
 
 
 @app.route("/meal_plan", methods=['GET', 'POST'])
+@login_required
 def meal_plan():
     """
     Renders the meal_plan.html template,
@@ -1628,6 +1646,7 @@ def meal_plan():
 
 
 @app.route('/recommend_meal_plan', methods=['POST', 'GET'])
+@login_required
 def recommend_meal_plan_endpoint():
     """
     Endpoint to recommend a meal plan based on user preferences.
@@ -1756,6 +1775,7 @@ def process_guide_text(guide_text):
 
 
 @app.route("/meal_guide", methods=['GET', 'POST'])
+@login_required
 def meal_guide():
     food_name = request.args.get("food_name", "Unknown Meal")
     calories = request.args.get("calories", "N/A")
@@ -1795,6 +1815,7 @@ def add_header(response):
 
 
 @app.route("/exercise", methods=["GET", "POST"])
+@login_required
 def exercise():
     exercises = []
     error_message = None
