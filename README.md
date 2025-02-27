@@ -2,6 +2,8 @@
 <br>
 <br>
 
+# Badges
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2fe3d7e7-a387-4eaf-a16e-3fb3c8221738" alt="Logo" width="3000">
 </p>
@@ -51,10 +53,13 @@
   </a>
 </p>
 
+# The Concept
 
-**METAFIT** is an easy-to-use application designed to track daily calories consumed and burned, helping users achieve their health goals—whether it’s weight loss, weight gain, or overall fitness improvement. It offers an intuitive interface where users can update their profiles (including height, weight, goals, and target weight), enroll in various fitness programs (such as yoga and targeted workouts), and receive personalized, AI-powered meal suggestions that match their lifestyle and calorie intake.
+Struggles with weight loss and fitness are a thing of the past!
 
-**METAFIT** is tailored for a broad audience: from individuals looking to manage their weight and improve their health, to fitness enthusiasts seeking structured workout and nutrition plans. Developers and open-source contributors will also find the documentation helpful, as it provides a comprehensive guide to understanding and enhancing the project.
+**METAFIT** is a calorie tracker. It’s an AI-powered meal planner.  It’s a social platform for positive self-growth. But most importantly, it’s quick, easy, free and fun! With **METAFIT**, you can keep your physical well-being on track from the convenience of your browser of choice, and do so as part of a growing community of users. Enroll in fitness and exercise programs, complete daily challenges, earn badges, and so much more, only on METAFIT 3.0.
+
+**METAFIT** is an easy-to-use application designed to track daily calories consumed and burned, helping users achieve their health goals—whether it’s weight loss, weight gain, or overall fitness improvement. It offers an intuitive interface where users can update their profiles (including height, weight, goals, and target weight), enroll in various fitness programs (such as yoga and targeted workouts), and receive personalized, AI-powered meal suggestions that match their lifestyle and calorie intake. It is tailored for a broad audience: from individuals looking to manage their weight and improve their health, to fitness enthusiasts seeking structured workout and nutrition plans. Developers and open-source contributors will also find the documentation helpful, as it provides a comprehensive guide to understanding and enhancing the project.
 
 # Table of Contents  
 
@@ -417,11 +422,11 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Number of commits: by different people|See also [Recent Contributor Records](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/contributors?from=1%2F25%2F2025).|3|
 |Issues reports: there are **many**|See [Issue Activity](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed).|2|
 |Issues are being closed|See [Issue Activity](https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed).|3|
-|Docs: doco generated, format not ugly|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Docs: what: point descriptions of each class/function (in isolation)|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|2|
-|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|2|
-|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
+|Docs: doco generated, format not ugly|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|0|
+|Docs: what: point descriptions of each class/function (in isolation)|See [Screenshot 1](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/evidence/point_docs_1.png), [Screenshot 2](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/evidence/point_docs_2.png), and [Screenshot 3](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/evidence/point_docs_3.png).|2|
+|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z|See [Screenshot 1](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/evidence/example_docs_1.png) and [Screenshot 3](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/evidence/example_docs_2.png).|3|
+|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing|See [Blurb](#the-concept).|2|
+|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.|See [Promo Video](#why-use-metafit).|3|
 |Use of version control tools|See [Traffic Activity](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/traffic).|3|
 |Test cases exist|172 tests (67 new tests) are documented. See [Test Scripts Directory](https://github.com/csc-510-group-15/Project2_MetaFit/tree/main/tests) as well as an [Example Test Run](https://github.com/csc-510-group-15/Project2_MetaFit/actions/runs/13565394789/job/37917229501).|3|
 |Test cases are routinely executed|See [Test Coverage Action](https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml).|3|
@@ -433,17 +438,17 @@ Improve the user profile system to provide more personalized fitness recommendat
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)|All collaborators used the same [requirements.txt](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/requirements.txt) document for dependencies. One machine in particular struggled to create the environment properly.|2|
 |Evidence that the members of the team are working across multiple places in the code base|Features implemented this development cycle varied greatly in terms of role in the overall project. See [METAFIT 3.0 (New and Updated) Features](#metafit-30-new-and-updated-features).|3|
 |Short release cycles|Frequent commits indicate rapid iterations and short release cycles. See [Insights](https://github.com/csc-510-group-15/Project2_MetaFit/pulse).|2|
-|The file .gitignore lists what files should not be saved to the repo.|[.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore)|3|
+|The file .gitignore lists what files should not be saved to the repo.|See [.gitignore](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/.gitignore).|3|
 |The file INSTALL.md lists how to install the code|See [INSTALL.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/INSTALL.md).|3|
 |The file LICENSE.md lists rules of usage for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE.md).|3|
 |The file CODE-OF-CONDUCT.md lists rules of behavior for this repo|See [LICENSE.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CODE_OF_CONDUCT.md).|3|
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|See [CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md).|3|
 |The file README.md contains all the following|See [README.md](#table-of-contents).|3|
-|Video|[Brief Demo Video](#metafit-30-new-and-updated-features)|3|
+|Video|See [Brief Demo Video](#metafit-30-new-and-updated-features).|3|
 |DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|Our DOI is [![DOI](https://zenodo.org/badge/933976739.svg)](https://doi.org/10.5281/zenodo.14936235).|3|
-|Badges showing your style checkers|Our style checkers are <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a> and <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a>.|3|
-|Badges showing your code formatters.|Our code formatter is <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/code_formatter.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;"></a>.|3|
-|Badges showing your syntax checkers.|Our syntax checkers are <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a> and <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a>.|3|
-|Badges showing your code coverage tools|Our code coverer is <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;"></a>|3|
-|Badges showing any other Other automated analysis tools|<a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/code_formatter.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;"></a>|2|
+|Badges showing your style checkers|See [Badges](#badges).|3|
+|Badges showing your code formatters.|See [Badges](#badges).|3|
+|Badges showing your syntax checkers.|See [Badges](#badges).|3|
+|Badges showing your code coverage tools|See [Badges](#badges).|3|
+|Badges showing any other Other automated analysis tools|See [Badges](#badges).|2|
 | |||
