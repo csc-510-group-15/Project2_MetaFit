@@ -58,31 +58,37 @@
 
 # Table of Contents  
 
-- [Why use METAFIT?](#why-use-metafit)
-- [Additions to METAFIT](#additions-to-metafit)
-- [TechStack Used for the Development of Project:](#techstack-used-for-the-development-of-project)
-- [Help by using our Software:](#help-by-using-our-software)
-- [Core Functionalities of the Application:](#core-functionalities-of-the-application)
+- [Why use METAFIT?](#Why-Use-METAFIT?)
+- [Additions to METAFIT 3.0](#Additions-in-METAFIT-version-3.0)
+- [Practical Applications of METAFIT](#Practical-Applications-of-METAFIT)
+- [METAFIT 2.0 (Legacy) Features](#METAFIT-2.0-(Legacy)-Features)
   - [Register](#register)
   - [Login](#login)
-  - [Set User Profile](#set-user-profile)
-  - [Enter Calories in](#enter-calories-in)
+  - [Edit User Profile](#edit-user-profile)
+  - [Log Calories](#log-calories)
   - [Check Your Plan](#check-your-plan)
-  - [Adding Friends](#adding-friends)
-  - [Enter burnout](#enter-burnout)
-  - [Meal Plan](#meal-plan)
+  - [Friends](#friends)
+  - [Log Calorie Burn](#log-calorie-burn)
   - [Water Intake](#water-intake)
-  - [Exercise Recommendation](#exercise-recommendation)
+  - [Exercise Recommendations](#exercise-recommendations)
   - [Daily Challenges](#daily-challenges)
-- [Steps for Execution:](#steps-for-execution)
+- [METAFIT 3.0 (New and Updated) Features](#METAFIT-3.0-(New-and-Updated)-Features)
+  - [Meal Planning](#meal-planning)
+  - [Password Recovery](#password-recovery)
+  - [Visual Dashboard](#visual-dashboard)
+  - [Profile Badges](#profile-badges)
+- [Tech Stack](#techstack-used-for-the-development-of-project)
+- [Installation Instructions](#installation-instructions)
 - [Kubernetes](#kubernetes)
-- [Source Code](#source-code)
+- [Future Scope](#future-scope)
 - [Contributors](#contributors)
 - [Contribution](#contribution)
 - [License](#license)
+- [Software Sustainability Evaluation Self-Assessment Table](#software-sustainability-evaluation-self-assessment-table)
+- [Repository Rubric](#repository-rubric)
 
 
-# Why Use Metafit
+# Why Use Metafit?
 https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
  - Users can keep track of their daily caloric intake, calculated from food automatically.
@@ -173,7 +179,6 @@ https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
 
 The meal plan page, where users can receive an AI-enhanced, curated list of meals that fulfils their specified criteria. User statistics are now also utilized to calculate users' BMI values, which allow the page to make informed suggestions regarding meal choice.
 
-### Meal Recommendation System Rebuild
 (1)Fine-tuned Model Training: Integrated fine-tuning to get more accurate meal recommendations.
 (2)Enhanced Scoring Function: Now using a loss-based scoring mechanism to rank and limit options to the top 5 (instead of the previous ~30, which was confusing).
 (3)BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
@@ -181,10 +186,15 @@ The meal plan page, where users can receive an AI-enhanced, curated list of meal
 Password Reset Functionality
 ![image](./evidence/new_meal_recommmendation.gif)
 
-### Forget Password
+### Password Recovery
  Password reset feature. Users can now reset forgotten passwords using a 2FA code sent to their registered email 
  ![image](./evidence/new_passwordforget.gif)
- # Steps for execution
+
+### Visual Dashboard
+
+### Profile Badges
+ 
+# Installation Instructions
  
  Step 1:
  Install MongoDB using the following link:
@@ -251,7 +261,7 @@ Password Reset Functionality
     ```bash
     kubectl get service flask-mongo-service
     ```
-  # Next Step
+  # Future Scope
   
   Future Goals
 
