@@ -1752,7 +1752,7 @@ def add_header(response):
 
 @app.route("/exercise", methods=["GET", "POST"])
 def exercise():
-    exercises = []  
+    exercises = []
     error_message = None
 
     if request.method == "POST":
@@ -1778,6 +1778,7 @@ def exercise():
             error_message = f"Error {resp.status_code}: Unable to fetch exercises."
 
     return render_template("exercise.html", exercises=exercises, error_message=error_message)
+
 
 if __name__ == "__main__":
     if os.environ.get('DOCKERIZED'):
