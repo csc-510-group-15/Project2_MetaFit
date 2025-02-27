@@ -19,13 +19,13 @@
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
     <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/LICENSE">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit//blob/main/LICENSE.md">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT license" style="vertical-align: middle;">
   </a>
   <a href="https://doi.org/10.5281/zenodo.14226770">
     <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14226770.svg" alt="DOI" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/anuj672/calorieApp_server/graphs/contributors">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/pulse">
     <img src="https://img.shields.io/github/contributors/RAV-Organization/SE_Project3_calorieApp_server" alt="contributors" style="vertical-align: middle;">
   </a>
   <a href="https://www.python.org/dev/peps/pep-0008/">
@@ -40,14 +40,14 @@
   <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml">
     <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml">
     <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues">
     <img src="https://img.shields.io/github/issues/RAV-Organization/SE_Project3_calorieApp_server" alt="GitHub issues" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues?q=is%3Aissue+is%3Aclosed">
-    <img src="https://img.shields.io/github/issues-closed/RAV-Organization/SE_Project3_calorieApp_server" alt="closed issues" style="vertical-align: middle;">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue%20state%3Aclosed">
+    <img src="https://img.shields.io/github/issues-closed/csc-510-group-15/Project2_MetaFit" alt="closed issues" style="vertical-align: middle;">
   </a>
 </p>
 
