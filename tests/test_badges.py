@@ -168,3 +168,75 @@ def test_string_values(client):
     update_statistic(TEST_EMAIL, "highest_streak", "2.0")
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})[
         "highest_streak"] == 2
+
+# Adding 10 test cases.
+
+
+def test_update_statistic_with_zero_value_again(client):
+    # Test updating a statistic with a zero value again
+    update_statistic(TEST_EMAIL, "calories_eaten", 0)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
+    assert isinstance(result, (int, float)) and result == 0
+
+
+def test_update_statistic_with_positive_value(client):
+    # Test updating a statistic with a positive value
+    update_statistic(TEST_EMAIL, "calories_eaten", 100)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
+    assert isinstance(result, (int, float)) and result == 100
+
+
+def test_update_statistic_with_negative_value_again(client):
+    # Test updating a statistic with a negative value again
+    update_statistic(TEST_EMAIL, "calories_burned", -200)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
+    assert isinstance(result, (int, float)) and result == -200
+
+
+def test_update_statistic_with_large_positive_value(client):
+    # Test updating a statistic with a large positive value
+    update_statistic(TEST_EMAIL, "calories_eaten", 1000000)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
+    assert isinstance(result, (int, float)) and result == 1000000
+
+
+def test_update_statistic_with_large_negative_value_again(client):
+    # Test updating a statistic with a large negative value again
+    update_statistic(TEST_EMAIL, "calories_burned", -1000000)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
+    assert isinstance(result, (int, float)) and result == -1000000
+
+
+def test_update_statistic_with_floating_point_value(client):
+    # Test updating a statistic with a floating-point value
+    update_statistic(TEST_EMAIL, "calories_eaten", 123.45)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
+    assert isinstance(result, (int, float)) and result == 123.45
+
+
+def test_update_statistic_with_negative_floating_point_value(client):
+    # Test updating a statistic with a negative floating-point value
+    update_statistic(TEST_EMAIL, "calories_burned", -123.45)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
+    assert isinstance(result, (int, float)) and result == -123.45
+
+
+def test_update_statistic_with_increment_positive_value(client):
+    # Test incrementing a statistic with a positive value
+    update_statistic(TEST_EMAIL, "highest_streak", 10, True)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
+    assert isinstance(result, (int, float)) and result == 10
+
+
+def test_update_statistic_with_increment_negative_value(client):
+    # Test incrementing a statistic with a negative value
+    update_statistic(TEST_EMAIL, "highest_streak", -5, True)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
+    assert isinstance(result, (int, float)) and result == -5
+
+
+def test_update_statistic_with_increment_zero_value(client):
+    # Test incrementing a statistic with a zero value
+    update_statistic(TEST_EMAIL, "highest_streak", 0, True)
+    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
+    assert isinstance(result, (int, float)) and result == 0

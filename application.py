@@ -1089,6 +1089,8 @@ def dashboard():
     dashboard() called and displays the list of activities
     Output: redirected to dashboard.html
     """
+    if 'email' not in session:
+        return redirect(url_for('login'))
     return render_template('dashboard.html', title='Dashboard')
 
 

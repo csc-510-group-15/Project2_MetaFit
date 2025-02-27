@@ -5,6 +5,8 @@ from application import app
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 
+TEST_EMAIL = "testemail@gmail.com"
+
 
 class BasicTestCase(unittest.TestCase):
 
@@ -32,6 +34,8 @@ class BasicTestCase(unittest.TestCase):
 
     def test_dashboard(self):
         self.app = app.test_client()
+        with self.app.session_transaction() as sess:
+            sess['email'] = TEST_EMAIL
         ans = self.app.get('/dashboard')
         self.assertEqual(ans.status_code, 200)
 
