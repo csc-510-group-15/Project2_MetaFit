@@ -1,11 +1,6 @@
 name: Code Coverage
 
-on:
-  push:
-    branches:
-      - main
-      - hchen54
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   test:
