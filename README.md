@@ -276,9 +276,9 @@ This is the page where the user can see their history in the form of a bar graph
   <table>
     <!-- Most Recent -->
     <tr>
-      <td align="center"><br /><sub><b>Hanqi Chen</b></sub></a><br /></td>
-      <td align="center"><br /><sub><b>Krishna Pallavalli</b></sub></a><br /></td>
-      <td align="center"><br /><sub><b>Adam Imbert</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Hanqk97"><br /><sub><b>Hanqi Chen</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/KrishnaPallavalli"><br /><sub><b>Krishna Pallavalli</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Prismly"><br /><sub><b>Adam Imbert</b></sub></a><br /></td>
     </tr>
     <!-- First Row -->
     <tr>
