@@ -2,57 +2,54 @@ import json
 import pytest
 from application import app  # Ensure your Flask app is importable
 
+
 # Fixture to provide a test client.
-
-
 @pytest.fixture
 def client():
     with app.test_client() as client:
         yield client
 
+
 # --------------------------
 # Tests for /meal_plan Route
 # --------------------------
 
-
 def test_meal_plan_template_rendering(client):
-    """Verify that GET /meal_plan returns a page containing 'Meal Plan'."""
+    """Verify GET /meal_plan returns a page with 'Meal Plan'."""
     response = client.get("/meal_plan")
     assert response.status_code == 200
     assert b"Meal Plan" in response.data
 
 
 def test_meal_plan_contains_title(client):
-    """Check that the rendered HTML from /meal_plan includes a <title>
-    tag with 'Meal Plan'."""
+    """Check that /meal_plan HTML has a <title> with 'Meal Plan'."""
     response = client.get("/meal_plan")
     assert response.status_code == 200
-    # Adjust the assertion to check for a <title> tag and the phrase 'Meal Plan'
+    # Check for <title> and 'Meal Plan'
     assert b"<title>" in response.data
     assert b"Meal Plan" in response.data
 
 
 def test_meal_plan_post_content_type(client):
-    """Ensure that a POST request to /meal_plan returns HTML content."""
+    """Ensure POST /meal_plan returns HTML content."""
     response = client.post("/meal_plan")
     assert response.status_code == 200
     assert response.content_type.startswith("text/html")
 
 
 def test_meal_plan_post_form(client):
-    """Send POST form data to /meal_plan (even though it ignores data)
-    and verify output."""
+    """Send POST form data to /meal_plan and verify output."""
     response = client.post("/meal_plan", data={"dummy": "data"})
     assert response.status_code == 200
     assert b"Meal Plan" in response.data
+
 
 # ------------------------------------
 # Tests for /recommend_meal_plan Endpoint
 # ------------------------------------
 
-
 def test_recommend_meal_plan_endpoint_valid(client):
-    """POST valid JSON to /recommend_meal_plan and check for a JSON list of meals."""
+    """POST valid JSON to /recommend_meal_plan and check JSON list."""
     payload = {
         "goal": "Maintenance",
         "calories": 2000,
@@ -60,7 +57,10 @@ def test_recommend_meal_plan_endpoint_valid(client):
         "carbs": 250,
         "fat": 70
     }
-    response = client.post("/recommend_meal_plan", json=payload)
+    response = client.post(
+        "/recommend_meal_plan",
+        json=payload
+    )
     assert response.status_code == 200
     data = response.get_json()
     assert isinstance(data, list)
@@ -70,9 +70,7 @@ def test_recommend_meal_plan_endpoint_valid(client):
 
 
 def test_recommend_meal_plan_endpoint_get(client):
-    """Verify that a GET request to /recommend_meal_plan fails when provided
-    with an empty JSON body."""
-    # Expect that the GET call raises a ValueError because required keys are missing.
+    """GET with empty JSON should raise ValueError."""
     with pytest.raises(ValueError):
         client.get(
             "/recommend_meal_plan",
@@ -82,20 +80,21 @@ def test_recommend_meal_plan_endpoint_get(client):
 
 
 def test_recommend_meal_plan_missing_keys(client):
-    """Omit required keys in the JSON payload and expect a ValueError."""
+    """Omit keys and expect ValueError."""
     payload = {
         "goal": "Maintenance",
         "calories": 2000
         # Missing protein, carbs, and fat
     }
-    # Since the endpoint raises ValueError, we check for that.
     with pytest.raises(ValueError):
-        client.post("/recommend_meal_plan", json=payload)
+        client.post(
+            "/recommend_meal_plan",
+            json=payload
+        )
 
 
 def test_recommend_meal_plan_extra_keys(client):
-    """Include extra (unexpected) keys in the payload and verify the endpoint
-    still returns 200."""
+    """Extra keys in payload should still return 200."""
     payload = {
         "goal": "Maintenance",
         "calories": 2000,
@@ -104,13 +103,15 @@ def test_recommend_meal_plan_extra_keys(client):
         "fat": 70,
         "extra": "unexpected"
     }
-    response = client.post("/recommend_meal_plan", json=payload)
+    response = client.post(
+        "/recommend_meal_plan",
+        json=payload
+    )
     assert response.status_code == 200
 
 
 def test_recommend_meal_plan_zero_values(client):
-    """Test with zero values for numeric inputs (if allowed) and expect a valid
-    response."""
+    """Zero numeric inputs should yield a valid response."""
     payload = {
         "goal": "Weight Loss",
         "calories": 0,
@@ -118,13 +119,15 @@ def test_recommend_meal_plan_zero_values(client):
         "carbs": 0,
         "fat": 0
     }
-    response = client.post("/recommend_meal_plan", json=payload)
+    response = client.post(
+        "/recommend_meal_plan",
+        json=payload
+    )
     assert response.status_code == 200
 
 
 def test_recommend_meal_plan_non_json(client):
-    """Test: Sending plain text (non‑JSON) to /recommend_meal_plan should raise
-    an AttributeError."""
+    """Plain text to /recommend_meal_plan should raise AttributeError."""
     with pytest.raises(AttributeError):
         client.post(
             "/recommend_meal_plan",
@@ -134,28 +137,25 @@ def test_recommend_meal_plan_non_json(client):
 
 
 def test_recommend_meal_plan_malformed_json(client):
-    """Test: Sending malformed JSON to /recommend_meal_plan should yield a 400
-    error."""
-    # Intentionally malformed JSON: missing quotes around Maintenance.
+    """Malformed JSON should yield a 400 error."""
     malformed_data = (
-        '{"goal": Maintenance, "calories": 2000, "protein": 100, "carbs": 250, '
-        '"fat": 70}'
+        '{"goal": Maintenance, "calories": 2000, "protein": 100, "carbs": '
+        '250, "fat": 70}'
     )
     response = client.post(
         "/recommend_meal_plan",
         data=malformed_data,
         content_type="application/json"
     )
-    # Update expected status code to 400.
     assert response.status_code == 400
+
 
 # -------------------------------
 # Tests for /bmi_advice Endpoint
 # -------------------------------
 
-
 def test_bmi_advice_not_logged_in(client):
-    """Access /bmi_advice without a session to ensure a 401 error is returned."""
+    """Without session, /bmi_advice returns 401."""
     response = client.get("/bmi_advice")
     assert response.status_code == 401
     data = response.get_json()
@@ -163,23 +163,15 @@ def test_bmi_advice_not_logged_in(client):
 
 
 def test_bmi_advice_profile_not_found(client, monkeypatch):
-    """Simulate a valid session but no profile found in the database."""
+    """Valid session but no profile should return 404."""
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: None}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: None
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -191,7 +183,7 @@ def test_bmi_advice_profile_not_found(client, monkeypatch):
 
 
 def test_bmi_advice_invalid_profile_data(client, monkeypatch):
-    """Provide non-numeric weight and height to trigger a 400 error."""
+    """Non-numeric weight/height should trigger a 400 error."""
     fake_profile = {
         "email": "test@example.com",
         "weight": "invalid",
@@ -200,19 +192,11 @@ def test_bmi_advice_invalid_profile_data(client, monkeypatch):
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -224,25 +208,20 @@ def test_bmi_advice_invalid_profile_data(client, monkeypatch):
 
 
 def test_bmi_advice_normal_profile(client, monkeypatch):
-    """Provide a profile with normal BMI and verify the advice includes 'normal'."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "70", "height": "175"}
+    """Normal BMI profile should yield advice with 'normal'."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "70",
+        "height": "175"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -256,26 +235,20 @@ def test_bmi_advice_normal_profile(client, monkeypatch):
 
 
 def test_bmi_advice_underweight_profile(client, monkeypatch):
-    """Provide a profile with underweight BMI and check that advice indicates
-    underweight."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "50", "height": "175"}
+    """Underweight profile should yield underweight advice."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "50",
+        "height": "175"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -288,26 +261,20 @@ def test_bmi_advice_underweight_profile(client, monkeypatch):
 
 
 def test_bmi_advice_overweight_profile(client, monkeypatch):
-    """Provide a profile with overweight BMI and verify that the advice
-    suggests weight loss."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "90", "height": "165"}
+    """Overweight profile should yield bmi >= 25 and weight loss advice."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "90",
+        "height": "165"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -321,25 +288,20 @@ def test_bmi_advice_overweight_profile(client, monkeypatch):
 
 
 def test_bmi_advice_json_structure(client, monkeypatch):
-    """Ensure that a valid /bmi_advice response contains all expected keys."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "80", "height": "180"}
+    """Response should contain all expected keys."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "80",
+        "height": "180"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -347,36 +309,24 @@ def test_bmi_advice_json_structure(client, monkeypatch):
     response = client.get("/bmi_advice")
     data = response.get_json()
     expected_keys = {
-        "bmi",
-        "weight",
-        "height",
-        "advice",
-        "calorie_suggestion",
-        "goal_suggestion",
-        "reference_values",
+        "bmi", "weight", "height", "advice",
+        "calorie_suggestion", "goal_suggestion",
+        "reference_values"
     }
     assert expected_keys.issubset(set(data.keys()))
 
 
 def test_bmi_advice_missing_weight(client, monkeypatch):
-    """Provide a profile missing the weight field and expect a 400 error."""
+    """Missing weight should yield a 400 error."""
     fake_profile = {"email": "test@example.com", "height": "170"}
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -386,24 +336,16 @@ def test_bmi_advice_missing_weight(client, monkeypatch):
 
 
 def test_bmi_advice_missing_height(client, monkeypatch):
-    """Provide a profile missing the height field and expect a 400 error."""
+    """Missing height should yield a 400 error."""
     fake_profile = {"email": "test@example.com", "weight": "70"}
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -413,26 +355,20 @@ def test_bmi_advice_missing_height(client, monkeypatch):
 
 
 def test_bmi_advice_reference_values(client, monkeypatch):
-    """For a valid normal profile, verify that 'reference_values' contains
-    expected keys."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "70", "height": "175"}
+    """Reference values should contain expected keys."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "70",
+        "height": "175"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -442,30 +378,26 @@ def test_bmi_advice_reference_values(client, monkeypatch):
     assert isinstance(data.get("reference_values"), dict)
     if data.get("goal_suggestion") == "Maintenance":
         expected = {"goal", "calories", "protein", "carbs", "fat"}
-        assert expected.issubset(data.get("reference_values").keys())
+        assert expected.issubset(
+            data.get("reference_values").keys()
+        )
 
 
 def test_bmi_advice_boundary_normal(client, monkeypatch):
-    """Simulate a boundary BMI of approximately 18.5 and verify the response
-    categorizes it as normal."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "53.5", "height": "170"}
+    """Boundary BMI ~18.5 should be categorized as normal."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "53.5",
+        "height": "170"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -477,26 +409,20 @@ def test_bmi_advice_boundary_normal(client, monkeypatch):
 
 
 def test_bmi_advice_post_method(client, monkeypatch):
-    """Verify that POST requests to /bmi_advice work correctly (the endpoint
-    accepts both GET and POST)."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "75", "height": "175"}
+    """POST to /bmi_advice should work (GET and POST accepted)."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "75",
+        "height": "175"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -508,33 +434,26 @@ def test_bmi_advice_post_method(client, monkeypatch):
 
 
 def test_meal_plan_delete_method(client):
-    """Ensure that using an unsupported HTTP method (DELETE) on /meal_plan
-    returns 405."""
+    """DELETE on /meal_plan should return 405."""
     response = client.delete("/meal_plan")
     assert response.status_code == 405
 
 
 def test_bmi_advice_boundary_overweight(client, monkeypatch):
-    """For a profile near the BMI boundary, verify the endpoint categorizes
-    as overweight."""
-    fake_profile = {"email": "test@example.com",
-                    "weight": "73", "height": "170"}
+    """Overweight profile should yield bmi >= 25."""
+    fake_profile = {
+        "email": "test@example.com",
+        "weight": "73",
+        "height": "170"
+    }
     fake_mongo = type(
         "FakeMongo",
         (),
-        {
-            "db": type(
-                "FakeDB",
-                (),
-                {
-                    "user": type(
-                        "FakeCollection",
-                        (),
-                        {"find_one": lambda self, q: fake_profile}
-                    )()
-                }
-            )()
-        }
+        {"db": type("FakeDB", (), {
+            "user": type("FakeCollection", (), {
+                "find_one": lambda self, q: fake_profile
+            })()
+        })()}
     )
     monkeypatch.setattr("application.mongo", fake_mongo)
     with client.session_transaction() as sess:
@@ -544,4 +463,4 @@ def test_bmi_advice_boundary_overweight(client, monkeypatch):
     bmi = data.get("bmi")
     assert bmi >= 25
     advice = data.get("advice").lower()
-    assert "overweight" in advice or "deficit" in advice
+    assert ("overweight" in advice) or ("deficit" in advice)

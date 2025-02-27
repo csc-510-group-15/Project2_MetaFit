@@ -170,7 +170,10 @@ def login():
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
-                flash('You have been logged in!', 'success')
+                flash(
+                    'You have been logged in!',
+                    'success'
+                )
                 session['email'] = temp['email']
                 session['username'] = temp['username']
                 last_login = temp.get('last_login')
@@ -309,7 +312,8 @@ def send_2fa_email(email, two_factor_secret):
         print(f"Error sending email: {e}")
         flash(
             'Failed to send Two-Factor Authentication code. Please try again.',
-            'danger')
+            'danger'
+        )
 
 
 @app.route("/user_profile", methods=['GET', 'POST'])
@@ -1662,18 +1666,25 @@ def bmi_advice():
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
         advice = (
-            "Your BMI suggests you are underweight. Consider increasing your calorie and protein intake to help gain weight.")
+            "Your BMI suggests you are underweight."
+            "Consider increasing your calorie and"
+            "protein intake to help gain weight."
+        )
         calorie_suggestion = "Consider setting a higher calorie goal."
         goal_suggestion = "Gain Weight"
     elif bmi < 25:
         advice = (
-            "Your BMI is in the normal range. Maintain your current balanced diet and exercise routine.")
+            "Your BMI is in the normal range."
+            "Maintain your current balanced diet"
+            "and exercise routine."
+        )
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
         advice = (
             "Your BMI indicates you are overweight. "
-            "A moderate calorie deficit with balanced macros might help you "
+            "A moderate calorie deficit with balanced"
+            "macros might help you "
             "achieve your weight loss goals."
         )
         calorie_suggestion = "Consider lowering your calorie goal moderately."
@@ -1784,21 +1795,32 @@ def exercise():
 
         if not muscle or not difficulty:
             error_message = "Both muscle and difficulty are required!"
-            return render_template("exercise.html", exercises=[], error_message=error_message)
+            return render_template(
+                "exercise.html",
+                exercises=[], error_message=error_message
+            )
 
         muscle = muscle.lower()
         difficulty = difficulty.lower()
 
-        api_url = f"https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}"
+        api_url = (
+            f"https://api.api-ninjas.com/v1/exercises?"
+            f"muscle={muscle}&difficulty={difficulty}"
+        )
         headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
         resp = requests.get(api_url, headers=headers)
 
         if resp.status_code == 200:
             exercises = resp.json()[:5]  # Limit to 5 exercises
             if not exercises:
-                error_message = "No exercises found for the specified muscle and difficulty."
+                error_message = (
+                    "No exercises found for the specified muscle "
+                    "and difficulty."
+                )
         else:
-            error_message = f"Error {resp.status_code}: Unable to fetch exercises."
+            error_message = (
+                f"Error {resp.status_code}: Unable to fetch exercises."
+            )
 
     return render_template("exercise.html", exercises=exercises,
                            error_message=error_message)

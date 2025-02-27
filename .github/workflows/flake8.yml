@@ -23,5 +23,5 @@ jobs:
 
       - name: Run Flake8
         run: |
-          flake8 . --exclude=myenv,.git,__pycache__,*/site-packages/*
+          flake8 
 

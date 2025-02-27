@@ -1,0 +1,8 @@
+[flake8]
+exclude = 
+    myenv,
+    .git,
+    __pycache__,
+    */site-packages/*
+    .history
+

@@ -40,8 +40,8 @@ model = train_model()
 def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
     if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
         raise ValueError(
-            "Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or "
-            "'Maintenance'."
+            "Invalid dietary goal. Choose from 'Weight Loss', "
+            "'Muscle Gain', or 'Maintenance'."
         )
     if not (isinstance(calories, (int, float)) and
             isinstance(protein, (int, float)) and
