@@ -120,52 +120,52 @@ https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 # METAFIT 2.0 (Legacy) Features
  
 ## Register
-![image](https://github.com/user-attachments/assets/180ee5a9-9302-49b8-afd0-e4c899bea12e)
+![image](https://github.com/user-attachments/assets/256bb35b-ef6e-4437-849b-44d5ede46f00)
 
 The registration page, where new users can register to use the application. In addition to standard account credentials, new users are also prompted for their weight, height, and weight goals. All these fields, once entered, will be stored in the MongoDB database as a new user entry.
 
 ## Login
-![image](https://github.com/user-attachments/assets/a804baf0-09d4-4a94-9197-9eb9eae42699)
+![image](https://github.com/user-attachments/assets/fbf375e6-756d-4a45-8c55-1152ef8398b3)
 
 The login page, where returning users can enter their credentials to gain access to the rest of the application. Several other pages redirect here if the user is not logged in.
 
 ## Edit User Profile
-![image](https://github.com/user-attachments/assets/070b7463-3f25-486d-b687-0f3ac63f32d8)
+![image](https://github.com/user-attachments/assets/c122201d-150c-47d3-92f0-99dc75f7630c)
 
 The user profile page, where users can update their weight, height, or goals. When submitted, the new information is sent to the MongoDB database.
 
 ## Log Calories
-![image](https://github.com/user-attachments/assets/268d72f4-1239-4c8f-a59d-23b343287643)
+![image](https://github.com/user-attachments/assets/a7d98b62-4f99-424d-b543-a1e135ded523)
 
 The calorie logging page, where users can log food that they've eaten. Once food is selected, the application will calculate the number of calories gained and store that in the MongoDB database. Additionally, users will receive a reminder message to their email.
 
 ## Check Your Plan
-![image](https://github.com/user-attachments/assets/66eabdcd-c97b-4dde-8a14-601ad24f4d6d)
+![image](https://github.com/user-attachments/assets/644d9164-fcfc-40b5-b730-613fb18aea45)
 
 The user history page, where users can see their caloric intake/output from the past week visualized into a bar graph. Users can use this information to see their progress and keep track of how many calories they need to burn or intake to achieve their goal within the target date. Several other data visualization schemes are offered, as well.
 
 ## Friends
-![image](https://github.com/user-attachments/assets/76090c53-8ddd-40f8-9384-8d5ba999c426)
+![image](https://github.com/user-attachments/assets/70f14982-d5bd-4a77-9695-a0af2e4ddb51)
 
 The friends page, where users can send other users requests to be friends in the application. Friends can share statistics and goal progress with one another to build community and mutually improve motivation.
 
 ## Log Calorie Burn
-![image](https://github.com/user-attachments/assets/3a04c813-4c71-4a29-be8d-bc74536d6d74)
+![image](https://github.com/user-attachments/assets/cca6b4ac-c785-4cdc-ac71-1f59865e9b9c)
 
 The calorie burn logging page, where users can log their workouts in terms of calories burned. Once an amount is selected, the application will store it in the MongoDB database. Additionally, users will receive a reminder message to their email. 
 
 ## Water Intake
-![image](https://github.com/user-attachments/assets/cce1fa97-d3ac-4129-a538-4dfcb90a9880)
+![image](https://github.com/user-attachments/assets/5bf41a39-d38f-4a37-8688-43f42f9322d1)
 
 The water intake page, where users can record the amount of water they have drunken so far in the day, with the goal of reaching a healthy, full 1 liter.
 
 ## Exercise Recommendations
-![image](https://github.com/user-attachments/assets/32b2044a-0972-4c94-919e-bd2a64a635b8)
+![image](https://github.com/user-attachments/assets/c1bd427c-10e8-4155-a685-6d7648bfea31)
 
 The exercise recommendation page, where users can receive exercise recommendations based on specified desired muscle groups.
 
 ## Daily Challenges
-![image](https://github.com/user-attachments/assets/b846847d-c2cf-4536-8928-fcc3e68423b2)
+![image](https://github.com/user-attachments/assets/61443fc9-01c4-4047-bb06-6adbcdc39fcc)
 
 The daily challenges page, where users are offered three randomized wellness tasks to complete throughout the day. Users who complete all three in one day are offered the option to share their success with other users through social media.
 
@@ -174,7 +174,7 @@ The daily challenges page, where users are offered three randomized wellness tas
 https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
 
 ## Meal Planning
-![image](https://github.com/user-attachments/assets/6391e084-1a0e-4ffb-8c6b-fbc39b92e072)
+![image](./evidence/new_meal_recommmendation.gif)
 
 The meal plan page, where users can receive an AI-enhanced, curated list of meals that fulfils their specified criteria. User statistics are now also utilized to calculate users' BMI values, which allow the page to make informed suggestions regarding meal choice.
 
@@ -183,7 +183,6 @@ The meal plan page, where users can receive an AI-enhanced, curated list of meal
 - BMI-based Advice: Added functionality to calculate users' BMI and offer tailored meal planning advice.
 - Cooking Guide Addition: Each recommended meal now comes with an image and detailed cooking instructions.
 Password Reset Functionality
-![image](./evidence/new_meal_recommmendation.gif)
 
 ## Password Recovery
 
@@ -191,17 +190,23 @@ The password recovery page, where users can use their registered email address t
 ![image](./evidence/new_passwordforget.gif)
 
 ## Visual Dashboard
+![image](https://github.com/user-attachments/assets/69f2ec2f-ff39-44f3-8ec7-36e9bc079e48)
 
 The user dashboard. Originally, users would arrive at this landing page and use the navigation header at the top of the window to navigate. In light of so many new features being present in METAFIT, the dashboard has been given a visual overhaul to declutter the top of the screen and provide a cleaner, more organized means for users to find the features they care about.
 
 - Webpages are organized by functionality.
 
 ## Profile Badges
+![image](https://github.com/user-attachments/assets/8a2a3bac-75a9-4d8b-9648-2bdc948a3d5f)
+![image](https://github.com/user-attachments/assets/9e16357a-9329-4988-9bcb-db49f37cc0fb)
+![image](https://github.com/user-attachments/assets/612de6dc-ee35-49de-af9b-605a6560fc09)
 
 The profile badges page, where users can view their account's lifetime statistics through a gamified achievement system. There are currently three tracked statistics:
 - Highest Lifetime Streak
 - Lifetime Calories Consumed
 - Lifetime Calories Burned
+
+
 The system is very flexible; with additional image assets, a multitude of different statistics have the potential to be tracked.
 Profile badges get more expensive (bronze -> silver -> gold) as their related stat grows. Users are incentivized to use the application often in order to collect them all!
 
