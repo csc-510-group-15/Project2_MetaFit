@@ -200,43 +200,38 @@ def test_update_statistic_with_large_positive_value(client):
     assert isinstance(result, (int, float)) and result == 1000000
 
 
-def test_update_statistic_with_large_negative_value_again(client):
-    # Test updating a statistic with a large negative value again
-    update_statistic(TEST_EMAIL, "calories_burned", -1000000)
+def test_update_statistic_with_large_negative_value(client):
+    # Test updating a statistic with a large negative value
+    update_statistic(TEST_EMAIL, "calories_burned", -500000)
     result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
-    assert isinstance(result, (int, float)) and result == -1000000
+    assert isinstance(result, (int, float)) and result == -500000
 
 
-def test_update_statistic_with_floating_point_value(client):
-    # Test updating a statistic with a floating-point value
-    update_statistic(TEST_EMAIL, "calories_eaten", 123.45)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"]
-    assert isinstance(result, (int, float)) and result == 123.45
+def test_update_statistic_with_non_numeric_value(client):
+    # Test updating a statistic with a non-numeric value
+    with pytest.raises(TypeError):
+        update_statistic(TEST_EMAIL, "calories_eaten", "invalid")
 
 
-def test_update_statistic_with_negative_floating_point_value(client):
-    # Test updating a statistic with a negative floating-point value
-    update_statistic(TEST_EMAIL, "calories_burned", -123.45)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"]
-    assert isinstance(result, (int, float)) and result == -123.45
+def test_update_statistic_with_missing_stat_key(client):
+    # Test updating a statistic with a missing stat key
+    with pytest.raises(KeyError):
+        update_statistic(TEST_EMAIL, "invalid_key", 100)
 
 
-def test_update_statistic_with_increment_positive_value(client):
-    # Test incrementing a statistic with a positive value
-    update_statistic(TEST_EMAIL, "highest_streak", 10, True)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
-    assert isinstance(result, (int, float)) and result == 10
+def test_update_statistic_with_empty_email(client):
+    # Test updating a statistic with an empty email
+    with pytest.raises(ValueError):
+        update_statistic("", "calories_eaten", 100)
 
 
-def test_update_statistic_with_increment_negative_value(client):
-    # Test incrementing a statistic with a negative value
-    update_statistic(TEST_EMAIL, "highest_streak", -5, True)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
-    assert isinstance(result, (int, float)) and result == -5
+def test_update_statistic_with_none_email(client):
+    # Test updating a statistic with None as email
+    with pytest.raises(ValueError):
+        update_statistic(None, "calories_eaten", 100)
 
 
-def test_update_statistic_with_increment_zero_value(client):
-    # Test incrementing a statistic with a zero value
-    update_statistic(TEST_EMAIL, "highest_streak", 0, True)
-    result = mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"]
-    assert isinstance(result, (int, float)) and result == 0
+def test_update_statistic_with_invalid_email_format(client):
+    # Test updating a statistic with an invalid email format
+    with pytest.raises(ValueError):
+        update_statistic("invalid-email", "calories_eaten", 100)
