@@ -56,11 +56,17 @@ def forgot_password():
             send_reset_email(email, reset_code)
             flash('A reset code has been sent to your email.', 'info')
             # Redirect to the reset page with email as a query parameter
-            return redirect(url_for('password_reset.reset_password',
-                                    email=email))
+            return redirect(
+                url_for(
+                    'password_reset.reset_password',
+                    email=email
+                )
+            )
         else:
-            flash('Email not found. Please check your email address.',
-                  'danger')
+            flash(
+                'Email not found. Please check your email address.',
+                'danger'
+            )
     return render_template('forgot_password.html')
 
 
@@ -78,7 +84,12 @@ def reset_password():
 
         if new_password != confirm_password:
             flash("Passwords do not match.", "danger")
-            return redirect(url_for('password_reset.reset_password', email=email))
+            return redirect(
+                url_for(
+                    'password_reset.reset_password',
+                    email=email
+                )
+            )
 
         mongo = current_app.mongo
         reset_entry = mongo.db.password_resets.find_one(

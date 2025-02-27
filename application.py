@@ -1671,9 +1671,11 @@ def bmi_advice():
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
-        advice = "Your BMI indicates you are overweight. \
-            A moderate calorie deficit with balanced \
-            macros might help you achieve your weight loss goals."
+        advice = (
+            "Your BMI indicates you are overweight. "
+            "A moderate calorie deficit with balanced macros might help you "
+            "achieve your weight loss goals."
+        )
         calorie_suggestion = "Consider lowering your calorie goal moderately."
         goal_suggestion = "Weight Loss"
 

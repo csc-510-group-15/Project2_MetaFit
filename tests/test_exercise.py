@@ -10,7 +10,9 @@ class ExerciseFinderTests(unittest.TestCase):
 
     def test_valid_inputs(self):
         response = self.client.post(
-            '/exercise', data={'muscle': 'biceps', 'difficulty': 'beginner'})
+            '/exercise',
+            data={'muscle': 'biceps', 'difficulty': 'beginner'}
+        )
         content = response.data.decode()
         self.assertIn('Bicep Curl', content)
         # Check for "strength" case-insensitively:
@@ -18,25 +20,39 @@ class ExerciseFinderTests(unittest.TestCase):
 
     def test_empty_muscle_input(self):
         response = self.client.post(
-            '/exercise', data={'muscle': '', 'difficulty': 'beginner'})
-        self.assertIn('Both muscle and difficulty are required!',
-                      response.data.decode())
+            '/exercise',
+            data={'muscle': '', 'difficulty': 'beginner'}
+        )
+        self.assertIn(
+            'Both muscle and difficulty are required!',
+            response.data.decode()
+        )
 
     def test_empty_difficulty_input(self):
         response = self.client.post(
-            '/exercise', data={'muscle': 'biceps', 'difficulty': ''})
-        self.assertIn('Both muscle and difficulty are required!',
-                      response.data.decode())
+            '/exercise',
+            data={'muscle': 'biceps', 'difficulty': ''}
+        )
+        self.assertIn(
+            'Both muscle and difficulty are required!',
+            response.data.decode()
+        )
 
     def test_error_message_display(self):
         response = self.client.post(
-            '/exercise', data={'muscle': 'xyzmuscle', 'difficulty': 'intermediate'})
+            '/exercise',
+            data={'muscle': 'xyzmuscle', 'difficulty': 'intermediate'}
+        )
         self.assertIn(
-            'No exercises found for the specified muscle and difficulty.', response.data.decode())
+            'No exercises found for the specified muscle and difficulty.',
+            response.data.decode()
+        )
 
     def test_exercises_rendered(self):
         response = self.client.post(
-            '/exercise', data={'muscle': 'biceps', 'difficulty': 'beginner'})
+            '/exercise',
+            data={'muscle': 'biceps', 'difficulty': 'beginner'}
+        )
         content = response.data.decode()
         self.assertIn('Bicep Curl', content)
         self.assertIn('beginner', content.lower())
@@ -44,7 +60,9 @@ class ExerciseFinderTests(unittest.TestCase):
 
     def test_multiple_exercises_rendered(self):
         response = self.client.post(
-            '/exercise', data={'muscle': 'triceps', 'difficulty': 'intermediate'})
+            '/exercise',
+            data={'muscle': 'triceps', 'difficulty': 'intermediate'}
+        )
         content = response.data.decode()
         # Adjust expected string to match rendered output: "triceps dip"
         self.assertIn('triceps dip', content.lower())

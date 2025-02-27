@@ -40,28 +40,35 @@ model = train_model()
 def recommend_meal_plan(goal, calories, protein, carbs, fat, top_n=5):
     if goal not in ["Weight Loss", "Muscle Gain", "Maintenance"]:
         raise ValueError(
-            "Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or 'Maintenance'.")
-    if not isinstance(calories, (int, float)) or not isinstance(protein, (int, float)) or \
-       not isinstance(carbs, (int, float)) or not isinstance(fat, (int, float)):
-        raise ValueError("Caloric and macronutrient values must be numeric.")
+            "Invalid dietary goal. Choose from 'Weight Loss', 'Muscle Gain', or "
+            "'Maintenance'."
+        )
+    if not (isinstance(calories, (int, float)) and
+            isinstance(protein, (int, float)) and
+            isinstance(carbs, (int, float)) and
+            isinstance(fat, (int, float))):
+        raise ValueError(
+            "Caloric and macronutrient values must be numeric."
+        )
     if calories < 0 or protein < 0 or carbs < 0 or fat < 0:
         raise ValueError(
-            "Caloric and macronutrient values must be non-negative.")
+            "Caloric and macronutrient values must be non-negative."
+        )
 
     input_data = scaler.transform([[calories, protein, carbs, fat]])
     prediction = model.predict(input_data)
 
     # Filter meals based on predicted goal
-    recommended_meals = meal_data[meal_data['goal']
-                                  == prediction[0]].to_dict(orient='records')
+    recommended_meals = meal_data[meal_data['goal'] == prediction[0]] \
+        .to_dict(orient='records')
     # Slice to top_n meals
     recommended_meals = recommended_meals[:top_n]
     # Assign unique random scores (all above 90)
     scores = random.sample(range(70, 100), top_n)
     for i, meal in enumerate(recommended_meals):
         meal['score'] = scores[i]
-        print("Meal {} image_url: {}".format(
-            i+1, meal.get('image_url')))  # Debug print
+        print("Meal {} image_url: {}".format(i+1, meal.get('image_url')))
     recommended_meals = sorted(
-        recommended_meals, key=lambda x: x['score'], reverse=True)
+        recommended_meals, key=lambda x: x['score'], reverse=True
+    )
     return recommended_meals
