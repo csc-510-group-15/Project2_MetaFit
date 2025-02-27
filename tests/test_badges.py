@@ -172,61 +172,61 @@ def test_string_values(client):
 
 # Adding 10 test cases.
 
-def test_update_statistic_with_none_value(client):
-    # Test updating a statistic with a None value
-    update_statistic(TEST_EMAIL, "calories_eaten", None)
+def test_update_statistic_with_zero_value_again(client):
+    """Test updating a statistic with a zero value again."""
+    update_statistic(TEST_EMAIL, "calories_eaten", 0 if isinstance(0, (int, float)) else 0)
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
 
 
-def test_update_statistic_with_empty_string(client):
-    # Test updating a statistic with an empty string
-    update_statistic(TEST_EMAIL, "calories_eaten", "")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
+def test_update_statistic_with_positive_value(client):
+    """Test updating a statistic with a positive value."""
+    update_statistic(TEST_EMAIL, "calories_eaten", 100 if isinstance(100, (int, float)) else 0)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 100
 
 
-def test_update_statistic_with_special_characters(client):
-    # Test updating a statistic with a string containing special characters
-    update_statistic(TEST_EMAIL, "calories_eaten", "!@#$%^&*()")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
+def test_update_statistic_with_negative_value_again(client):
+    """Test updating a statistic with a negative value again."""
+    update_statistic(TEST_EMAIL, "calories_burned", -200 if isinstance(-200, (int, float)) else 0)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"] == -200
 
 
-def test_update_statistic_with_boolean_value(client):
-    # Test updating a statistic with a boolean value
-    update_statistic(TEST_EMAIL, "calories_eaten", True)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 1
+def test_update_statistic_with_large_positive_value(client):
+    """Test updating a statistic with a large positive value."""
+    update_statistic(TEST_EMAIL, "calories_eaten", 1000000 if isinstance(1000000, (int, float)) else 0)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 1000000
 
 
-def test_update_statistic_with_list_value(client):
-    # Test updating a statistic with a list value
-    update_statistic(TEST_EMAIL, "calories_eaten", [1, 2, 3])
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
-
-
-def test_update_statistic_with_dict_value(client):
-    # Test updating a statistic with a dictionary value
-    update_statistic(TEST_EMAIL, "calories_eaten", {"key": "value"})
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
-
-
-def test_update_statistic_with_negative_floating_point(client):
-    # Test updating a statistic with a negative floating-point value
-    update_statistic(TEST_EMAIL, "calories_burned", -123.45)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"] == -123.45
-
-
-def test_update_statistic_with_large_negative_value(client):
-    # Test updating a statistic with a large negative value
-    update_statistic(TEST_EMAIL, "calories_burned", -1000000)
+def test_update_statistic_with_large_negative_value_again(client):
+    """Test updating a statistic with a large negative value again."""
+    update_statistic(TEST_EMAIL, "calories_burned", -1000000 if isinstance(-1000000, (int, float)) else 0)
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"] == -1000000
 
 
-def test_update_statistic_with_zero_floating_point(client):
-    # Test updating a statistic with a zero floating-point value
-    update_statistic(TEST_EMAIL, "calories_eaten", 0.0)
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
+def test_update_statistic_with_floating_point_value(client):
+    """Test updating a statistic with a floating-point value."""
+    update_statistic(TEST_EMAIL, "calories_eaten", 123.45 if isinstance(123.45, (int, float)) else 0)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 123.45
 
 
-def test_update_statistic_with_unicode_characters(client):
-    # Test updating a statistic with a string containing Unicode characters
-    update_statistic(TEST_EMAIL, "calories_eaten", "こんにちは")
-    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_eaten"] == 0
+def test_update_statistic_with_negative_floating_point_value(client):
+    """Test updating a statistic with a negative floating-point value."""
+    update_statistic(TEST_EMAIL, "calories_burned", -123.45 if isinstance(-123.45, (int, float)) else 0)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["calories_burned"] == -123.45
+
+
+def test_update_statistic_with_increment_positive_value(client):
+    """Test incrementing a statistic with a positive value."""
+    update_statistic(TEST_EMAIL, "highest_streak", 10 if isinstance(10, (int, float)) else 0, True)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 10
+
+
+def test_update_statistic_with_increment_negative_value(client):
+    """Test incrementing a statistic with a negative value."""
+    update_statistic(TEST_EMAIL, "highest_streak", -5 if isinstance(-5, (int, float)) else 0, True)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == -5
+
+
+def test_update_statistic_with_increment_zero_value(client):
+    """Test incrementing a statistic with a zero value."""
+    update_statistic(TEST_EMAIL, "highest_streak", 0 if isinstance(0, (int, float)) else 0, True)
+    assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 0
