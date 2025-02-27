@@ -90,7 +90,6 @@ def update_statistic(stat_name, value, is_increment=False):
     if email is None:
         return
 
-
     # If no entry exists for this user account, create it.
     if mongo.db.stats.find_one({'email': email}) is None:
         mongo.db.stats.insert_one({'email': email})
@@ -110,7 +109,6 @@ def update_statistic(stat_name, value, is_increment=False):
     if stat_name not in badge_milestones:
         print("error in updating stat!!")
         return
-
 
     milestone_values = badge_milestones[stat_name]
 
@@ -281,8 +279,8 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
-app.register_blueprint(password_reset_bp)
 
+app.register_blueprint(password_reset_bp)
 
 
 def send_2fa_email(email, two_factor_secret):
@@ -1659,7 +1657,7 @@ def bmi_advice():
         return jsonify({"error": "Invalid weight or height data"}), 400
 
     bmi = weight_val / (height_m ** 2)
-    
+
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
         advice = (
@@ -1809,4 +1807,3 @@ if __name__ == "__main__":
         app.run(host='0.0.0.0', debug=True)
     else:
         app.run(debug=True)
-

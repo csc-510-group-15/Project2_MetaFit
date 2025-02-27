@@ -19,7 +19,6 @@ INFO_SENDER = 'burnoutapp123@gmail.com'
 INFO_PASSWORD = 'xszyjpklynmwqsgh'
 
 
-
 def send_reset_email(email, reset_code):
     subject = 'Your Password Reset Code'
     body = f'Your password reset code is: {reset_code}'
