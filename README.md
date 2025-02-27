@@ -58,7 +58,7 @@
 
 # Table of Contents  
 
-- [Why use METAFIT?](#Why-Use-METAFIT?)
+- [Why use METAFIT?](#why-use-metafit)
 - [Additions to METAFIT 3.0](#Additions-in-METAFIT-version-3.0)
 - [Practical Applications of METAFIT](#Practical-Applications-of-METAFIT)
 - [METAFIT 2.0 (Legacy) Features](#METAFIT-2.0-(Legacy)-Features)
@@ -77,7 +77,6 @@
   - [Password Recovery](#password-recovery)
   - [Visual Dashboard](#visual-dashboard)
   - [Profile Badges](#profile-badges)
-- [Tech Stack](#techstack-used-for-the-development-of-project)
 - [Installation Instructions](#installation-instructions)
 - [Kubernetes](#kubernetes)
 - [Future Scope](#future-scope)
