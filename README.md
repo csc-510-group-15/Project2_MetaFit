@@ -59,9 +59,9 @@
 # Table of Contents  
 
 - [Why use METAFIT?](#why-use-metafit)
-- [Additions to METAFIT 3.0](#additions-in-metafit-version-3.0)
+- [Additions to METAFIT 3.0](#additions-in-metafit-version-30)
 - [Practical Applications of METAFIT](#practical-applications-of-metafit)
-- [METAFIT 2.0 (Legacy) Features](#metafit-2.0-legacy-features)
+- [METAFIT 2.0 (Legacy) Features](#metafit-20-legacy-features)
   - [Register](#register)
   - [Login](#login)
   - [Edit User Profile](#edit-user-profile)
@@ -72,7 +72,7 @@
   - [Water Intake](#water-intake)
   - [Exercise Recommendations](#exercise-recommendations)
   - [Daily Challenges](#daily-challenges)
-- [METAFIT 3.0 (New and Updated) Features](#metafit-3.0-new-and-updated-features)
+- [METAFIT 3.0 (New and Updated) Features](#metafit-30-new-and-updated-features)
   - [Meal Planning](#meal-planning)
   - [Password Recovery](#password-recovery)
   - [Visual Dashboard](#visual-dashboard)
