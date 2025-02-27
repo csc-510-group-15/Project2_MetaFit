@@ -305,12 +305,12 @@ Improve the user profile system to provide more personalized fitness recommendat
 
   # Contribution
   
-  Please refer to the [CONTRIBUTING.md](https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/CONTRIBUTING.md) file for instructions on how to contribute to our repository.
+  Please refer to the [CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md) file for instructions on how to contribute to our repository.
 
   <p align="center">
-    <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues/new/choose">Report Bug</a>
+    <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues/new/choose">Report Bug</a>
     /
-    <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues/new/choose">Request Feature</a>
+    <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues/new/choose">Request Feature</a>
   </p>
 
   # License
