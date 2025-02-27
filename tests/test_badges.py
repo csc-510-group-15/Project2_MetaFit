@@ -152,7 +152,7 @@ def test_string_values(client):
     assert mongo.db.stats.find_one({"email": TEST_EMAIL})["highest_streak"] == 2
 
 
-#Adding 10 test cases.
+# Adding 10 test cases.
 def test_badges_route_without_login(client):
     response = client.get('/badges')
     assert response.status_code == 302
