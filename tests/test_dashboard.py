@@ -111,3 +111,52 @@ def test_friends_route(client):
     assert response.status_code == 200
     # Ensure that the route renders the correct template
     assert b'<head id="friends">' in response.data
+
+
+
+# Added 10 tests
+def test_dashboard_route_without_login(client):
+    response = client.get('/dashboard')
+    assert response.status_code == 302  
+
+
+def test_water_intake_route_without_login(client):
+    response = client.get('/water')
+    assert response.status_code == 302  
+
+def test_log_calories_route_without_login(client):
+    response = client.get('/calories')
+    assert response.status_code == 302  
+
+def test_burn_calories_route_without_login(client):
+    response = client.get('/workout')
+    assert response.status_code == 302  
+    
+
+def test_meal_planning_route_without_login(client):
+    response = client.get('/meal_plan')
+    assert response.status_code == 302  
+
+def test_exercises_route_without_login(client):
+    response = client.get('/exercise')
+    assert response.status_code == 302  
+
+
+def test_courses_route_without_login(client):
+    response = client.get('/feed')
+    assert response.status_code == 302  
+
+
+def test_user_profile_route_without_login(client):
+    response = client.get('/user_profile')
+    assert response.status_code == 302  
+
+
+def test_daily_quests_route_without_login(client):
+    response = client.get('/daily_challenge')
+    assert response.status_code == 302  
+
+
+def test_friends_route_without_login(client):
+    response = client.get('/friends')
+    assert response.status_code == 302  
