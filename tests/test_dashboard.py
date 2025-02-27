@@ -1,8 +1,7 @@
 import pytest
-from application import app, mongo
+from application import app
 import sys
 import os
-import datetime
 
 sys.path.append(os.path.abspath(os.path.join('..')))
 

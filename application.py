@@ -80,6 +80,9 @@ scheduler = APScheduler()
 badge_milestones = {"highest_streak": [0, 7, 14, 21],
                     "calories_eaten": [0, 20, 40, 80],
                     "calories_burned": [0, 2000, 4000, 6000]}
+badge_milestones = {"highest_streak": [0, 7, 14, 21],
+                    "calories_eaten": [0, 20, 40, 80],
+                    "calories_burned": [0, 2000, 4000, 6000]}
 
 
 def update_statistic(email, stat_name, value, is_increment=False):
@@ -99,6 +102,8 @@ def update_statistic(email, stat_name, value, is_increment=False):
         return
 
     # If no entry exists for this user account, create it.
+    if mongo.db.stats.find_one({'email': email}) is None:
+        mongo.db.stats.insert_one({'email': email})
     if mongo.db.stats.find_one({'email': email}) is None:
         mongo.db.stats.insert_one({'email': email})
 
@@ -123,6 +128,7 @@ def update_statistic(email, stat_name, value, is_increment=False):
     lvl = min(len(milestone_values), lvl - 1)
 
     mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
+    mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
 @app.context_processor
@@ -133,8 +139,8 @@ def inject_cache_buster():
     return {'cache_buster': time()}
 
 
-@app.route("/")
-@app.route("/home")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def home():
     """
     home() function displays the homepage of our website.
@@ -170,7 +176,10 @@ def login():
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
-                flash('You have been logged in!', 'success')
+                flash(
+                    'You have been logged in!',
+                    'success'
+                )
                 session['email'] = temp['email']
                 session['username'] = temp['username']
                 last_login = temp.get('last_login')
@@ -183,7 +192,8 @@ def login():
                             "$set": {"last_login": datetime.now()},
                         }
                     )
-                    update_statistic(session['email'], "highest_streak", 1, True)
+                    update_statistic(session['email'],
+                                     "highest_streak", 1, True)
                 else:
                     mongo.db.user.update_one(
                         {'email': form.email.data},
@@ -309,7 +319,8 @@ def send_2fa_email(email, two_factor_secret):
         print(f"Error sending email: {e}")
         flash(
             'Failed to send Two-Factor Authentication code. Please try again.',
-            'danger')
+            'danger'
+        )
 
 
 @app.route("/user_profile", methods=['GET', 'POST'])
@@ -411,7 +422,8 @@ def badges():
         if stat not in statsData:
             update_statistic(session['email'], stat, 0)
         else:
-            update_statistic(session['email'], stat, int(float(statsData[stat])))
+            update_statistic(session['email'], stat,
+                             int(float(statsData[stat])))
 
     # if badgeData is None:
     #     print("error!")
@@ -455,7 +467,8 @@ def calories():
                     'email': email,
                     'calories': cals
                 })
-                update_statistic(session['email'], "calories_eaten", int(float(cals)), True)
+                update_statistic(
+                    session['email'], "calories_eaten", int(float(cals)), True)
                 flash('Successfully sent email and updated the data!',
                       'success')
                 add_food_entry_email_notification(email, food, selected_date)
@@ -535,7 +548,8 @@ def workout():
                     'email': email,
                     'calories': -float(burn)
                 })
-                update_statistic(session['email'], "calories_burned", int(float(burn)), True)
+                update_statistic(session['email'],
+                                 "calories_burned", int(float(burn)), True)
                 if float(burn) < 100:
                     existing_user_entry = mongo.db.bronze_list.find_one({
                         'date':
@@ -626,7 +640,6 @@ def quiz():
     # - Output: Renders 'layout.html' as the quiz introduction or start page.
     # ############################
     # form = getDate()
-    print("hello from quiz! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     return render_template('layout.html')
 
 
@@ -673,7 +686,7 @@ def question(id):
 
         if option == q['ans']:
             session['marks'] += 10
-        return redirect(url_for('question', id + 1))
+        return redirect(url_for('question', id=id + 1))
 
     form.options.choices = [(q['options']['a'], q['options']['a']),
                             (q['options']['b'], q['options']['b']),
@@ -687,7 +700,7 @@ def question(id):
                            score=session.get('marks'))
 
 
-@app.route('/score')
+@app.route('/score', methods=['GET', 'POST'])
 def score():
     """
     score() function displays the user's
@@ -704,7 +717,7 @@ def score():
                            score=session.get('marks', 0))
 
 
-@app.route("/history", methods=['GET'])
+@app.route("/history", methods=['GET', 'POST'])
 def history():
     """
     history() function displays the Historyform (history.html) template
@@ -766,7 +779,7 @@ def history():
                            target_date=user_target_date)
 
 
-@app.route("/ajaxhistory", methods=['POST'])
+@app.route("/ajaxhistory", methods=['GET', 'POST'])
 def ajaxhistory():
     """
     ajaxhistory() is a POST function that displays
@@ -807,7 +820,7 @@ def ajaxhistory():
                 }
 
 
-@app.route("/feed", methods=['GET'])
+@app.route("/feed", methods=['GET', 'POST'])
 def feed():
     """
     Open a webpage full of examples courses and classes for the
@@ -816,7 +829,7 @@ def feed():
     return render_template('feed.html')
 
 
-@app.route("/friends", methods=['GET'])
+@app.route("/friends", methods=['GET', 'POST'])
 def friends():
     """
     Open a webpage where users can send and receive friend requests from
@@ -969,7 +982,7 @@ def send_email():
                            myFriendsList=myFriendsList)
 
 
-@app.route("/ajaxsendrequest", methods=['POST'])
+@app.route("/ajaxsendrequest", methods=['GET', 'POST'])
 def ajaxsendrequest():
     """
     ajaxsendrequest() is a function that updates friend
@@ -999,7 +1012,7 @@ def ajaxsendrequest():
     }
 
 
-@app.route("/ajaxcancelrequest", methods=['POST'])
+@app.route("/ajaxcancelrequest", methods=['GET', 'POST'])
 def ajaxcancelrequest():
     """
     ajaxcancelrequest() is a function that updates
@@ -1028,7 +1041,7 @@ def ajaxcancelrequest():
     }
 
 
-@app.route("/ajaxapproverequest", methods=['POST'])
+@app.route("/ajaxapproverequest", methods=['GET', 'POST'])
 def ajaxapproverequest():
     """
     ajaxapproverequest() is a function that
@@ -1390,7 +1403,7 @@ def query_view():
     return render_template('chat.html')
 
 
-@app.route("/api/share", methods=['POST'])
+@app.route("/api/share", methods=['GET', 'POST'])
 def log_share():
     """
     Logs each social share action to the backend.
@@ -1605,7 +1618,7 @@ scheduler.add_job(
     minute=0)
 
 
-@app.route("/meal_plan")
+@app.route("/meal_plan", methods=['GET', 'POST'])
 def meal_plan():
     """
     Renders the meal_plan.html template,
@@ -1636,7 +1649,9 @@ def recommend_meal_plan_endpoint():
 
 
 # Example /bmi_advice endpoint update:
-@app.route('/bmi_advice', methods=['GET'])
+
+
+@app.route('/bmi_advice', methods=['GET', 'POST'])
 def bmi_advice():
     if 'email' not in session:
         return jsonify({"error": "User not logged in"}), 401
@@ -1660,21 +1675,28 @@ def bmi_advice():
 
     # (Your existing advice logic follows here...)
     if bmi < 18.5:
-        advice = "Your BMI suggests you are underweight. \
-            Consider increasing your calorie and \
-            protein intake to help gain weight."
+        advice = (
+            "Your BMI suggests you are underweight."
+            "Consider increasing your calorie and"
+            "protein intake to help gain weight."
+        )
         calorie_suggestion = "Consider setting a higher calorie goal."
         goal_suggestion = "Gain Weight"
     elif bmi < 25:
-        advice = "Your BMI is in the normal range. \
-            Maintain your current balanced diet and \
-                exercise routine."
+        advice = (
+            "Your BMI is in the normal range."
+            "Maintain your current balanced diet"
+            "and exercise routine."
+        )
         calorie_suggestion = "Your current calorie goal seems appropriate."
         goal_suggestion = "Maintenance"
     else:
-        advice = "Your BMI indicates you are overweight. \
-            A moderate calorie deficit with balanced \
-            macros might help you achieve your weight loss goals."
+        advice = (
+            "Your BMI indicates you are overweight. "
+            "A moderate calorie deficit with balanced"
+            "macros might help you "
+            "achieve your weight loss goals."
+        )
         calorie_suggestion = "Consider lowering your calorie goal moderately."
         goal_suggestion = "Weight Loss"
 
@@ -1733,7 +1755,7 @@ def process_guide_text(guide_text):
     return cleaned_steps
 
 
-@app.route("/meal_guide")
+@app.route("/meal_guide", methods=['GET', 'POST'])
 def meal_guide():
     food_name = request.args.get("food_name", "Unknown Meal")
     calories = request.args.get("calories", "N/A")
@@ -1741,6 +1763,8 @@ def meal_guide():
     carbs = request.args.get("carbs", "N/A")
     fat = request.args.get("fat", "N/A")
     cook_guide = request.args.get("cook_guide", "No guide available")
+    image_url = request.args.get(
+        "image_url", "https://via.placeholder.com/300")
     image_url = request.args.get(
         "image_url", "https://via.placeholder.com/300")
     print(request.args)
@@ -1754,6 +1778,7 @@ def meal_guide():
                              fat=fat,
                              steps=steps,
                              image_url=image_url)
+
     return render
 
 
@@ -1771,28 +1796,41 @@ def add_header(response):
 
 @app.route("/exercise", methods=["GET", "POST"])
 def exercise():
-    exercises = []  # To store exercises
+    exercises = []
     error_message = None
 
     if request.method == "POST":
-        # Get user input
-        muscle = request.form.get("muscle").lower()
-        difficulty = request.form.get("difficulty").lower()
+        muscle = request.form.get("muscle", "").strip()
+        difficulty = request.form.get("difficulty", "").strip()
 
-        # API call
-        api_url = f"https://api.api-ninjas.com/v1/exercises? \
-            muscle={muscle}&difficulty={difficulty}"
+        if not muscle or not difficulty:
+            error_message = "Both muscle and difficulty are required!"
+            return render_template(
+                "exercise.html",
+                exercises=[], error_message=error_message
+            )
+
+        muscle = muscle.lower()
+        difficulty = difficulty.lower()
+
+        api_url = (
+            f"https://api.api-ninjas.com/v1/exercises?"
+            f"muscle={muscle}&difficulty={difficulty}"
+        )
         headers = {'X-Api-Key': 'ThMgHV6VS4iYBAsvrUnNRg==vDzibI5DsOwhxevU'}
-        response = requests.get(api_url, headers=headers)
+        resp = requests.get(api_url, headers=headers)
 
-        if response.status_code == 200:
-            exercises = response.json()[:5]  # Get only 5 exercises
+        if resp.status_code == 200:
+            exercises = resp.json()[:5]  # Limit to 5 exercises
             if not exercises:
-                error_message = f"No exercises found for \
-                    {muscle} at {difficulty} level."
+                error_message = (
+                    "No exercises found for the specified muscle "
+                    "and difficulty."
+                )
         else:
-            error_message = f"Error {response.status_code}: \
-                Unable to fetch exercises."
+            error_message = (
+                f"Error {resp.status_code}: Unable to fetch exercises."
+            )
 
     return render_template("exercise.html", exercises=exercises,
                            error_message=error_message)
