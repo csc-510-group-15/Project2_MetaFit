@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import os
 import ssl
 from email.message import EmailMessage
+from bson.objectid import ObjectId
 from time import time
 from urllib.parse import quote
 import random
@@ -28,7 +29,12 @@ from flask import (
     request,
     Flask
 )
-from flask_login import login_required
+from flask_login import (
+    LoginManager,
+    login_required,
+    UserMixin,
+    login_user
+)
 from flask_mail import Mail
 from flask_pymongo import PyMongo
 from flask_apscheduler import APScheduler
@@ -56,6 +62,8 @@ from src.password_reset import password_reset_bp
 
 app = Flask(__name__)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 app.secret_key = 'secret'
 if os.environ.get('DOCKERIZED'):
     # Use Docker-specific MongoDB URI
@@ -132,6 +140,26 @@ def update_statistic(email, stat_name, value, is_increment=False):
     mongo.db.badges.update_one({'email': email}, {"$set": {stat_name: lvl}})
 
 
+# Define a simple User class that extends UserMixin
+class User(UserMixin):
+    def __init__(self, user_data):
+        self.id = str(user_data['_id'])  # Ensure this is a string
+        self.email = user_data.get('email')
+        # Add any additional fields as needed
+
+
+# User loader callback
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        user_data = mongo.db.user.find_one({"_id": ObjectId(user_id)})
+    except Exception:
+        user_data = None
+    if user_data:
+        return User(user_data)
+    return None
+
+
 @app.context_processor
 def inject_cache_buster():
     """
@@ -177,6 +205,8 @@ def login():
                     bcrypt.checkpw(form.password.data.encode("utf-8"),
                                    temp['password'])
                     or temp['password'] == form.password.data):
+                user = User(temp)
+                login_user(user)
                 flash(
                     'You have been logged in!',
                     'success'
