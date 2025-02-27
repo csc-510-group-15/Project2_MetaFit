@@ -267,57 +267,20 @@ This is the page where the user can see their history in the form of a bar graph
     ```
   # Source Code
   
-  Link to the repository:
-  https://github.com/RAV-Organization/SE_Project3_calorieApp_server/tree/meta_2.0_final
+  [Link to the repository](https://github.com/csc-510-group-15/Project2_MetaFit)
      
    # Contributors
    
-<center>
-  <table>
-    <!-- Most Recent -->
-    <tr>
-      <td align="center"><br /><sub><b>Hanqi Chen</b></sub></a><br /></td>
-      <td align="center"><br /><sub><b>Krishna Pallavalli</b></sub></a><br /></td>
-      <td align="center"><br /><sub><b>Adam Imbert</b></sub></a><br /></td>
-    </tr>
-    <!-- First Row -->
-    <tr>
-      <td align="center"><a href="https://github.com/ananyadoshi31"><br /><sub><b>Ananya Doshi</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/riya-bihani"><br /><sub><b>Riya Bihani</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/Vansh17"><br /><sub><b>Vansh Dodiya</b></sub></a><br /></td>
-    </tr>
-     <!-- Second Row -->
-    <tr>
-      <td align="center"><a href="https://github.com/prabhudatta3004"><br /><sub><b>Prabhudatta Mishra</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/apurv-choudhari"><br /><sub><b>Apurv Choudhari</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/sankar16"><br /><sub><b>Sankar Raghuthaman</b></sub></a><br /></td>
-    </tr>
-    <!-- Additional Rows -->
-    <tr>
-      <td align="center"><a href="https://github.com/anuj672"><br /><sub><b>Anuj Naresh Chetwani</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/bhaveshittadwar"><br /><sub><b>Bhavesh Ittadwar</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/itsJash"><br /><sub><b>Jash Shah</b></sub></a><br /></td>
-    </tr>
-    <tr>
-      <td align="center"><a href="https://github.com/VaibhaviSangawar"><br /><sub><b>Vaibhavi Sangawar</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/utsavll0"><img src="https://avatars.githubusercontent.com/utsavll0" width="100px;" alt=""/><br /><sub><b>Utsavkumar Lal</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/neha7799"><img src="https://avatars.githubusercontent.com/neha7799" width="100px;" alt=""/><br /><sub><b>Neha Patil</b></sub></a></td>
-    </tr>
-    <tr>
-      <td align="center"><a href="https://github.com/ojas1901"><img src="https://avatars.githubusercontent.com/ojas1901" width="100px;" alt=""/><br /><sub><b>Ojas Kulkarni</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/Viggy12126"><img src="https://avatars.githubusercontent.com/Viggy12126" width="100px;" alt=""/><br /><sub><b>Vighnesh Hegde</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/deekay2310"><img src="https://avatars.githubusercontent.com/u/29257773?v=4" width="100px;" alt=""/><br /><sub><b>Dev Kumar</b></sub></a><br /></td>
-    </tr>
-    <tr>
-      <td align="center"><a href="https://github.com/PrakruthiSomashekar"><img src="https://avatars.githubusercontent.com/u/62984587?v=4" width="100px;" alt=""/><br /><sub><b>Prakruthi Somashekar</b></sub></a></td>
-      <td align="center"><a href="https://github.com/radhikaraman20"><img src="https://avatars.githubusercontent.com/u/89432698?s=400&v=4" width="100px;" alt=""/><br /><sub><b>Radhika Raman</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/RohanSinha96"><img src="https://avatars.githubusercontent.com/u/15325746?v=4" width="100px;" alt=""/><br /><sub><b>Rohan Sinha</b></sub></a><br /></td>
-    </tr>
-    <tr>
-      <td align="center"><a href="https://github.com/SunidhiHegde"><img src="https://avatars.githubusercontent.com/u/62884191?v=4" width="100px;" alt=""/><br /><sub><b>Sunidhi Hegde</b></sub></a><br /></td>
-    </tr>
-  </table>
-</center>
+|   |   |   |
+|---|---|---|
+| [Hanqi Chen](https://github.com/Hanqk97) | [Krishna Pallavalli](https://github.com/KrishnaPallavalli) | [Adam Imbert](https://github.com/Prismly) |
+| [Ananya Doshi](https://github.com/ananyadoshi31) | [Riya Bihani](https://github.com/riya-bihani) | [Vansh Dodiya](https://github.com/Vansh17) |
+| [Prabhudatta Mishra](https://github.com/prabhudatta3004) | [Apurv Choudhari](https://github.com/apurv-choudhari) | [Sankar Raghuthaman](https://github.com/sankar16) |
+| [Anuj Naresh Chetwani](https://github.com/anuj672) | [Bhavesh Ittadwar](https://github.com/bhaveshittadwar) | [Jash Shah](https://github.com/itsJash) |
+| [Vaibhavi Sangawar](https://github.com/VaibhaviSangawar) | [Utsavkumar Lal](https://github.com/utsavll0) | [Neha Patil](https://github.com/neha7799) |
+| [Ojas Kulkarni](https://github.com/ojas1901) | [Vighnesh Hegde](https://github.com/Viggy12126) | [Dev Kumar](https://github.com/deekay2310) |
+| [Prakruthi Somashekar](https://github.com/PrakruthiSomashekar) | [Radhika Raman](https://github.com/radhikaraman20) | [Rohan Sinha](https://github.com/RohanSinha96) |
+| [Sunidhi Hegde](https://github.com/SunidhiHegde) |  |  |
 
 
   # Contribution

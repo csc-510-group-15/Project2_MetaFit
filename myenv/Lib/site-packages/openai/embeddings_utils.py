@@ -40,12 +40,14 @@ async def aget_embedding(
 def get_embeddings(
     list_of_text: List[str], engine="text-similarity-babbage-001", **kwargs
 ) -> List[List[float]]:
-    assert len(list_of_text) <= 2048, "The batch size should not be larger than 2048."
+    assert len(
+        list_of_text) <= 2048, "The batch size should not be larger than 2048."
 
     # replace newlines, which can negatively affect performance.
     list_of_text = [text.replace("\n", " ") for text in list_of_text]
 
-    data = openai.Embedding.create(input=list_of_text, engine=engine, **kwargs).data
+    data = openai.Embedding.create(
+        input=list_of_text, engine=engine, **kwargs).data
     return [d["embedding"] for d in data]
 
 
@@ -53,7 +55,8 @@ def get_embeddings(
 async def aget_embeddings(
     list_of_text: List[str], engine="text-similarity-babbage-001", **kwargs
 ) -> List[List[float]]:
-    assert len(list_of_text) <= 2048, "The batch size should not be larger than 2048."
+    assert len(
+        list_of_text) <= 2048, "The batch size should not be larger than 2048."
 
     # replace newlines, which can negatively affect performance.
     list_of_text = [text.replace("\n", " ") for text in list_of_text]
@@ -84,14 +87,17 @@ def plot_multiclass_precision_recall(
     recall = dict()
     average_precision = dict()
     for i in range(n_classes):
-        precision[i], recall[i], _ = precision_recall_curve(y_true[:, i], y_score[:, i])
-        average_precision[i] = average_precision_score(y_true[:, i], y_score[:, i])
+        precision[i], recall[i], _ = precision_recall_curve(
+            y_true[:, i], y_score[:, i])
+        average_precision[i] = average_precision_score(
+            y_true[:, i], y_score[:, i])
 
     # A "micro-average": quantifying score on all classes jointly
     precision_micro, recall_micro, _ = precision_recall_curve(
         y_true.ravel(), y_score.ravel()
     )
-    average_precision_micro = average_precision_score(y_true, y_score, average="micro")
+    average_precision_micro = average_precision_score(
+        y_true, y_score, average="micro")
     print(
         str(classifier_name)
         + " - Average precision score over all classes: {0:0.2f}".format(
@@ -115,7 +121,8 @@ def plot_multiclass_precision_recall(
     (l,) = plt.plot(recall_micro, precision_micro, color="gold", lw=2)
     lines.append(l)
     labels.append(
-        "average Precision-recall (auprc = {0:0.2f})" "".format(average_precision_micro)
+        "average Precision-recall (auprc = {0:0.2f})" "".format(
+            average_precision_micro)
     )
 
     for i in range(n_classes):
