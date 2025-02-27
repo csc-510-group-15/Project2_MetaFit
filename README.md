@@ -3,12 +3,13 @@
 [![Watch the video](https://img.youtube.com/vi/eSvL_QRlxeU/0.jpg)](https://www.youtube.com/watch?v=eSvL_QRlxeU)
 
 
-## Why chose METAFIT?
+## Why choose METAFIT?
 https://github.com/user-attachments/assets/ad8074ca-386d-49f0-b6ea-cd2ffd9b1d58
 
 
 ## Spring 2025 Additions
 https://github.com/user-attachments/assets/0d4fc5db-2e94-400e-92f8-439c82210f79
+
 
 <br>
 <br>
@@ -109,16 +110,13 @@ METAFIT is an easy-to-use application that tracks daily calories consumed and bu
 
 # Additions to METAFIT
 
-- Added a customized meal plan and recommendations based on user needs.
-- No need to guess calories—simply enter your calorie intake and other details to get your meal plan ready.
-- Utilized a KNN model for meal recommendations.
-- The quiz feature provides an interactive experience where users can test their knowledge on topics like diet, calories, and fitness.
-- Users can now maintain their fitness streak on the application itself.
-- Users can now share their achievements on social media platforms.
-- Users can now see daily tasks, which include 3 major fitness tasks to complete each day.
-- Test cases: Increased code coverage from 38% to 75% and fixed all failing test cases.
-
-
+- Users now have access to a beautified navigation panel in their dashboard, with pages organized by function.
+- User profiles now include "badges", achievements with several tiers that track lifetime usage of METAFIT.
+- Integrated fine-tuned model training to get more accurate meal recommendations.
+- Now using a loss-based scoring mechanism to rank and limit meal plan options to the top 5 (instead of the previous ~30, which was confusing).
+- Added functionality to calculate users' BMI and offer tailored meal planning advice.
+- Each recommended meal now comes with an image and detailed cooking instructions.
+- Users can now reset forgotten passwords using a 2FA code sent to their registered email (replacing the old HTML placeholder).
 
 
 # TechStack Used for the Development of Project
