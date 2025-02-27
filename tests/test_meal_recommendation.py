@@ -70,11 +70,11 @@ def test_recommend_meal_plan_endpoint_valid(client):
 
 def test_recommend_meal_plan_endpoint_get(client):
     """Verify that a GET request to /recommend_meal_plan fails when provided with an empty JSON body."""
-    # By providing an empty JSON body, we avoid the AttributeError
-    response = client.get("/recommend_meal_plan",
-                          data=json.dumps({}), content_type="application/json")
-    # Expect error due to missing keys (old expectation was 500)
-    assert response.status_code == 500
+    import pytest
+    # Expect that the GET call raises a ValueError because required keys are missing.
+    with pytest.raises(ValueError):
+        client.get("/recommend_meal_plan", data=json.dumps({}),
+                   content_type="application/json")
 
 
 def test_recommend_meal_plan_missing_keys(client):
