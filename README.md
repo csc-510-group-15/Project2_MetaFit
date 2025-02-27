@@ -412,9 +412,6 @@ Improve the user profile system to provide more personalized fitness recommendat
 
 # Repository Rubric
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/:user/%2Fcsc-510-group-15%2FProject2_MetaFit%2F)
-
-
 |Notes|Evidence|Score|
 |-----|---------|--|
 |Workload is spread over the whole team (one team member is often Xtimes more productive than the others... but nevertheless, here is a track record that everyone is contributing a lot)|See [Recent Contributor Activity](https://github.com/csc-510-group-15/Project2_MetaFit/graphs/contributors?from=1%2F25%2F2025).|3|
