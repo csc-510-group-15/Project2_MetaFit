@@ -108,6 +108,7 @@ def update_statistic(email, stat_name, value, is_increment=False):
         mongo.db.stats.insert_one({'email': email})
 
     # Record the new statistic value in a database.
+    # If stat is 1, then $set 5 results in 5, while $inc results in 6.
     db_operation = "$inc" if is_increment else "$set"
     mongo.db.stats.update_one(
         {'email': email}, {db_operation: {stat_name: value}})
