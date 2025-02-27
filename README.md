@@ -19,35 +19,35 @@
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
     <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/blob/meta_2.0_final/LICENSE">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/LICENSE.md">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT license" style="vertical-align: middle;">
   </a>
   <a href="https://doi.org/10.5281/zenodo.14936235">
     <img src="https://zenodo.org/badge/933976739.svg" alt="DOI">
   </a>
-  <a href="https://github.com/anuj672/calorieApp_server/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/RAV-Organization/SE_Project3_calorieApp_server" alt="contributors" style="vertical-align: middle;">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/csc-510-group-15/Project2_MetaFit" alt="contributors" style="vertical-align: middle;">
   </a>
   <a href="https://www.python.org/dev/peps/pep-0008/">
     <img src="https://img.shields.io/badge/code%20style-pep8-orange.svg" alt="PEP8" style="vertical-align: middle;">
   </a>
   <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml">
-    <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;">
+    <img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;">
   </a>
   <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/code_formatter.yml">
-    <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;">
+    <img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;">
   </a>
   <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml">
-    <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;">
+    <img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml">
-    <img src="https://github.com/apurv-choudhari/calorieApp_server/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml">
+    <img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues">
-    <img src="https://img.shields.io/github/issues/RAV-Organization/SE_Project3_calorieApp_server" alt="GitHub issues" style="vertical-align: middle;">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues">
+    <img src="https://img.shields.io/github/issues/csc-510-group-15/Project2_MetaFit" alt="GitHub issues" style="vertical-align: middle;">
   </a>
-  <a href="https://github.com/RAV-Organization/SE_Project3_calorieApp_server/issues?q=is%3Aissue+is%3Aclosed">
-    <img src="https://img.shields.io/github/issues-closed/RAV-Organization/SE_Project3_calorieApp_server" alt="closed issues" style="vertical-align: middle;">
+  <a href="https://github.com/csc-510-group-15/Project2_MetaFit/issues?q=is%3Aissue+is%3Aclosed">
+    <img src="https://img.shields.io/github/issues-closed/csc-510-group-15/Project2_MetaFit" alt="closed issues" style="vertical-align: middle;">
   </a>
 </p>
 
@@ -220,11 +220,9 @@ Profile badges get more expensive (bronze -> silver -> gold) as their related st
  Step 2: 
   Git Clone the Repository.
   
-    git clone https://github.com/RAV-Organization/SE_Project3_calorieApp_server.git
+    https://github.com/csc-510-group-15/Project2_MetaFit.git
     
   (OR) Download the .zip file on your local machine.
-  
-    https://github.com/RAV-Organization/SE_Project3_calorieApp_server.git
   
  Step 3:
    Install the required packages by running the following command in the terminal.
@@ -439,12 +437,10 @@ Improve the user profile system to provide more personalized fitness recommendat
 |The file CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up; e.g. see [example](https://github.com/probot/template/blob/master/CONTRIBUTING.md)|[CONTRIBUTING.md](https://github.com/csc-510-group-15/Project2_MetaFit/blob/main/CONTRIBUTING.md)|3|
 |The file README.md contains all the following|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
 |Video|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|The repository includes a DOI badge provided by Zenodo (as seen on GitHub).|3|
-|Badges showing your style checkers|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Badges showing your code formatters.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Badges showing your syntax checkers.|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Badges showing your code coverage tools|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
-|Badges showing any other Other automated analysis tools|[README](https://github.com/csc-510-group-15/Project2_MetaFit/#Steps%20for%20execution)|3|
+|DOI badge: exists. To get a Digital Object Identifier, register the project at [Zenodo](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content). DOI badges look like this: ![Zenodo doi badge](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.1234567-blue.svg)|Our DOI is [![DOI](https://zenodo.org/badge/933976739.svg)](https://doi.org/10.5281/zenodo.14936235).|3|
+|Badges showing your style checkers|Our style checkers are <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a> and <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a>.|3|
+|Badges showing your code formatters.|Our code formatter is <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/code_formatter.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;"></a>.|3|
+|Badges showing your syntax checkers.|Our syntax checkers are <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a> and <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a>.|3|
+|Badges showing your code coverage tools|Our code coverer is <a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;"></a>|3|
+|Badges showing any other Other automated analysis tools|<a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Code_Coverage.yml/badge.svg" alt="Code Coverage" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/Pylint.yml/badge.svg" alt="Pylint Lint" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/flake8.yml/badge.svg" alt="Flake8" style="vertical-align: middle;"></a><a href="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/code_formatter.yml"><img src="https://github.com/csc-510-group-15/Project2_MetaFit/actions/workflows/codeql.yml/badge.svg" alt="Code Formatter Check" style="vertical-align: middle;"></a>|2|
 | |||
-
-
